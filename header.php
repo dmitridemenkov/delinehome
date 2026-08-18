@@ -9,56 +9,64 @@
     <?php wp_head(); ?>
 </head>
 
+<?php $site = deline_get_settings(); ?>
+
 <body <?php body_class('min-h-screen flex flex-col'); ?>>
     <header class="py-[14px]">
         <div class="container mx-auto">
             <div class="flex items-center justify-between">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
-                    <a href="<?php echo home_url(); ?>" class="text-2xl font-bold text-primary">
-                        <?php bloginfo('name'); ?>
+                    <a href="<?php echo home_url(); ?>">
+                        <?php if ($site['logo_id'] && $logo_url = wp_get_attachment_url($site['logo_id'])): ?>
+                            <img src="<?php echo esc_url($logo_url); ?>"
+                                 alt="<?php echo esc_attr($site['logo_alt']); ?>"
+                                 title="<?php echo esc_attr($site['logo_title']); ?>">
+                        <?php else: ?>
+                            <span class="text-2xl font-bold text-primary"><?php bloginfo('name'); ?></span>
+                        <?php endif; ?>
                     </a>
                 </div>
-                <!-- Right Block -->
+
+                <?php if (!empty($site['contacts'])): ?>
+                <!-- Contacts -->
                 <div class="flex items-center justify-between border-right">
-                    <!-- Contacts -->
-                     <a href="https://t.me/" title="Telegram" class="flex gap-[18px] items-center">
+                    <?php foreach ($site['contacts'] as $contact):
+                        $icon_url = $contact['icon_id'] ? wp_get_attachment_url($contact['icon_id']) : '';
+                    ?>
+                    <a href="<?php echo esc_url($contact['url']); ?>"
+                       title="<?php echo esc_attr($contact['label']); ?>"
+                       class="flex gap-[18px] items-center">
+                        <?php if ($icon_url): ?>
                         <div>
-                            <img src="/tg.svg" alt="Telegram" title="Telegram">
+                            <img src="<?php echo esc_url($icon_url); ?>"
+                                 alt="<?php echo esc_attr($contact['label']); ?>"
+                                 title="<?php echo esc_attr($contact['label']); ?>">
                         </div>
-                        <span>
-                            Telegram
-                        </span>
-                     </a>
-                     <a href="https://vk.ru/" title="Вконтакте" class="flex gap-[18px] items-center">
-                        <div>
-                            <img src="/vk.svg" alt="Вконтакте" title="Вконтакте">
-                        </div>
-                        <span>
-                            Вконтакте
-                        </span>
-                     </a>
-                     <a href="https://max.ru/" title="Max" class="flex gap-[18px] items-center">
-                        <div>
-                            <img src="/max.svg" alt="Max" title="Max">
-                        </div>
-                        <span>
-                            Max
-                        </span>
-                     </a>
+                        <?php endif; ?>
+                        <span><?php echo esc_html($contact['label']); ?></span>
+                    </a>
+                    <?php endforeach; ?>
                 </div>
+                <?php endif; ?>
+
+                <?php if ($site['phone'] || $site['address']): ?>
+                <!-- Phone & Address -->
                 <div class="flex items-center justify-between border-right">
-                    <!-- Phone -->
-                     <a href="tel:+78332224294" title="Телефон" class="flex gap-[18px] items-center">
+                    <a href="tel:<?php echo esc_attr(preg_replace('/[^\d+]/', '', $site['phone'])); ?>"
+                       title="Телефон"
+                       class="flex gap-[18px] items-center">
                         <div>
-                            <img src="/phone.svg" alt="Телефон" title="Телефон">
+                            <?php if ($site['phone']): ?>
+                            <div class="phone"><?php echo esc_html($site['phone']); ?></div>
+                            <?php endif; ?>
+                            <?php if ($site['address']): ?>
+                            <div class="address"><?php echo esc_html($site['address']); ?></div>
+                            <?php endif; ?>
                         </div>
-                        <div>
-                            <div class="phone">+7(8332) 22-42-94</div>
-                            <div class="address">г. Киров, ул. Улица, д. 12</div>
-                        </div>
-                     </a>
+                    </a>
                 </div>
+                <?php endif; ?>
             </div>
 
             <!-- Navigation -->
