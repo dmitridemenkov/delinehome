@@ -1,2 +1,11 @@
 @import "tailwindcss";
 @config "../../tailwind.config.js";
+
+:root {
+    --dark: #323232;
+    --gray: #F4F4F4;
+    --light: #E6E6E6;
+    --border: #BFBFBF;
+    --blue: #20436C;
+    --blue-light: #EEF6FF;
+}
