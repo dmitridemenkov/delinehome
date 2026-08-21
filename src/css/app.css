@@ -1,6 +1,78 @@
 @import "tailwindcss";
 @config "../../tailwind.config.js";
 
+@font-face {
+    font-family: 'AA Stetica';
+    src: url('../fonts/AAStetica/AA Stetica Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AA Stetica';
+    src: url('../fonts/AAStetica/AA Stetica Light Italic.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AA Stetica';
+    src: url('../fonts/AAStetica/AA Stetica Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AA Stetica';
+    src: url('../fonts/AAStetica/AA Stetica Italic.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AA Stetica';
+    src: url('../fonts/AAStetica/AA Stetica Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AA Stetica';
+    src: url('../fonts/AAStetica/AA Stetica Medium Italic.otf') format('opentype');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AA Stetica';
+    src: url('../fonts/AAStetica/AA Stetica Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AA Stetica';
+    src: url('../fonts/AAStetica/AA Stetica Bold Italic.otf') format('opentype');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AA Stetica';
+    src: url('../fonts/AAStetica/AA Stetica Black_0.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --dark: #323232;
     --gray: #F4F4F4;
@@ -8,4 +80,8 @@
     --border: #BFBFBF;
     --blue: #20436C;
     --blue-light: #EEF6FF;
+}
+
+body {
+    font-family: 'AA Stetica', sans-serif;
 }
