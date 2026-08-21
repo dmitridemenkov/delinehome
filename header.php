@@ -12,7 +12,7 @@
 <?php $site = deline_get_settings(); ?>
 
 <body <?php body_class('min-h-screen flex flex-col'); ?>>
-    <header class="py-[14px]">
+    <header class="py-[14px] bg-[#20436C]">
         <div class="container mx-auto">
             <div class="flex items-center justify-between">
                 <!-- Logo -->
