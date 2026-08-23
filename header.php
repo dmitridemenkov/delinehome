@@ -61,7 +61,7 @@
 
                     <?php if ($site['phone'] || $site['address']): ?>
                         <!-- Phone & Address -->
-                        <div class="flex items-center justify-between border-l border-white-300 ps-4 ms-4">
+                        <div class="flex items-center justify-between border-l border-white-300 ps-[28px] ms-[28px]">
                             <a href="tel:<?php echo esc_attr(preg_replace('/[^\d+]/', '', $site['phone'])); ?>"
                                 title="Телефон" class="flex gap-[18px] items-center transition hover:-translate-y-[2px]">
                                 <div>
