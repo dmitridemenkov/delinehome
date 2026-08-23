@@ -17,7 +17,7 @@
             <div class="flex items-center justify-between">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
-                    <div class="border-r border-white pr-4 me-4">
+                    <div class="flex items-center border-r border-white pr-4 me-4">
                         <a href="<?php echo home_url(); ?>" class="inline-block w-[122px] bg-white rounded-[8px] py-[4px] px-[8px] transition hover:-translate-y-[2px]">
                             <?php if ($site['logo_id'] && $logo_url = wp_get_attachment_url($site['logo_id'])): ?>
                                 <img src="<?php echo esc_url($logo_url); ?>"
@@ -27,6 +27,7 @@
                                 <span class="text-2xl font-bold text-primary"><?php bloginfo('name'); ?></span>
                             <?php endif; ?>
                         </a>
+                        <div>Кухни & Шкафы</div>
                     </div>
                 </div>
 
