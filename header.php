@@ -97,7 +97,7 @@
             </div>
         </div>
         <!-- Navigation -->
-        <nav class="hidden">
+        <nav class="hidden mb:block">
             <div class="container mx-auto">
                 <?php
                 wp_nav_menu([
