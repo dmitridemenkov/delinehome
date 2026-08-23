@@ -19,7 +19,7 @@
                 <div class="flex-shrink-0">
                     <div class="flex items-center">
                         <div class="flex items-center border-r border-white pr-4 me-4">
-                            <a href="<?php echo home_url(); ?>" class="inline-block w-[122px] bg-white rounded-[8px] py-[4px] px-[8px] transition hover:-translate-y-[2px]">
+                            <a href="<?php echo home_url(); ?>" class="inline-block w-[122px] bg-white rounded-[8px] py-[4px] px-[8px] transition hover:-translate-y-[2px]" titlle="<?php if ($site['logo_id'] && $logo_url = wp_get_attachment_url($site['logo_id'])): ?><?php echo esc_attr($site['logo_title']); ?><?php else: ?>DelineHome - мебельная фабрика<?php endif; ?>">
                                 <?php if ($site['logo_id'] && $logo_url = wp_get_attachment_url($site['logo_id'])): ?>
                                     <img src="<?php echo esc_url($logo_url); ?>"
                                         alt="<?php echo esc_attr($site['logo_alt']); ?>"
@@ -29,7 +29,7 @@
                                 <?php endif; ?>
                             </a>
                         </div>
-                        <div class="text-white text-[.5rem] md:text-base">Кухни & Шкафы</div>
+                        <div class="text-white text-xs md:text-base">Кухни & Шкафы</div>
                     </div> 
                 </div>
 
