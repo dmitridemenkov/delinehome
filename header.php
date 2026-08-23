@@ -97,7 +97,7 @@
             </div>
         </div>
         <!-- Navigation -->
-        <nav class="hidden md:flex space-x-[12px] justify-between">
+        <nav class="hidden">
             <div class="container mx-auto">
                 <?php
                 wp_nav_menu([
@@ -110,7 +110,7 @@
             </div>
         </nav>
         <!-- Mobile menu -->
-        <div class="md:hidden hidden py-4" id="mobile-menu">
+        <div class="md:hidden" id="mobile-menu">
             <?php
             wp_nav_menu([
                 'theme_location' => 'primary',
