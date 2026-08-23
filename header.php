@@ -71,10 +71,10 @@
                             </div>
                             <div>
                                 <?php if ($site['phone']): ?>
-                                    <div class="phone"><?php echo esc_html($site['phone']); ?></div>
+                                    <div class="phone text-white text-xs"><?php echo esc_html($site['phone']); ?></div>
                                 <?php endif; ?>
                                 <?php if ($site['address']): ?>
-                                    <div class="address"><?php echo esc_html($site['address']); ?></div>
+                                    <div class="address text-white text-xs"><?php echo esc_html($site['address']); ?></div>
                                 <?php endif; ?>
                             </div>
                         </a>
