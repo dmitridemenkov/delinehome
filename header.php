@@ -97,7 +97,7 @@
             </div>
         </div>
         <!-- Navigation -->
-        <nav class="hidden lg:block">
+        <nav class="hidden lg:block bg-white">
             <div class="container mx-auto">
                 <?php
                 wp_nav_menu([
