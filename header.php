@@ -41,7 +41,7 @@
                     ?>
                     <a href="<?php echo esc_url($contact['url']); ?>"
                        title="<?php echo esc_attr($contact['label']); ?>"
-                       class="flex gap-[18px] items-center">
+                       class="flex gap-[18px] items-center transition hover:-translate-y-[2px]">
                         <?php if ($icon_url): ?>
                         <div>
                             <img src="<?php echo esc_url($icon_url); ?>"
