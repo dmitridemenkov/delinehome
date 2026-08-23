@@ -29,7 +29,7 @@
                                 <?php endif; ?>
                             </a>
                         </div>
-                        <div>Кухни & Шкафы</div>
+                        <div class="text-white text-[.5rem] md:text-base">Кухни & Шкафы</div>
                     </div> 
                 </div>
 
