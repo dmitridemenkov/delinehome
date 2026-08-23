@@ -83,7 +83,9 @@
                             </a>
                         </div>
                     <?php endif; ?>
-                    <button class="flex items-center relative ps-[36px] ms-[36px] transition hover:-translate-y-[2px] cursor-pointer" title="Мини-корзина "aria-label="Открыть мини-корзину">
+                    <button
+                        class="flex items-center relative ps-[36px] ms-[36px] transition hover:-translate-y-[2px] cursor-pointer"
+                        title="Мини-корзина " aria-label="Открыть мини-корзину">
                         <span id="counter">0</span>
                         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -93,9 +95,10 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Navigation -->
-            <nav class="hidden md:flex space-x-[12px] justify-between">
+        </div>
+        <!-- Navigation -->
+        <nav class="hidden md:flex space-x-[12px] justify-between">
+            <div class="container mx-auto">
                 <?php
                 wp_nav_menu([
                     'theme_location' => 'primary',
@@ -104,8 +107,8 @@
                     'fallback_cb' => false,
                 ]);
                 ?>
-            </nav>
-        </div>
+            </div>
+        </nav>
         <!-- Mobile menu -->
         <div class="md:hidden hidden py-4" id="mobile-menu">
             <?php
