@@ -83,7 +83,7 @@
                             </a>
                         </div>
                     <?php endif; ?>
-                    <button class="flex items-center relative ps-[36px] ms-[36px] transition hover:-translate-y-[2px] pointer">
+                    <button class="flex items-center relative ps-[36px] ms-[36px] transition hover:-translate-y-[2px] cursor-pointer" title="Мини-корзина "aria-label="Открыть мини-корзину">
                         <span id="counter">0</span>
                         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
