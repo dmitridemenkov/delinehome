@@ -97,13 +97,13 @@
             </div>
         </div>
         <!-- Navigation -->
-        <nav class="hidden lg:block bg-white">
+        <nav class="hidden lg:block bg-white mb-[14px] py-[36px]">
             <div class="container mx-auto">
                 <?php
                 wp_nav_menu([
                     'theme_location' => 'primary',
                     'container' => false,
-                    'menu_class' => 'flex space-x-8',
+                    'menu_class' => 'flex gap-8 justify-between',
                     'fallback_cb' => false,
                 ]);
                 ?>
