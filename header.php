@@ -35,7 +35,7 @@
 
                 <?php if (!empty($site['contacts'])): ?>
                 <!-- Contacts -->
-                <div class="flex items-center justify-between border-right">
+                <div class="flex items-center justify-between flex-wrap gap-[12px] lg:gap-[44px] border-right">
                     <?php foreach ($site['contacts'] as $contact):
                         $icon_url = $contact['icon_id'] ? wp_get_attachment_url($contact['icon_id']) : '';
                     ?>
@@ -49,7 +49,7 @@
                                  title="<?php echo esc_attr($contact['label']); ?>">
                         </div>
                         <?php endif; ?>
-                        <span><?php echo esc_html($contact['label']); ?></span>
+                        <span class="text-white text-xs md:text-base"><?php echo esc_html($contact['label']); ?></span>
                     </a>
                     <?php endforeach; ?>
                 </div>
