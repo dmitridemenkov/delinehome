@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div class="flex flex-wrap">
                     <?php if (!empty($site['contacts'])): ?>
                         <!-- Contacts -->
                         <div class="flex items-center justify-between flex-wrap gap-[12px] lg:gap-[44px] border-right">
@@ -61,7 +61,7 @@
 
                     <?php if ($site['phone'] || $site['address']): ?>
                         <!-- Phone & Address -->
-                        <div class="flex items-center justify-between border-right">
+                        <div class="flex items-center justify-between border-l border-white-300 ps-4 ms-4">
                             <a href="tel:<?php echo esc_attr(preg_replace('/[^\d+]/', '', $site['phone'])); ?>"
                                 title="Телефон" class="flex gap-[18px] items-center transition hover:-translate-y-[2px]">
                                 <div>
