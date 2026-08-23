@@ -27,8 +27,8 @@
                                 <span class="text-2xl font-bold text-primary"><?php bloginfo('name'); ?></span>
                             <?php endif; ?>
                         </a>
-                        <div>Кухни & Шкафы</div>
                     </div>
+                    <div>Кухни & Шкафы</div>
                 </div>
 
                 <?php if (!empty($site['contacts'])): ?>
