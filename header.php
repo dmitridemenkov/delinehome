@@ -72,7 +72,7 @@
                                             fill="white" />
                                     </svg>
                                 </div>
-                                <div>
+                                <div class="hidden md:inline-block">
                                     <?php if ($site['phone']): ?>
                                         <div class="phone text-white text-xs"><?php echo esc_html($site['phone']); ?></div>
                                     <?php endif; ?>
