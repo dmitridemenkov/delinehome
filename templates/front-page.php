@@ -8,18 +8,13 @@ get_header();
 
 <!-- Features Section -->
 <?php get_template_part('parts/slider'); ?>
+
 <!-- Features Section -->
-<section id="features" class="py-16 md:py-24 bg-light">
-    <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-5xl font-bold text-dark mb-4">
-                Почему выбирают нас
-            </h2>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                Современные технологии и удобный workflow для эффективной разработки
-            </p>
-        </div>
+<section class="mt-[36px] lg:mt-[64px]" id="features">
+    <div class="container mx-auto px-3">
         
+        <h2 class="inline-block relative mb-24px lg:mb-[36px] text-xl lg:text-3xl mw-[50%]">Начнем работу на любой стадии</h2>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             
             <?php
@@ -28,20 +23,6 @@ get_header();
                 'color' => 'primary',
                 'title' => 'Быстрая разработка',
                 'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'
-            ]);
-
-            get_template_part('parts/card-feature', null, [
-                'icon'  => 'cog',
-                'color' => 'secondary',
-                'title' => 'Модульность',
-                'text'  => 'Чистая структура кода и разделение на компоненты для лёгкой поддержки'
-            ]);
-
-            get_template_part('parts/card-feature', null, [
-                'icon'  => 'shield',
-                'color' => 'accent',
-                'title' => 'Готово к продакшену',
-                'text'  => 'Docker, GitHub Actions и оптимизированная сборка из коробки'
             ]);
             ?>
         </div>
