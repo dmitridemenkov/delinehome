@@ -13,7 +13,7 @@
 
 <body <?php body_class('min-h-screen flex flex-col'); ?>>
     <header class="pt-[14px] pb-[14px] xl:pb-[0px] bg-[#20436C]">
-        <div class="container mx-auto">
+        <div class="container mx-auto px-3">
             <div class="flex items-center justify-between">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
@@ -31,7 +31,7 @@
                                 <?php endif; ?>
                             </a>
                         </div>
-                        <div class="text-white text-xs md:text-base">Кухни & Шкафы</div>
+                        <div class="text-white text-xs md:text-base hidden lg:d-inline-block">Кухни & Шкафы</div>
                     </div>
                 </div>
 
@@ -44,7 +44,7 @@
                                 ?>
                                 <a href="<?php echo esc_url($contact['url']); ?>"
                                     title="<?php echo esc_attr($contact['label']); ?>"
-                                    class="flex gap-[18px] items-center transition hover:-translate-y-[2px]">
+                                    class="flex gap-[6px] xl:gap-[18px] items-center transition hover:-translate-y-[2px]">
                                     <?php if ($icon_url): ?>
                                         <div>
                                             <img src="<?php echo esc_url($icon_url); ?>"
@@ -53,7 +53,7 @@
                                         </div>
                                     <?php endif; ?>
                                     <span
-                                        class="text-white text-xs md:text-base"><?php echo esc_html($contact['label']); ?></span>
+                                        class="text-white text-xs md:text-base hidden lg:d-inline-block"><?php echo esc_html($contact['label']); ?></span>
                                 </a>
                             <?php endforeach; ?>
                         </div>
@@ -63,7 +63,7 @@
                         <!-- Phone & Address -->
                         <div class="flex items-center justify-between border-l border-[#ffffff4d] ps-[28px] ms-[28px]">
                             <a href="tel:<?php echo esc_attr(preg_replace('/[^\d+]/', '', $site['phone'])); ?>"
-                                title="Телефон" class="flex gap-[18px] items-center transition hover:-translate-y-[2px]">
+                                title="Телефон" class="flex gap-[6px] xl:gap-[18px] items-center transition hover:-translate-y-[2px]">
                                 <div>
                                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -88,7 +88,7 @@
         </div>
         <!-- Navigation -->
         <nav class="hidden xl:block bg-white mt-[14px] py-[36px]">
-            <div class="container mx-auto">
+            <div class="container mx-auto px-3">
                 <?php
                 wp_nav_menu([
                     'theme_location' => 'primary',
