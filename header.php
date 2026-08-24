@@ -138,10 +138,10 @@
                         </div>
                         <div>
                             <?php if ($site['phone']): ?>
-                                <div class="phone text-white text-xs"><?php echo esc_html($site['phone']); ?></div>
+                                <div class="phone font-medium"><?php echo esc_html($site['phone']); ?></div>
                             <?php endif; ?>
                             <?php if ($site['address']): ?>
-                                <div class="address text-white text-xs"><?php echo esc_html($site['address']); ?></div>
+                                <div class="address font-medium"><?php echo esc_html($site['address']); ?></div>
                             <?php endif; ?>
                         </div>
                     </a>
