@@ -12,7 +12,7 @@
 <?php $site = deline_get_settings(); ?>
 
 <body <?php body_class('min-h-screen flex flex-col'); ?>>
-    <header class="pt-[14px] pb-[14px] lg:pb-[0px] bg-[#20436C]">
+    <header class="pt-[14px] pb-[14px] xl:pb-[0px] bg-[#20436C]">
         <div class="container mx-auto">
             <div class="flex items-center justify-between">
                 <!-- Logo -->
@@ -38,7 +38,7 @@
                 <div class="flex flex-wrap">
                     <?php if (!empty($site['contacts'])): ?>
                         <!-- Contacts -->
-                        <div class="flex items-center justify-between flex-wrap gap-[12px] lg:gap-[44px] border-right">
+                        <div class="flex items-center justify-between flex-wrap gap-[12px] xl:gap-[44px] border-right">
                             <?php foreach ($site['contacts'] as $contact):
                                 $icon_url = $contact['icon_id'] ? wp_get_attachment_url($contact['icon_id']) : '';
                                 ?>
@@ -87,7 +87,7 @@
             </div>
         </div>
         <!-- Navigation -->
-        <nav class="hidden lg:block bg-white mt-[14px] py-[36px]">
+        <nav class="hidden xl:block bg-white mt-[14px] py-[36px]">
             <div class="container mx-auto">
                 <?php
                 wp_nav_menu([
