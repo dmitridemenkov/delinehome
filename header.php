@@ -49,8 +49,8 @@
                                         <div>
                                             <img src="<?php echo esc_url($icon_url); ?>"
                                                 alt="<?php echo esc_attr($contact['label']); ?>"
-                                                title="<?php echo esc_attr($contact['label']); ?>
-                                                 class="w-[18px] h-[18px] md:w-[28px] md:h-[28px]">
+                                                title="<?php echo esc_attr($contact['label']); ?>"
+                                                class="w-[18px] h-[18px] md:w-[28px] md:h-[28px]">
                                         </div>
                                     <?php endif; ?>
                                     <span
