@@ -21,8 +21,8 @@ $icon_path = $icons[$args['icon']] ?? $icons['catalog'];
 ?>
 
 <div class="card-feature text-center">
-    <div class="mb-4 lg:md-5 mx-auto">
-        <svg class="w-[92px] h-[84px] lg:w-[125px] lg:h-[114px] rounded-[6px] lg:rouded-[8px]" fill="none" viewBox="0 0 125 114">
+    <div class="mb-4 lg:md-5">
+        <svg class="w-[92px] h-[84px] lg:w-[125px] lg:h-[114px] rounded-[6px] lg:rouded-[8px] mx-auto" fill="none" viewBox="0 0 125 114">
             <?= $icon_path ?>
         </svg>
     </div>
