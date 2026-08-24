@@ -114,7 +114,7 @@
             wp_nav_menu([
                 'theme_location' => 'primary',
                 'container' => false,
-                'menu_class' => 'flex flex-col space-y-4',
+                'menu_class' => 'flex flex-col mt-4',
                 'fallback_cb' => false,
             ]);
             ?>
