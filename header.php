@@ -125,9 +125,9 @@
             <?php if ($site['phone'] || $site['address']): ?>
                 <!-- Phone & Address -->
                 <div
-                    class="flex items-center justify-between border-l border-[#ffffff4d] ps-[12px] ms-[12px] md:ps-[28px] md:ms-[28px]">
+                    class="flex items-center justify-center mt-[30px]">
                     <a href="tel:<?php echo esc_attr(preg_replace('/[^\d+]/', '', $site['phone'])); ?>" title="Телефон"
-                        class="flex gap-[6px] xl:gap-[18px] items-center transition hover:-translate-y-[2px]">
+                        class="flex gap-[18px] items-center transition hover:-translate-y-[2px]">
                         <div>
                             <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="16.7663" cy="16.7663" r="16.7663" fill="#20436C" />
