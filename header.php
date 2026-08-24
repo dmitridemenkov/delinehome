@@ -31,7 +31,7 @@
                                 <?php endif; ?>
                             </a>
                         </div>
-                        <div class="text-white text-xs md:text-base hidden lg:d-inline-block">Кухни & Шкафы</div>
+                        <div class="text-white text-xs md:text-base hidden lg:inline-block">Кухни & Шкафы</div>
                     </div>
                 </div>
 
@@ -53,7 +53,7 @@
                                         </div>
                                     <?php endif; ?>
                                     <span
-                                        class="text-white text-xs md:text-base hidden lg:d-inline-block"><?php echo esc_html($contact['label']); ?></span>
+                                        class="text-white text-xs md:text-base hidden lg:inline-block"><?php echo esc_html($contact['label']); ?></span>
                                 </a>
                             <?php endforeach; ?>
                         </div>
