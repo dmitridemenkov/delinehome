@@ -6,34 +6,7 @@
 get_header();
 ?>
 
-<!-- Hero Section -->
-<section class="relative bg-gradient-to-r from-primary to-secondary text-white py-20 md:py-32">
-    <div class="container mx-auto px-4">
-        <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                Создаём современные сайты с удобством
-            </h1>
-            <p class="text-xl md:text-2xl mb-8 text-white/90">
-                WP Kickstarter — универсальная тема для быстрого старта проектов на WordPress
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4">
-                <a href="#features" class="bg-white text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition text-center">
-                    Узнать больше
-                </a>
-                <a href="#contact" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition text-center">
-                    Связаться с нами
-                </a>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Декоративный элемент -->
-    <div class="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 120" class="w-full h-auto">
-            <path fill="#ffffff" d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
-        </svg>
-    </div>
-</section>
+<?php get_template_part('parts/slider'); ?>
 <!-- Features Section -->
 <section id="features" class="py-16 md:py-24 bg-light">
     <div class="container mx-auto px-4">
