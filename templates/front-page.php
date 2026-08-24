@@ -19,7 +19,39 @@ get_header();
             
             <?php
             get_template_part('parts/card-feature', null, [
-                'icon'  => 'bolt',
+                'icon'  => 'cataalog',
+                'color' => 'primary',
+                'title' => 'Быстрая разработка',
+                'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'
+            ]);
+            ?>
+            <?php
+            get_template_part('parts/card-feature', null, [
+                'icon'  => 'calculate',
+                'color' => 'primary',
+                'title' => 'Быстрая разработка',
+                'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'
+            ]);
+            ?>
+            <?php
+            get_template_part('parts/card-feature', null, [
+                'icon'  => '3d',
+                'color' => 'primary',
+                'title' => 'Быстрая разработка',
+                'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'
+            ]);
+            ?>
+            <?php
+            get_template_part('parts/card-feature', null, [
+                'icon'  => 'measuring',
+                'color' => 'primary',
+                'title' => 'Быстрая разработка',
+                'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'
+            ]);
+            ?>
+            <?php
+            get_template_part('parts/card-feature', null, [
+                'icon'  => 'decency',
                 'color' => 'primary',
                 'title' => 'Быстрая разработка',
                 'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'
