@@ -13,7 +13,7 @@ get_header();
 <section class="mt-[36px] lg:mt-[64px]" id="features">
     <div class="container mx-auto px-3">
         
-        <h2 class="inline-block relative mb-24px lg:mb-[36px] text-xl lg:text-3xl mw-[50%]">Начнем работу на любой стадии</h2>
+        <h2 class="inline-block relative mb-[24px] lg:mb-[36px] text-xl lg:text-3xl mw-[50%] space-y-[24px]">Начнем работу на любой стадии</h2>
 
         <div class="grid grid-cols-2 xl:grid-cols-5">
             
