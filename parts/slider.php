@@ -4,7 +4,7 @@ if (empty($slider['slides'])) return;
 $site_name = get_bloginfo('name');
 ?>
 
-<section class="hero">
+<section class="hero mt-[24px] md:mt-[0px]">
     <div class="container mx-auto px-3">
         <div class="hero-slider swiper" data-autoplay="<?php echo $slider['autoplay'] ? '1' : '0'; ?>">
             <div class="swiper-wrapper">
