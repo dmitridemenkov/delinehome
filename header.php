@@ -109,7 +109,7 @@
         </nav>
         <!-- Mobile menu -->
         <div class="lg:hidden" id="mobile-menu">
-            <span class="uppercase text-xl">Меню</span>
+            <span class="uppercase text-xl font-black">Меню</span>
             <?php
             wp_nav_menu([
                 'theme_location' => 'primary',
