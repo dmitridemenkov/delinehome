@@ -189,6 +189,14 @@ div#mobile-menu.is-open {
     border-bottom: 1px solid var(--blue);
 }
 
+.card-feature {
+    border-right: 1px solid #E2E2E261;
+}
+
+.card-feature:last-child {
+    border: none;
+}
+
 h2::after {
     content: '';
     height: 4px;
@@ -203,5 +211,11 @@ h2::after {
         height: 2px;
         width: 46px;
         margin-top: 6px;
+    }
+}
+
+@media screen and (1024px) {
+    .card-feature:nth-last-child(2) {
+        border: none;
     }
 }
