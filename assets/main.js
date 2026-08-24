@@ -1,1 +1,1 @@
-
+document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("burger-toggle"),n=document.getElementById("mobile-menu");!e||!n||e.addEventListener("click",()=>{const t=e.classList.toggle("is-active");n.classList.toggle("is-open",t),e.setAttribute("aria-expanded",t),document.body.classList.toggle("overflow-hidden",t)})});

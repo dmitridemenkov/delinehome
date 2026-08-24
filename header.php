@@ -83,6 +83,13 @@
                             </a>
                         </div>
                     <?php endif; ?>
+
+                    <!-- Burger -->
+                    <button class="burger lg:hidden ms-[12px] md:ms-[28px]" id="burger-toggle" aria-label="Меню" aria-expanded="false">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -100,7 +107,7 @@
             </div>
         </nav>
         <!-- Mobile menu -->
-        <div class="lg:hidden" id="mobile-menu">
+        <div class="lg:hidden transition" id="mobile-menu">
             <?php
             wp_nav_menu([
                 'theme_location' => 'primary',
