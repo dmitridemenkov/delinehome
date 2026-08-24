@@ -6,6 +6,7 @@
 get_header();
 ?>
 
+<!-- Features Section -->
 <?php get_template_part('parts/slider'); ?>
 <!-- Features Section -->
 <section id="features" class="py-16 md:py-24 bg-light">

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         if (sliderEl.dataset.autoplay === '1') {
-            opts.autoplay = { delay: 5000, disableOnInteraction: false };
+            opts.autoplay = { delay: 2000, disableOnInteraction: false };
         }
 
         new Swiper(sliderEl, opts);
