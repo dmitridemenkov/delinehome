@@ -18,7 +18,7 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0">
                     <div class="flex items-center">
-                        <div class="flex items-center lg:border-r border-white lg:pr-4 lg:me-4">
+                        <div class="flex items-center lg:border-r border-white lg:pr-4 lg:me-4 w-[90px] sm:w-auto">
                             <a href="<?php echo home_url(); ?>"
                                 class="inline-block w-[122px] bg-white rounded-[8px] py-[4px] px-[8px] transition hover:-translate-y-[2px]"
                                 title="Перейти на Главную">
