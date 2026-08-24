@@ -100,6 +100,12 @@ body {
     box-shadow: 0px 1px 0px 0 var(--blue);
 }
 
+/* Slider */
+.hero-slider {
+    --swiper-navigation-color: var(--blue);
+    --swiper-pagination-color: var(--blue);
+}
+
 /* Burger */
 .burger {
     width: 28px;
