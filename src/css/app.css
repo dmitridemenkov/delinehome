@@ -188,3 +188,20 @@ div#mobile-menu.is-open {
     background-color: var(--blue);
     border-bottom: 1px solid var(--blue);
 }
+
+h2::after {
+    content: '';
+    height: 4px;
+    width: 100px;
+    background: var(--blue);
+    display: block;
+    margin-top: 10px;
+}
+
+@media screen and (768px) {
+    h2::after {
+        height: 2px;
+        width: 46px;
+        margin-top: 6px;
+    }
+}
