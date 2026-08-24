@@ -15,7 +15,7 @@ get_header();
         
         <h2 class="inline-block relative mb-24px lg:mb-[36px] text-xl lg:text-3xl mw-[50%]">Начнем работу на любой стадии</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             
             <?php
             get_template_part('parts/card-feature', null, [
