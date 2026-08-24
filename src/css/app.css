@@ -148,7 +148,6 @@ div#mobile-menu {
     bottom: 0;
     z-index: 10;
     background: var(--blue);
-    transition: right 0.35s ease;
 }
 
 div#mobile-menu.is-open {
