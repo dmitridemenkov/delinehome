@@ -87,7 +87,7 @@
             </div>
         </div>
         <!-- Navigation -->
-        <nav class="hidden xl:block bg-white mt-[14px] py-[36px]">
+        <nav class="hidden lg:block bg-white mt-[14px] py-[36px]">
             <div class="container mx-auto px-3">
                 <?php
                 wp_nav_menu([
@@ -100,7 +100,7 @@
             </div>
         </nav>
         <!-- Mobile menu -->
-        <div class="md:hidden" id="mobile-menu">
+        <div class="lg:hidden" id="mobile-menu">
             <?php
             wp_nav_menu([
                 'theme_location' => 'primary',
