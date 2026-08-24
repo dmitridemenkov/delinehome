@@ -15,11 +15,11 @@ get_header();
         
         <h2 class="inline-block relative mb-24px lg:mb-[36px] text-xl lg:text-3xl mw-[50%]">Начнем работу на любой стадии</h2>
 
-        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <div class="grid grid-cols-2 xl:grid-cols-5">
             
             <?php
             get_template_part('parts/card-feature', null, [
-                'icon'  => 'cataalog',
+                'icon'  => 'catalog',
                 'color' => 'primary',
                 'title' => 'Быстрая разработка',
                 'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'

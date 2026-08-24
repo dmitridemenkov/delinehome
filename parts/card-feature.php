@@ -5,7 +5,6 @@
 
 $args = wp_parse_args($args, [
     'icon'  => 'star',
-    'color' => 'primary',
     'title' => 'Заголовок',
     'text'  => 'Описание'
 ]);
@@ -19,15 +18,14 @@ $icons = [
 ];
 
 $icon_path = $icons[$args['icon']] ?? $icons['star'];
-$color = $args['color'];
 ?>
 
-<div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition">
-    <div class="w-16 h-16 bg-<?= $color ?>/10 rounded-lg flex items-center justify-center mb-6">
-        <svg class="w-8 h-8 text-<?= $color ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<div class="mb-4 lg:md-[5] card-feature">
+    <div class="w-[92px] h-[84px] lg:w-[125px] lg:h-[114px]">
+        <svg class="w-[92px] h-[84px] lg:w-[125px] lg:h-[114px] rounded-[6px] lg:rouded-[8px]" fill="none" viewBox="0 0 125 114">
             <?= $icon_path ?>
         </svg>
     </div>
-    <h3 class="text-2xl font-bold text-dark mb-4"><?= esc_html($args['title']) ?></h3>
-    <p class="text-gray-600"><?= esc_html($args['text']) ?></p>
+    <h3 class="text-sm lg:text-xl font-bold mb-3 lg:mb-4"><?= esc_html($args['title']) ?></h3>
+    <p class="text-xs lg:text-base text-[#AFAFAF]"><?= esc_html($args['text']) ?></p>
 </div>
