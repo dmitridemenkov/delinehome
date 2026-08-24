@@ -15,7 +15,7 @@ get_header();
         
         <h2 class="inline-block relative mb-[24px] lg:mb-[36px] text-xl lg:text-3xl m-w-[50%]">Начнем работу на любой стадии</h2>
 
-        <div class="flex flex-wrap justify-center gap-[24px]">
+        <div class="flex flex-wrap justify-center gap-y-[24px]">
             
             <?php
             get_template_part('parts/card-feature', null, [

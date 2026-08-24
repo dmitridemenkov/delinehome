@@ -20,12 +20,12 @@ $icons = [
 $icon_path = $icons[$args['icon']] ?? $icons['catalog'];
 ?>
 
-<div class="w-[calc(50%-12px)] xl:w-[calc(20%-20px)] card-feature text-center">
+<div class="w-[calc(50%-12px)] xl:w-[20%] card-feature text-center">
     <div class="mb-4 lg:md-5">
         <svg class="w-[92px] h-[84px] lg:w-[125px] lg:h-[114px] rounded-[6px] lg:rouded-[8px] mx-auto" fill="none" viewBox="0 0 125 114">
             <?= $icon_path ?>
         </svg>
     </div>
-    <h3 class="text-sm lg:text-xl font-bold mb-3 lg:mb-4"><?= esc_html($args['title']) ?></h3>
+    <h3 class="text-sm lg:text-xl font-bold mb-3 lg:mb-4 border-b border-black w-fit mx-auto"><?= esc_html($args['title']) ?></h3>
     <p class="text-xs lg:text-base text-[#AFAFAF]"><?= esc_html($args['text']) ?></p>
 </div>
