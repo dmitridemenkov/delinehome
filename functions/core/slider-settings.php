@@ -32,9 +32,10 @@ add_action('admin_enqueue_scripts', function ($hook) {
 
 function deline_get_slider() {
     return get_option('deline_slider', [
-        'show_bullets' => true,
-        'show_arrows'  => true,
-        'slides'       => [],
+        'show_bullets'  => true,
+        'show_arrows'   => true,
+        'autoplay'      => false,
+        'slides'        => [],
     ]);
 }
 
@@ -49,6 +50,7 @@ add_action('admin_init', function () {
     $settings = [
         'show_bullets' => !empty($_POST['show_bullets']),
         'show_arrows'  => !empty($_POST['show_arrows']),
+        'autoplay'     => !empty($_POST['autoplay']),
         'slides'       => [],
     ];
 
@@ -111,6 +113,15 @@ function deline_render_slider_page() {
                         <label>
                             <input type="checkbox" name="show_arrows" value="1" <?php checked($settings['show_arrows']); ?>>
                             Показывать стрелки навигации
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Автоплей</th>
+                    <td>
+                        <label>
+                            <input type="checkbox" name="autoplay" value="1" <?php checked($settings['autoplay']); ?>>
+                            Автоматическая прокрутка слайдов
                         </label>
                     </td>
                 </tr>

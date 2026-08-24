@@ -1,5 +1,5 @@
 import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Burger menu
@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hero slider
     const sliderEl = document.querySelector('.hero-slider');
     if (sliderEl) {
-        new Swiper(sliderEl, {
-            modules: [Navigation, Pagination],
+        const opts = {
+            modules: [Navigation, Pagination, Autoplay],
             loop: true,
             pagination: {
                 el: '.swiper-pagination',
@@ -28,6 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
-        });
+        };
+
+        if (sliderEl.dataset.autoplay === '1') {
+            opts.autoplay = { delay: 5000, disableOnInteraction: false };
+        }
+
+        new Swiper(sliderEl, opts);
     }
 });

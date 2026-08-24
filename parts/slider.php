@@ -6,7 +6,7 @@ $site_name = get_bloginfo('name');
 
 <section class="hero">
     <div class="container mx-auto px-3">
-        <div class="hero-slider swiper">
+        <div class="hero-slider swiper" data-autoplay="<?php echo $slider['autoplay'] ? '1' : '0'; ?>">
             <div class="swiper-wrapper">
                 <?php foreach ($slider['slides'] as $i => $slide):
                     $desktop_url      = $slide['desktop_id'] ? wp_get_attachment_url($slide['desktop_id']) : '';
