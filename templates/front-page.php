@@ -21,40 +21,40 @@ get_header();
             get_template_part('parts/card-feature', null, [
                 'icon'  => 'catalog',
                 'color' => 'primary',
-                'title' => 'Быстрая разработка',
-                'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'
+                'title' => 'Каталог',
+                'text'  => 'Вы ещё не знаете, что вам нравится? Заходите в каталог, ставьте фильтры и листайте'
             ]);
             ?>
             <?php
             get_template_part('parts/card-feature', null, [
                 'icon'  => 'calculate',
                 'color' => 'primary',
-                'title' => 'Быстрая разработка',
-                'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'
+                'title' => 'Расчет',
+                'text'  => 'Вы понимаете, как должна выглядеть ваша кухня? Жмите расчёт, мы сориентируем вас по цене'
             ]);
             ?>
             <?php
             get_template_part('parts/card-feature', null, [
                 'icon'  => '3d',
                 'color' => 'primary',
-                'title' => 'Быстрая разработка',
-                'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'
+                'title' => '3D проект',
+                'text'  => 'Хотите представить, как новая кухня будет смотреться в вашем интерьере? Жмите Бесплатный 3D проект'
             ]);
             ?>
             <?php
             get_template_part('parts/card-feature', null, [
                 'icon'  => 'measuring',
                 'color' => 'primary',
-                'title' => 'Быстрая разработка',
-                'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'
+                'title' => 'Замер',
+                'text'  => 'Для проекта не хватает точных размеров? Запишитесь на бесплатный замер'
             ]);
             ?>
             <?php
             get_template_part('parts/card-feature', null, [
                 'icon'  => 'decency',
                 'color' => 'primary',
-                'title' => 'Быстрая разработка',
-                'text'  => 'Vite + Tailwind CSS для мгновенной сборки и современных стилей'
+                'title' => 'Порядочность',
+                'text'  => 'Нет времени, чтобы ехать в салон? Запишитесь на бесплатный выезд дизайнера'
             ]);
             ?>
         </div>
