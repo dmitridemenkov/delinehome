@@ -37,7 +37,7 @@ $site_name = get_bloginfo('name');
                              alt="<?php echo esc_attr($alt); ?>"
                              title="<?php echo esc_attr($title); ?>"
                              loading="lazy"
-                             class="w-full block">
+                             class="w-full block rounded-[6px] md:rounded-[8px]">
                     </picture>
                 </div>
                 <?php endforeach; ?>
