@@ -62,12 +62,15 @@
 
                     <?php if ($site['phone'] || $site['address']): ?>
                         <!-- Phone & Address -->
-                        <div class="flex items-center justify-between border-l border-[#ffffff4d] ps-[12px] ms-[12px] md:ps-[28px] md:ms-[28px]">
+                        <div
+                            class="flex items-center justify-between border-l border-[#ffffff4d] ps-[12px] ms-[12px] md:ps-[28px] md:ms-[28px]">
                             <a href="tel:<?php echo esc_attr(preg_replace('/[^\d+]/', '', $site['phone'])); ?>"
-                                title="Телефон" class="flex gap-[6px] xl:gap-[18px] items-center transition hover:-translate-y-[2px]">
+                                title="Телефон"
+                                class="flex gap-[6px] xl:gap-[18px] items-center transition hover:-translate-y-[2px]">
                                 <div>
                                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] md:w-[28px] md:h-[28px]">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="w-[18px] h-[18px] md:w-[28px] md:h-[28px]">
                                         <path
                                             d="M5.63111 12.1178C7.87111 16.52 11.48 20.1133 15.8822 22.3689L19.3044 18.9467C19.7244 18.5267 20.3467 18.3867 20.8911 18.5733C22.6333 19.1489 24.5156 19.46 26.4444 19.46C27.3 19.46 28 20.16 28 21.0156V26.4444C28 27.3 27.3 28 26.4444 28C11.8378 28 0 16.1622 0 1.55556C0 0.7 0.7 0 1.55556 0H7C7.85556 0 8.55555 0.7 8.55555 1.55556C8.55555 3.5 8.86667 5.36667 9.44222 7.10889C9.61333 7.65333 9.48889 8.26 9.05333 8.69556L5.63111 12.1178Z"
                                             fill="white" />
@@ -86,7 +89,8 @@
                     <?php endif; ?>
 
                     <!-- Burger -->
-                    <button class="burger lg:hidden ms-[12px] md:ms-[28px]" id="burger-toggle" aria-label="Меню" aria-expanded="false">
+                    <button class="burger lg:hidden ms-[12px] md:ms-[28px]" id="burger-toggle" aria-label="Меню"
+                        aria-expanded="false">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -109,7 +113,7 @@
         </nav>
         <!-- Mobile menu -->
         <div class="lg:hidden" id="mobile-menu">
-            <span class="uppercase text-xl font-black">Меню</span>
+            <span class="uppercase text-xl font-black ps-3">Меню</span>
             <?php
             wp_nav_menu([
                 'theme_location' => 'primary',
@@ -118,5 +122,30 @@
                 'fallback_cb' => false,
             ]);
             ?>
+            <?php if ($site['phone'] || $site['address']): ?>
+                <!-- Phone & Address -->
+                <div
+                    class="flex items-center justify-between border-l border-[#ffffff4d] ps-[12px] ms-[12px] md:ps-[28px] md:ms-[28px]">
+                    <a href="tel:<?php echo esc_attr(preg_replace('/[^\d+]/', '', $site['phone'])); ?>" title="Телефон"
+                        class="flex gap-[6px] xl:gap-[18px] items-center transition hover:-translate-y-[2px]">
+                        <div>
+                            <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16.7663" cy="16.7663" r="16.7663" fill="#20436C" />
+                                <path
+                                    d="M13.4254 16.0149C14.3196 17.7722 15.7603 19.2067 17.5176 20.1071L18.8838 18.7409C19.0514 18.5733 19.2998 18.5174 19.5172 18.5919C20.2126 18.8217 20.964 18.9459 21.734 18.9459C22.0756 18.9459 22.355 19.2253 22.355 19.5668V21.734C22.355 22.0756 22.0756 22.355 21.734 22.355C15.9031 22.355 11.1775 17.6294 11.1775 11.7985C11.1775 11.4569 11.4569 11.1775 11.7985 11.1775H13.9719C14.3134 11.1775 14.5928 11.4569 14.5928 11.7985C14.5928 12.5747 14.717 13.3198 14.9468 14.0153C15.0151 14.2327 14.9654 14.4749 14.7915 14.6487L13.4254 16.0149Z"
+                                    fill="white" />
+                            </svg>
+                        </div>
+                        <div>
+                            <?php if ($site['phone']): ?>
+                                <div class="phone text-white text-xs"><?php echo esc_html($site['phone']); ?></div>
+                            <?php endif; ?>
+                            <?php if ($site['address']): ?>
+                                <div class="address text-white text-xs"><?php echo esc_html($site['address']); ?></div>
+                            <?php endif; ?>
+                        </div>
+                    </a>
+                </div>
+            <?php endif; ?>
         </div>
     </header>
