@@ -151,6 +151,15 @@ svg.swiper-navigation-icon {
     transform: scale(1.03);
 }
 
+/* Reviews */
+.reviews-slider {
+    --swiper-pagination-color: var(--blue);
+}
+
+.review-text p {
+    margin: 0;
+}
+
 /* Burger */
 .burger {
     width: 28px;

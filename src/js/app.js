@@ -80,6 +80,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         new Swiper(worksEl, worksOpts);
     }
 
+    // Reviews slider
+    const reviewsEl = document.querySelector('.reviews-slider');
+    if (reviewsEl) {
+        new Swiper(reviewsEl, {
+            modules: [Navigation, Pagination, Autoplay],
+            slidesPerView: 1,
+            spaceBetween: 16,
+            autoplay: { delay: 2500, disableOnInteraction: false },
+            navigation: {
+                nextEl: '.reviews-next',
+                prevEl: '.reviews-prev',
+            },
+            pagination: {
+                el: '.reviews-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                1024: { slidesPerView: 2, spaceBetween: 24 },
+            },
+        });
+    }
+
     // Lightbox: swap to avif if supported
     const avif = await supportsAvif();
     if (avif) {
