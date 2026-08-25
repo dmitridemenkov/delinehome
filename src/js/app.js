@@ -2,7 +2,16 @@ import Swiper from 'swiper';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import GLightbox from 'glightbox';
 
-document.addEventListener('DOMContentLoaded', () => {
+function supportsAvif() {
+    return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKBzgABhAQ0AIy';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
     // Burger menu
     const burger = document.getElementById('burger-toggle');
     const menu = document.getElementById('mobile-menu');
@@ -26,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 clickable: true,
             },
             navigation: {
-                nextEl: '.swiper-pagination-next',
+                nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
         };
@@ -56,6 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Lightbox
+    // Lightbox: swap to avif if supported
+    const avif = await supportsAvif();
+    if (avif) {
+        document.querySelectorAll('.glightbox[data-avif]').forEach(el => {
+            el.setAttribute('href', el.dataset.avif);
+        });
+    }
+
     GLightbox({ selector: '.glightbox' });
 });
