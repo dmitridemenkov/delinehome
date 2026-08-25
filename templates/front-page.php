@@ -61,23 +61,10 @@ get_header();
 <!-- Works Section -->
 <section class="mt-[36px] lg:mt-[64px]" id="works">
     <div class="container mx-auto px-3">
-        <h2 class="inline-block relative mb-[24px] lg:mb-[36px] text-xl lg:text-3xl m-w-[50%]">Наши работы</h2>
-
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section id="contact" class="py-16 md:py-24 bg-gradient-to-r from-primary to-secondary text-white">
-    <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-5xl font-bold mb-6">
-            Готовы начать проект?
-        </h2>
-        <p class="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
-            Свяжитесь с нами и мы поможем воплотить ваши идеи в жизнь
-        </p>
-        <a href="mailto:info@example.com" class="inline-block bg-white text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition">
-            Написать нам
-        </a>
+        <div class="flex flex-wrap items-center justify-between gap-4 w-[100%]">
+            <h2 class="inline-block relative mb-[24px] lg:mb-[36px] text-xl lg:text-3xl m-w-[50%]">Наши работы</h2>
+            <a href="/" class="text-xs lg:text-xl font-medium text-black border-2 border-[#20436C] rounded-[24px] lg:rounded-[44px] transition hover:text-[#20436C]" title="Подробнее">Подробнее</a>
+        </div>
     </div>
 </section>
 
