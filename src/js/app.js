@@ -50,19 +50,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Works slider
     const worksEl = document.querySelector('.works-slider');
     if (worksEl) {
-        new Swiper(worksEl, {
-            modules: [Navigation],
-            slidesPerView: 1,
-            spaceBetween: 16,
+        const d = worksEl.dataset;
+        const perMobile  = parseInt(d.perMobile) || 1;
+        const perDesktop = parseInt(d.perDesktop) || 3;
+        const gapMobile  = parseInt(d.gapMobile) || 16;
+        const gapDesktop = parseInt(d.gapDesktop) || 24;
+
+        const worksOpts = {
+            modules: [Navigation, Pagination, Autoplay],
+            slidesPerView: perMobile,
+            spaceBetween: gapMobile,
             navigation: {
                 nextEl: '.works-next',
                 prevEl: '.works-prev',
             },
-            breakpoints: {
-                768: { slidesPerView: 2, spaceBetween: 20 },
-                1024: { slidesPerView: 3, spaceBetween: 24 },
+            pagination: {
+                el: '.works-pagination',
+                clickable: true,
             },
-        });
+            breakpoints: {
+                1024: { slidesPerView: perDesktop, spaceBetween: gapDesktop },
+            },
+        };
+
+        if (d.autoplay === '1') {
+            worksOpts.autoplay = { delay: 5000, disableOnInteraction: false };
+        }
+
+        new Swiper(worksEl, worksOpts);
     }
 
     // Lightbox: swap to avif if supported

@@ -17,6 +17,18 @@ add_action('admin_enqueue_scripts', function ($hook) {
     wp_enqueue_media();
 });
 
+function deline_get_works_options() {
+    return get_option('deline_works_options', [
+        'show_bullets'   => false,
+        'show_arrows'    => true,
+        'autoplay'       => false,
+        'per_view_mobile'  => 1,
+        'per_view_desktop' => 3,
+        'gap_mobile'       => 16,
+        'gap_desktop'      => 24,
+    ]);
+}
+
 function deline_get_works() {
     return get_option('deline_works', []);
 }
@@ -28,6 +40,18 @@ add_action('admin_init', function () {
     ) return;
 
     if (!current_user_can('manage_options')) return;
+
+    $options = [
+        'show_bullets'     => !empty($_POST['works_show_bullets']),
+        'show_arrows'      => !empty($_POST['works_show_arrows']),
+        'autoplay'         => !empty($_POST['works_autoplay']),
+        'per_view_mobile'  => max(1, min(4, absint($_POST['works_per_view_mobile'] ?? 1))),
+        'per_view_desktop' => max(1, min(6, absint($_POST['works_per_view_desktop'] ?? 3))),
+        'gap_mobile'       => max(0, min(60, absint($_POST['works_gap_mobile'] ?? 16))),
+        'gap_desktop'      => max(0, min(60, absint($_POST['works_gap_desktop'] ?? 24))),
+    ];
+
+    update_option('deline_works_options', $options);
 
     $works = [];
 
@@ -54,6 +78,7 @@ add_action('admin_init', function () {
 });
 
 function deline_render_works_page() {
+    $opts  = deline_get_works_options();
     $works = deline_get_works();
 
     if ($errors = get_transient('deline_works_errors')) {
@@ -75,10 +100,43 @@ function deline_render_works_page() {
 
         <?php settings_errors('deline_works'); ?>
 
-        <p class="description">Превью — для слайдера и сетки. Основное — открывается в галерее при клике. AVIF-версии опциональны.</p>
-
         <form method="post">
             <?php wp_nonce_field('deline_save_works', 'deline_works_nonce'); ?>
+
+            <h2>Настройки слайдера</h2>
+            <table class="form-table">
+                <tr>
+                    <th>Буллиты (точки)</th>
+                    <td><label><input type="checkbox" name="works_show_bullets" value="1" <?php checked($opts['show_bullets']); ?>> Показывать</label></td>
+                </tr>
+                <tr>
+                    <th>Стрелки</th>
+                    <td><label><input type="checkbox" name="works_show_arrows" value="1" <?php checked($opts['show_arrows']); ?>> Показывать</label></td>
+                </tr>
+                <tr>
+                    <th>Автоплей</th>
+                    <td><label><input type="checkbox" name="works_autoplay" value="1" <?php checked($opts['autoplay']); ?>> Автоматическая прокрутка</label></td>
+                </tr>
+                <tr>
+                    <th>Слайдов в ряд (мобилка)</th>
+                    <td><input type="number" name="works_per_view_mobile" value="<?php echo esc_attr($opts['per_view_mobile']); ?>" min="1" max="4" style="width: 70px;"></td>
+                </tr>
+                <tr>
+                    <th>Слайдов в ряд (десктоп)</th>
+                    <td><input type="number" name="works_per_view_desktop" value="<?php echo esc_attr($opts['per_view_desktop']); ?>" min="1" max="6" style="width: 70px;"></td>
+                </tr>
+                <tr>
+                    <th>Отступ между слайдами, мобилка (px)</th>
+                    <td><input type="number" name="works_gap_mobile" value="<?php echo esc_attr($opts['gap_mobile']); ?>" min="0" max="60" style="width: 70px;"></td>
+                </tr>
+                <tr>
+                    <th>Отступ между слайдами, десктоп (px)</th>
+                    <td><input type="number" name="works_gap_desktop" value="<?php echo esc_attr($opts['gap_desktop']); ?>" min="0" max="60" style="width: 70px;"></td>
+                </tr>
+            </table>
+
+            <h2>Работы</h2>
+            <p class="description">Превью — для слайдера и сетки. Основное — открывается в галерее при клике. AVIF-версии опциональны.</p>
 
             <div id="works-repeater" style="margin-top: 12px;">
                 <?php foreach ($works as $i => $work): ?>

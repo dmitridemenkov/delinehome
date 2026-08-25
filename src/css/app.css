@@ -118,6 +118,7 @@ body {
 .works-slider {
     --swiper-navigation-color: var(--blue);
     --swiper-navigation-size: 20px;
+    --swiper-pagination-color: var(--blue);
 }
 
 .works-slider .swiper-button-prev,

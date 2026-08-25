@@ -1,6 +1,7 @@
 <?php
 $works = deline_get_works();
 if (empty($works)) return;
+$opts = deline_get_works_options();
 $works_page = get_page_by_path('works');
 $works_url  = $works_page ? get_permalink($works_page) : '#';
 ?>
@@ -14,7 +15,12 @@ $works_url  = $works_page ? get_permalink($works_page) : '#';
                title="Смотреть все работы">Подробнее</a>
         </div>
 
-        <div class="works-slider swiper">
+        <div class="works-slider swiper"
+             data-autoplay="<?php echo $opts['autoplay'] ? '1' : '0'; ?>"
+             data-per-mobile="<?php echo esc_attr($opts['per_view_mobile']); ?>"
+             data-per-desktop="<?php echo esc_attr($opts['per_view_desktop']); ?>"
+             data-gap-mobile="<?php echo esc_attr($opts['gap_mobile']); ?>"
+             data-gap-desktop="<?php echo esc_attr($opts['gap_desktop']); ?>">
             <div class="swiper-wrapper">
                 <?php foreach ($works as $i => $work):
                     $preview_url      = $work['preview_id'] ? wp_get_attachment_url($work['preview_id']) : '';
@@ -53,8 +59,14 @@ $works_url  = $works_page ? get_permalink($works_page) : '#';
                 <?php endforeach; ?>
             </div>
 
+            <?php if ($opts['show_bullets']): ?>
+            <div class="swiper-pagination works-pagination"></div>
+            <?php endif; ?>
+
+            <?php if ($opts['show_arrows']): ?>
             <div class="swiper-button-prev works-prev"></div>
             <div class="swiper-button-next works-next"></div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
