@@ -7,7 +7,7 @@
                 title="Смотреть все отзывы">Подробнее</a>
         </div>
         <div class="bg-[#F9F9F9] p-3 lg:p-6 rounded-sm lg:rounded border border-[#E6E6E6]">
-            <div class="flex w-100 items-start gap-4">
+            <div class="flex w-[100%] items-start justify-between gap-4">
                 <div class="flex items-center gap-4">
                     <svg width="61" height="61" viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="30.5" cy="30.5" r="30.5" fill="#E4E4E4" />
