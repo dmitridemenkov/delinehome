@@ -19,6 +19,7 @@
     "vite": "^7.2.6"
   },
   "dependencies": {
+    "glightbox": "^3.3.1",
     "swiper": "^14.1.0"
   }
 }

@@ -1,5 +1,6 @@
 import Swiper from 'swiper';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import GLightbox from 'glightbox';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Burger menu
@@ -15,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Hero slider
-    const sliderEl = document.querySelector('.hero-slider');
-    if (sliderEl) {
+    const heroEl = document.querySelector('.hero-slider');
+    if (heroEl) {
         const opts = {
             modules: [Navigation, Pagination, Autoplay],
             loop: true,
@@ -25,15 +26,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 clickable: true,
             },
             navigation: {
-                nextEl: '.swiper-button-next',
+                nextEl: '.swiper-pagination-next',
                 prevEl: '.swiper-button-prev',
             },
         };
 
-        if (sliderEl.dataset.autoplay === '1') {
-            opts.autoplay = { delay: 2000, disableOnInteraction: false };
+        if (heroEl.dataset.autoplay === '1') {
+            opts.autoplay = { delay: 5000, disableOnInteraction: false };
         }
 
-        new Swiper(sliderEl, opts);
+        new Swiper(heroEl, opts);
     }
+
+    // Works slider
+    const worksEl = document.querySelector('.works-slider');
+    if (worksEl) {
+        new Swiper(worksEl, {
+            modules: [Navigation],
+            slidesPerView: 1,
+            spaceBetween: 16,
+            navigation: {
+                nextEl: '.works-next',
+                prevEl: '.works-prev',
+            },
+            breakpoints: {
+                768: { slidesPerView: 2, spaceBetween: 20 },
+                1024: { slidesPerView: 3, spaceBetween: 24 },
+            },
+        });
+    }
+
+    // Lightbox
+    GLightbox({ selector: '.glightbox' });
 });

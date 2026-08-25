@@ -1,6 +1,7 @@
 @import "swiper/css";
 @import "swiper/css/navigation";
 @import "swiper/css/pagination";
+@import "glightbox/dist/css/glightbox.min.css";
 @import "tailwindcss";
 @config "../../tailwind.config.js";
 
@@ -111,6 +112,29 @@ body {
     .hero-slider {
         aspect-ratio: 3/4;
     }
+}
+
+/* Works slider */
+.works-slider {
+    --swiper-navigation-color: var(--blue);
+    --swiper-navigation-size: 20px;
+}
+
+.works-slider .swiper-button-prev,
+.works-slider .swiper-button-next {
+    width: 44px;
+    height: 44px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.work-card img {
+    transition: transform 0.3s ease;
+}
+
+.work-card:hover img {
+    transform: scale(1.03);
 }
 
 /* Burger */
