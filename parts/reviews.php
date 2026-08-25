@@ -100,7 +100,9 @@ $reviews_url  = $reviews_page ? get_permalink($reviews_page) : '#';
                 <?php endforeach; ?>
             </div>
 
-            <div class="swiper-pagination reviews-pagination"></div>
+        </div>
+
+        <div class="reviews-nav flex justify-center gap-4 mt-6">
             <div class="swiper-button-prev reviews-prev"></div>
             <div class="swiper-button-next reviews-next"></div>
         </div>

@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const reviewsEl = document.querySelector('.reviews-slider');
     if (reviewsEl) {
         new Swiper(reviewsEl, {
-            modules: [Navigation, Pagination, Autoplay],
+            modules: [Navigation, Autoplay],
             slidesPerView: 1,
             spaceBetween: 16,
             autoplay: { delay: 2500, disableOnInteraction: false },

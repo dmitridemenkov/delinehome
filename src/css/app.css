@@ -152,11 +152,13 @@ svg.swiper-navigation-icon {
 }
 
 /* Reviews */
-.reviews-slider {
-    --swiper-pagination-color: var(--blue);
+.review-text p {
+    margin: 0;
 }
 
-.review-text p {
+.reviews-nav .swiper-button-prev,
+.reviews-nav .swiper-button-next {
+    position: static;
     margin: 0;
 }
 
