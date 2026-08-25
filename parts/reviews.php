@@ -87,7 +87,7 @@ $reviews_url  = $reviews_page ? get_permalink($reviews_page) : '#';
                                     <source srcset="<?php echo esc_url($desktop_avif_url); ?>" type="image/avif">
                                     <?php endif; ?>
                                     <img src="<?php echo esc_url($desktop_url ?: $mobile_url); ?>"
-                                         class="h-[160px] lg:h-[290px] inline-block object-cover rounded"
+                                         class="h-[160px] lg:h-[290px] w-[100%] inline-block object-cover rounded"
                                          alt="<?php echo esc_attr($photo_alt); ?>"
                                          title="<?php echo esc_attr($photo_alt); ?>"
                                          loading="lazy">
