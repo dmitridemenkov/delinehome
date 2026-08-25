@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         if (heroEl.dataset.autoplay === '1') {
-            opts.autoplay = { delay: 5000, disableOnInteraction: false };
+            opts.autoplay = { delay: 2500, disableOnInteraction: false };
         }
 
         new Swiper(heroEl, opts);
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         if (d.autoplay === '1') {
-            worksOpts.autoplay = { delay: 5000, disableOnInteraction: false };
+            worksOpts.autoplay = { delay: 2500, disableOnInteraction: false };
         }
 
         new Swiper(worksEl, worksOpts);

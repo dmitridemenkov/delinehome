@@ -12,7 +12,7 @@ get_header();
 <!-- Features Section -->
 <section class="mt-[36px] lg:mt-[64px]" id="features">
     <div class="container mx-auto px-3">
-        <h2 class="inline-block relative mb-[24px] lg:mb-[36px] text-xl lg:text-3xl m-w-[50%]">Начнем работу на любой стадии</h2>
+        <h2 class="inline-block relative mb-[24px] lg:mb-[36px] text-xl lg:text-3xl">Начнем работу на любой стадии</h2>
         <div class="flex flex-wrap justify-center gap-y-[24px]">
             <?php
             get_template_part('parts/card-feature', null, [
