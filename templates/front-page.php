@@ -61,4 +61,7 @@ get_header();
 <!-- Works Section -->
 <?php get_template_part('parts/works'); ?>
 
+<!-- Reviews Section -->
+<?php get_template_part('parts/reviews'); ?>
+
 <?php get_footer(); ?>
