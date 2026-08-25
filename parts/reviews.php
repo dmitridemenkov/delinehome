@@ -20,6 +20,7 @@ $reviews_url  = $reviews_page ? get_permalink($reviews_page) : '#';
                 title="Смотреть все отзывы">Подробнее</a>
         </div>
 
+        <div class="reviews-wrap relative">
         <div class="reviews-slider swiper">
             <div class="swiper-wrapper">
                 <?php foreach ($reviews as $review):
@@ -102,9 +103,10 @@ $reviews_url  = $reviews_page ? get_permalink($reviews_page) : '#';
 
         </div>
 
-        <div class="reviews-nav flex justify-center gap-4 mt-6">
+        <div class="reviews-nav">
             <div class="swiper-button-prev reviews-prev"></div>
             <div class="swiper-button-next reviews-next"></div>
+        </div>
         </div>
     </div>
 </section>

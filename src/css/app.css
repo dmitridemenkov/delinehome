@@ -156,10 +156,19 @@ svg.swiper-navigation-icon {
     margin: 0;
 }
 
-.reviews-nav .swiper-button-prev,
-.reviews-nav .swiper-button-next {
-    position: static;
-    margin: 0;
+@media (max-width: 1023px) {
+    .reviews-nav {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 24px;
+    }
+
+    .reviews-nav .swiper-button-prev,
+    .reviews-nav .swiper-button-next {
+        position: static;
+        margin: 0;
+    }
 }
 
 /* Burger */
