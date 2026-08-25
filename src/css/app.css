@@ -126,11 +126,16 @@ body {
     box-shadow: 0 2px 20px #00000040;
 }
 
-svg.swiper-navigation-icon {
+.swiper-navigation-icon {
     width: 14px;
     height: 14px;
     stroke: black;
     stroke-width: 2px;
+    transition: transform 0.2s ease;
+}
+
+.swiper-navigation-icon:hover {
+    transform: scale(1.03);
 }
 
 .work-card img {
