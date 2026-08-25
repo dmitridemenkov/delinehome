@@ -142,6 +142,11 @@ svg.swiper-navigation-icon {
     stroke-width: 2px;
 }
 
+.work-card img {
+    transition: transform 0.2s ease;
+}
+
+
 .work-card:hover img {
     transform: scale(1.03);
 }
