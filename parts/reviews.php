@@ -6,7 +6,7 @@
                 class="text-xs lg:text-xl font-medium text-black border-2 border-[#20436C] rounded-[24px] lg:rounded-[44px] px-[16px] py-[6px] lg:px-[32px] lg:py-[12px] transition hover:text-white hover:bg-[#20436C]"
                 title="Смотреть все отзывы">Подробнее</a>
         </div>
-        <div class="bg-[#E6E6E6] p-3 lg:p-[6] rounded-sm lg:rounded border border-[#F9F9F9]">
+        <div class="bg-[#F9F9F9] p-3 lg:p-[6] rounded-sm lg:rounded border border-[#E6E6E6]">
             <div class="flex w-100 items-start gap-4">
                 <div class="flex items-center gap-4">
                     <svg width="61" height="61" viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
