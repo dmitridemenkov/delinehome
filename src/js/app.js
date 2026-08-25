@@ -92,10 +92,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 nextEl: '.reviews-next',
                 prevEl: '.reviews-prev',
             },
-            pagination: {
-                el: '.reviews-pagination',
-                clickable: true,
-            },
             breakpoints: {
                 1024: { slidesPerView: 2, spaceBetween: 24 },
             },
