@@ -52,7 +52,7 @@ $works_url  = $works_page ? get_permalink($works_page) : '#';
                                  class="w-full aspect-[4/3] object-cover block">
                         </picture>
                         <?php if ($city): ?>
-                        <span class="absolute bottom-4 right-5 bg-white text-xs lg:text-base font-medium px-4 py-2 rounded-full bg-[#216CC3]"><?php echo esc_html($city); ?></span>
+                        <span class="absolute bottom-4 right-5 text-white text-xs lg:text-base font-medium px-4 py-2 rounded-full bg-[#216CC3]"><?php echo esc_html($city); ?></span>
                         <?php endif; ?>
                     </a>
                 </div>
