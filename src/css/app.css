@@ -128,7 +128,7 @@ body {
 
 .swiper-button-prev:hover svg,
 .swiper-button-next:hover svg {
-    transform: scale(1.5);
+    transform: scale(1.5) !important;
 }
 
 svg.swiper-navigation-icon {
