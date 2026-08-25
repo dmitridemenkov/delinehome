@@ -130,8 +130,8 @@ body {
     transition-duration: var(--tw-duration, var(--default-transition-duration));
 }
 
-.swiper-button-prev:hover svg,
-.swiper-button-next:hover svg {
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
     transform: scale(1.05);
 }
 
