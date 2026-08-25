@@ -25,7 +25,21 @@ $query = new WP_Query([
                 $name   = get_post_meta(get_the_ID(), '_review_author_name', true) ?: 'Без имени';
                 $rating = (int)(get_post_meta(get_the_ID(), '_review_rating', true) ?: 5);
                 $date   = get_post_meta(get_the_ID(), '_review_date', true);
-                $thumb  = get_the_post_thumbnail_url(get_the_ID(), 'medium_large');
+
+                $desktop_id      = get_post_meta(get_the_ID(), '_review_photo_desktop', true);
+                $desktop_avif_id = get_post_meta(get_the_ID(), '_review_photo_desktop_avif', true);
+                $mobile_id       = get_post_meta(get_the_ID(), '_review_photo_mobile', true);
+                $mobile_avif_id  = get_post_meta(get_the_ID(), '_review_photo_mobile_avif', true);
+
+                $desktop_url      = $desktop_id ? wp_get_attachment_url($desktop_id) : '';
+                $desktop_avif_url = $desktop_avif_id ? wp_get_attachment_url($desktop_avif_id) : '';
+                $mobile_url       = $mobile_id ? wp_get_attachment_url($mobile_id) : '';
+                $mobile_avif_url  = $mobile_avif_id ? wp_get_attachment_url($mobile_avif_id) : '';
+
+                $has_photo = $desktop_url || $mobile_url;
+                $lightbox_url = $desktop_url ?: $mobile_url;
+                $lightbox_avif = $desktop_avif_url ?: $mobile_avif_url;
+                $photo_alt = 'Фото к отзыву — ' . $name;
             ?>
             <div class="bg-[#F9F9F9] p-3 lg:p-6 rounded-sm lg:rounded border border-[#E6E6E6]">
                 <div class="flex w-[100%] items-start justify-between gap-4">
@@ -52,17 +66,29 @@ $query = new WP_Query([
                 <div class="mt-4 lg:mt-6 text-black text-sm lg:text-xl review-text">
                     <?php the_content(); ?>
                 </div>
-                <?php if ($thumb): ?>
+                <?php if ($has_photo): ?>
                 <div class="mt-4 lg:mt-6">
-                    <a href="<?php echo esc_url(get_the_post_thumbnail_url(get_the_ID(), 'large')); ?>"
+                    <a href="<?php echo esc_url($lightbox_url); ?>"
                        class="glightbox"
                        data-gallery="all-reviews"
-                       title="Фото к отзыву — <?php echo esc_attr($name); ?>">
-                        <img src="<?php echo esc_url($thumb); ?>"
-                             class="h-[160px] lg:h-[290px] inline-block object-cover rounded"
-                             alt="Фото к отзыву — <?php echo esc_attr($name); ?>"
-                             title="Фото к отзыву — <?php echo esc_attr($name); ?>"
-                             loading="lazy">
+                       <?php if ($lightbox_avif): ?>data-avif="<?php echo esc_url($lightbox_avif); ?>"<?php endif; ?>
+                       title="<?php echo esc_attr($photo_alt); ?>">
+                        <picture>
+                            <?php if ($mobile_avif_url): ?>
+                            <source srcset="<?php echo esc_url($mobile_avif_url); ?>" type="image/avif" media="(max-width: 767px)">
+                            <?php endif; ?>
+                            <?php if ($mobile_url): ?>
+                            <source srcset="<?php echo esc_url($mobile_url); ?>" media="(max-width: 767px)">
+                            <?php endif; ?>
+                            <?php if ($desktop_avif_url): ?>
+                            <source srcset="<?php echo esc_url($desktop_avif_url); ?>" type="image/avif">
+                            <?php endif; ?>
+                            <img src="<?php echo esc_url($desktop_url ?: $mobile_url); ?>"
+                                 class="h-[160px] lg:h-[290px] inline-block object-cover rounded"
+                                 alt="<?php echo esc_attr($photo_alt); ?>"
+                                 title="<?php echo esc_attr($photo_alt); ?>"
+                                 loading="lazy">
+                        </picture>
                     </a>
                 </div>
                 <?php endif; ?>

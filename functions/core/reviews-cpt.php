@@ -18,9 +18,15 @@ add_action('init', function () {
         'show_in_menu' => true,
         'menu_icon'    => 'dashicons-star-filled',
         'menu_position' => 5,
-        'supports'     => ['title', 'editor', 'thumbnail'],
+        'supports'     => ['title', 'editor'],
         'has_archive'  => false,
     ]);
+});
+
+add_action('admin_enqueue_scripts', function ($screen) {
+    if ($screen !== 'post.php' && $screen !== 'post-new.php') return;
+    if (get_post_type() !== 'review') return;
+    wp_enqueue_media();
 });
 
 add_action('add_meta_boxes', function () {
@@ -40,6 +46,13 @@ function deline_review_meta_render($post) {
     $name   = get_post_meta($post->ID, '_review_author_name', true);
     $rating = get_post_meta($post->ID, '_review_rating', true) ?: 5;
     $date   = get_post_meta($post->ID, '_review_date', true);
+
+    $img_fields = [
+        ['key' => '_review_photo_desktop',      'label' => 'Десктоп (jpg/png)'],
+        ['key' => '_review_photo_desktop_avif',  'label' => 'Десктоп (avif)'],
+        ['key' => '_review_photo_mobile',        'label' => 'Мобилка (jpg/png)'],
+        ['key' => '_review_photo_mobile_avif',   'label' => 'Мобилка (avif)'],
+    ];
     ?>
     <table class="form-table">
         <tr>
@@ -55,7 +68,57 @@ function deline_review_meta_render($post) {
             <td><input type="text" id="review_date" name="review_date" value="<?php echo esc_attr($date); ?>" class="regular-text" placeholder="12.01.2026"></td>
         </tr>
     </table>
-    <p class="description">Фото к отзыву — через «Изображение записи» справа. Текст отзыва — в основном редакторе выше.</p>
+
+    <h3 style="margin-top: 20px;">Фото к отзыву</h3>
+    <p class="description">Десктоп — для экранов от 768px. Мобилка — для мобильных. AVIF-версии опциональны.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 12px;" id="review-images">
+        <?php foreach ($img_fields as $field):
+            $val = get_post_meta($post->ID, $field['key'], true);
+            $url = $val ? wp_get_attachment_image_url($val, 'thumbnail') : '';
+        ?>
+        <div style="text-align: center;">
+            <div class="review-img-preview" style="width: 100%; height: 80px; border: 1px dashed #c3c4c7; border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px; background: #f9f9f9;">
+                <?php if ($url): ?>
+                    <img src="<?php echo esc_url($url); ?>" style="max-width: 100%; max-height: 100%; object-fit: cover;">
+                <?php endif; ?>
+            </div>
+            <input type="hidden" name="<?php echo $field['key']; ?>" class="review-img-id" value="<?php echo esc_attr($val); ?>">
+            <button type="button" class="button button-small upload-review-img"><?php echo $field['label']; ?></button>
+            <?php if ($val): ?>
+            <button type="button" class="button button-small remove-review-img" style="color: #b32d2e; margin-top: 4px;">&times;</button>
+            <?php endif; ?>
+        </div>
+        <?php endforeach; ?>
+    </div>
+
+    <p class="description" style="margin-top: 8px;">Текст отзыва — в основном редакторе выше.</p>
+
+    <script>
+    jQuery(function($) {
+        $('#review-images').on('click', '.upload-review-img', function() {
+            var $wrap = $(this).parent();
+            var frame = wp.media({ multiple: false });
+            frame.on('select', function() {
+                var att = frame.state().get('selection').first().toJSON();
+                var thumb = att.sizes && att.sizes.thumbnail ? att.sizes.thumbnail.url : att.url;
+                $wrap.find('.review-img-id').val(att.id);
+                $wrap.find('.review-img-preview').html('<img src="' + thumb + '" style="max-width:100%;max-height:100%;object-fit:cover;">');
+                if (!$wrap.find('.remove-review-img').length) {
+                    $wrap.append('<button type="button" class="button button-small remove-review-img" style="color:#b32d2e;margin-top:4px;">&times;</button>');
+                }
+            });
+            frame.open();
+        });
+
+        $('#review-images').on('click', '.remove-review-img', function() {
+            var $wrap = $(this).parent();
+            $wrap.find('.review-img-id').val('');
+            $wrap.find('.review-img-preview').html('');
+            $(this).remove();
+        });
+    });
+    </script>
     <?php
 }
 
@@ -69,6 +132,16 @@ add_action('save_post_review', function ($post_id) {
     update_post_meta($post_id, '_review_author_name', sanitize_text_field($_POST['review_author_name'] ?? ''));
     update_post_meta($post_id, '_review_rating', max(1, min(5, absint($_POST['review_rating'] ?? 5))));
     update_post_meta($post_id, '_review_date', sanitize_text_field($_POST['review_date'] ?? ''));
+
+    $img_keys = ['_review_photo_desktop', '_review_photo_desktop_avif', '_review_photo_mobile', '_review_photo_mobile_avif'];
+    foreach ($img_keys as $key) {
+        $val = absint($_POST[$key] ?? 0);
+        if ($val) {
+            update_post_meta($post_id, $key, $val);
+        } else {
+            delete_post_meta($post_id, $key);
+        }
+    }
 });
 
 function deline_render_stars($rating) {
