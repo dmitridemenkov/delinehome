@@ -7,15 +7,15 @@ $reviews = get_posts([
 ]);
 if (empty($reviews)) return;
 
-$reviews_page = get_page_by_path('reviews');
-$reviews_url  = $reviews_page ? get_permalink($reviews_page) : '#';
+$about_page = get_page_by_path('about');
+$about_url  = $about_page ? get_permalink($about_page) . '#reviews' : '#';
 ?>
 
 <section class="mt-[36px] lg:mt-[64px]" id="reviews">
     <div class="container mx-auto px-3">
         <div class="flex flex-wrap items-start justify-between gap-4 w-[100%]">
             <h2 class="inline-block relative mb-[24px] lg:mb-[36px] text-xl lg:text-3xl">Отзывы клиентов</h2>
-            <a href="<?php echo esc_url($reviews_url); ?>"
+            <a href="<?php echo esc_url($about_url); ?>"
                 class="text-xs lg:text-xl font-medium text-black border-2 border-[#20436C] rounded-[24px] lg:rounded-[44px] px-[16px] py-[6px] lg:px-[32px] lg:py-[12px] transition hover:text-white hover:bg-[#20436C]"
                 title="Смотреть все отзывы">Подробнее</a>
         </div>
@@ -28,21 +28,12 @@ $reviews_url  = $reviews_page ? get_permalink($reviews_page) : '#';
                     $rating = (int)(get_post_meta($review->ID, '_review_rating', true) ?: 5);
                     $date   = get_post_meta($review->ID, '_review_date', true);
                     $text   = apply_filters('the_content', $review->post_content);
+                    $photos = deline_get_review_photos($review->ID);
+                    $first  = $photos[0] ?? null;
 
-                    $desktop_id      = get_post_meta($review->ID, '_review_photo_desktop', true);
-                    $desktop_avif_id = get_post_meta($review->ID, '_review_photo_desktop_avif', true);
-                    $mobile_id       = get_post_meta($review->ID, '_review_photo_mobile', true);
-                    $mobile_avif_id  = get_post_meta($review->ID, '_review_photo_mobile_avif', true);
-
-                    $desktop_url      = $desktop_id ? wp_get_attachment_url($desktop_id) : '';
-                    $desktop_avif_url = $desktop_avif_id ? wp_get_attachment_url($desktop_avif_id) : '';
-                    $mobile_url       = $mobile_id ? wp_get_attachment_url($mobile_id) : '';
-                    $mobile_avif_url  = $mobile_avif_id ? wp_get_attachment_url($mobile_avif_id) : '';
-
-                    $has_photo = $desktop_url || $mobile_url;
-                    $lightbox_url = $desktop_url ?: $mobile_url;
-                    $lightbox_avif = $desktop_avif_url ?: $mobile_avif_url;
-                    $photo_alt = 'Фото к отзыву — ' . $name;
+                    $photo_url  = $first && $first['photo_id'] ? wp_get_attachment_url($first['photo_id']) : '';
+                    $avif_url   = $first && ($first['avif_id'] ?? 0) ? wp_get_attachment_url($first['avif_id']) : '';
+                    $photo_alt  = 'Фото к отзыву — ' . $name;
                 ?>
                 <div class="swiper-slide">
                     <div class="bg-[#F9F9F9] p-3 lg:p-6 rounded-sm lg:rounded border border-[#E6E6E6] h-full">
@@ -70,24 +61,18 @@ $reviews_url  = $reviews_page ? get_permalink($reviews_page) : '#';
                         <div class="mt-4 lg:mt-6 text-black text-sm lg:text-xl review-text">
                             <?php echo wp_kses_post($text); ?>
                         </div>
-                        <?php if ($has_photo): ?>
+                        <?php if ($photo_url): ?>
                         <div class="mt-4 lg:mt-6">
-                            <a href="<?php echo esc_url($lightbox_url); ?>"
+                            <a href="<?php echo esc_url($photo_url); ?>"
                                class="glightbox"
                                data-gallery="reviews"
-                               <?php if ($lightbox_avif): ?>data-avif="<?php echo esc_url($lightbox_avif); ?>"<?php endif; ?>
+                               <?php if ($avif_url): ?>data-avif="<?php echo esc_url($avif_url); ?>"<?php endif; ?>
                                title="<?php echo esc_attr($photo_alt); ?>">
                                 <picture>
-                                    <?php if ($mobile_avif_url): ?>
-                                    <source srcset="<?php echo esc_url($mobile_avif_url); ?>" type="image/avif" media="(max-width: 767px)">
+                                    <?php if ($avif_url): ?>
+                                    <source srcset="<?php echo esc_url($avif_url); ?>" type="image/avif">
                                     <?php endif; ?>
-                                    <?php if ($mobile_url): ?>
-                                    <source srcset="<?php echo esc_url($mobile_url); ?>" media="(max-width: 767px)">
-                                    <?php endif; ?>
-                                    <?php if ($desktop_avif_url): ?>
-                                    <source srcset="<?php echo esc_url($desktop_avif_url); ?>" type="image/avif">
-                                    <?php endif; ?>
-                                    <img src="<?php echo esc_url($desktop_url ?: $mobile_url); ?>"
+                                    <img src="<?php echo esc_url($photo_url); ?>"
                                          class="h-[160px] lg:h-[290px] w-[100%] inline-block object-cover rounded"
                                          alt="<?php echo esc_attr($photo_alt); ?>"
                                          title="<?php echo esc_attr($photo_alt); ?>"

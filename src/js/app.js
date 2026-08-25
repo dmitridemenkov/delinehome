@@ -98,6 +98,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // About page tabs
+    const tabs = document.querySelectorAll('.about-tab');
+    if (tabs.length) {
+        function switchTab(tabName) {
+            tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
+            document.querySelectorAll('.about-tab-content').forEach(c => {
+                c.classList.toggle('hidden', c.id !== 'tab-' + tabName);
+            });
+        }
+
+        tabs.forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+
+        if (location.hash === '#reviews') switchTab('reviews');
+    }
+
     // Lightbox: swap to avif if supported
     const avif = await supportsAvif();
     if (avif) {

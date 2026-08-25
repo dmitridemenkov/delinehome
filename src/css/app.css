@@ -151,6 +151,53 @@ svg.swiper-navigation-icon {
     transform: scale(1.03);
 }
 
+/* About tabs */
+.about-tabs {
+    display: flex;
+    gap: 0;
+}
+
+.about-tab {
+    flex: 1;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    border: 2px solid var(--blue);
+    background: transparent;
+    color: var(--blue);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.about-tab:first-child {
+    border-radius: 44px 0 0 44px;
+}
+
+.about-tab:last-child {
+    border-radius: 0 44px 44px 0;
+}
+
+.about-tab:not(:first-child) {
+    border-left: none;
+}
+
+.about-tab.active {
+    background: var(--blue);
+    color: white;
+}
+
+.about-tab:hover:not(.active) {
+    background: var(--blue-light);
+}
+
+@media (max-width: 767px) {
+    .about-tab {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+}
+
 /* Reviews */
 .review-text p {
     margin: 0;
