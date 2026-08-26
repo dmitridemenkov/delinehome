@@ -151,10 +151,11 @@ svg.swiper-navigation-icon {
     transform: scale(1.03);
 }
 
-/* About tabs */
+/* About tabs — параллелограммы со скосом ~19.4deg (22.88px на 65px высоты) */
 .about-tabs {
+    --tab-skew: -19.4deg;
     display: flex;
-    gap: 0;
+    gap: 8px;
 }
 
 .about-tab {
@@ -162,28 +163,23 @@ svg.swiper-navigation-icon {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 65px;
     padding: 14px 24px;
     font-size: 16px;
     font-weight: 600;
     text-align: center;
     text-decoration: none;
-    border: 2px solid var(--blue);
-    background: transparent;
+    background: var(--blue-light);
     color: var(--blue);
     cursor: pointer;
+    transform: skewX(var(--tab-skew));
     transition: background-color 0.2s, color 0.2s;
 }
 
-.about-tab:first-child {
-    border-radius: 44px 0 0 44px;
-}
-
-.about-tab:last-child {
-    border-radius: 0 44px 44px 0;
-}
-
-.about-tab:not(:first-child) {
-    border-left: none;
+/* Текст разворачиваем обратно, чтобы он остался прямым */
+.about-tab > span {
+    display: block;
+    transform: skewX(calc(var(--tab-skew) * -1));
 }
 
 .about-tab.active {
@@ -192,11 +188,17 @@ svg.swiper-navigation-icon {
 }
 
 .about-tab:hover:not(.active) {
-    background: var(--blue-light);
+    background: #DCE9F9;
 }
 
 @media (max-width: 767px) {
+    .about-tabs {
+        --tab-skew: -12deg;
+        gap: 4px;
+    }
+
     .about-tab {
+        min-height: 44px;
         padding: 10px 8px;
         font-size: 12px;
     }
@@ -313,8 +315,7 @@ div#mobile-menu.is-open {
     border: none;
 }
 
-h2::after,
-h1.page-title::after {
+h2::after {
     content: '';
     height: 4px;
     width: 100px;
@@ -324,8 +325,7 @@ h1.page-title::after {
 }
 
 @media screen and (max-width: 768px) {
-    h2::after,
-    h1.page-title::after {
+    h2::after {
         height: 2px;
         width: 46px;
         margin-top: 6px;

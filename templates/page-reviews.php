@@ -18,13 +18,13 @@ $query = new WP_Query([
 ]);
 ?>
 
-<section class="mt-[36px] lg:mt-[64px]">
+<section>
     <div class="container mx-auto px-3">
 
         <?php get_template_part('parts/breadcrumbs', null, ['title' => $page_title]); ?>
         <?php get_template_part('parts/about-tabs'); ?>
 
-        <h1 class="page-title inline-block relative mt-8 mb-[24px] lg:mb-[36px] text-xl lg:text-3xl"><?php echo esc_html($page_title); ?></h1>
+        <h1 class="inline-block relative mt-8 lg:mt-[42px] mb-5 text-xl lg:text-4xl font-bold text-black"><?php echo esc_html($page_title); ?></h1>
 
         <?php if (trim($page_content)): ?>
         <div class="page-content mb-8">

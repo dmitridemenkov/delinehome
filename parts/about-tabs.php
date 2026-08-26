@@ -16,6 +16,6 @@ $current_id = get_the_ID();
     <a href="<?php echo esc_url(get_permalink($page)); ?>"
        class="about-tab<?php echo $is_active ? ' active' : ''; ?>"
        <?php if ($is_active): ?>aria-current="page"<?php endif; ?>
-       title="<?php echo esc_attr($tab['label']); ?>"><?php echo esc_html($tab['label']); ?></a>
+       title="<?php echo esc_attr($tab['label']); ?>"><span><?php echo esc_html($tab['label']); ?></span></a>
     <?php endforeach; ?>
 </nav>
