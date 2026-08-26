@@ -209,6 +209,52 @@ svg.swiper-navigation-icon {
     }
 }
 
+/* Материалы */
+.content ul {
+    list-style: disc;
+    padding-inline-start: 1.2em;
+}
+
+.content ul li + li,
+.content p + p {
+    margin-top: 8px;
+}
+
+.content p {
+    margin: 0;
+}
+
+@media (max-width: 767px) {
+    /* Чётные блоки: изображение сверху, текст под ним по центру */
+    .material-item:nth-child(even) {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .material-item:nth-child(even) .material-text {
+        width: 100%;
+        padding-inline: 16px;
+        padding-bottom: 16px;
+    }
+
+    .material-item:nth-child(even) .material-img {
+        padding-top: 16px;
+    }
+
+    .material-item:nth-child(even) .material-img img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    /* Маркер списка уводим внутрь, иначе он ломает центровку */
+    .material-item:nth-child(even) .content ul {
+        list-style-position: inside;
+        padding-inline-start: 0;
+    }
+}
+
 /* Reviews */
 .review-text p {
     margin: 0;
