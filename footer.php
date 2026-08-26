@@ -1,39 +1,28 @@
-<footer class="bg-dark text-light mt-auto">
-    <div class="container mx-auto px-4 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Column 1 -->
-            <div>
-                <h3 class="text-xl font-bold mb-4"><?php bloginfo('name'); ?></h3>
-                <p class="text-gray-400">
-                    <?php bloginfo('description'); ?>
-                </p>
-            </div>
-            
-            <!-- Column 2 -->
-            <div>
-                <h3 class="text-xl font-bold mb-4">Навигация</h3>
-                <?php
-                wp_nav_menu([
-                    'theme_location' => 'footer',
-                    'container' => false,
-                    'menu_class' => 'space-y-2',
-                    'fallback_cb' => false,
-                ]);
-                ?>
-            </div>
-            
-            <!-- Column 3 -->
-            <div>
-                <h3 class="text-xl font-bold mb-4">Контакты</h3>
-                <div class="space-y-2 text-gray-400">
-                    <p>Email: info@example.com</p>
-                    <p>Телефон: +7 (999) 123-45-67</p>
+<footer class="bg-[#272727] mt-6 lg:mt-12">
+    <div class="container mx-auto px-3">
+        <div class="flex items-start justify-between">
+            <!-- Logo -->
+            <div class="flex-shrink-0">
+                <div class="flex items-center">
+                    <div class="flex items-center lg:border-r border-white lg:pr-4 lg:me-4 w-[90px] sm:w-auto">
+                        <a href="<?php echo home_url(); ?>"
+                            class="inline-block w-[122px] bg-white rounded-[8px] py-[4px] px-[8px] transition hover:-translate-y-[2px]"
+                            title="Перейти на Главную">
+                            <?php if ($site['logo_id'] && $logo_url = wp_get_attachment_url($site['logo_id'])): ?>
+                                <img src="<?php echo esc_url($logo_url); ?>"
+                                    alt="<?php echo esc_attr($site['logo_alt']); ?>"
+                                    title="<?php echo esc_attr($site['logo_title']); ?>">
+                            <?php else: ?>
+                                <span class="text-2xl font-bold text-primary">
+                                    <?php bloginfo('name'); ?>
+                                </span>
+                            <?php endif; ?>
+                        </a>
+                    </div>
+                    <div class="text-white text-xs md:text-base hidden lg:inline-block">Кухни & Шкафы</div>
                 </div>
             </div>
-        </div>
-        
-        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. Все права защищены.</p>
+            
         </div>
     </div>
 </footer>
@@ -41,12 +30,13 @@
 <?php wp_footer(); ?>
 
 <script>
-// Mobile menu toggle
-document.getElementById('mobile-menu-btn')?.addEventListener('click', function() {
-    const menu = document.getElementById('mobile-menu');
-    menu.classList.toggle('hidden');
-});
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', function () {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+    });
 </script>
 
 </body>
+
 </html>
