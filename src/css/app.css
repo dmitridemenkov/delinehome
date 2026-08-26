@@ -181,7 +181,7 @@ svg.swiper-navigation-icon {
 .about-tab > span {
     display: block;
     transform: skewX(calc(var(--tab-skew) * -1));
-    font-size: clamp(16px, 2vw, 24px);
+    font-size: clamp(16px, 2vw, 22px);
     line-height: 100%;
 }
 
