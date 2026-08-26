@@ -7,7 +7,7 @@
                 title="Смотреть все отзывы">Подробнее</a>
         </div>
         <div class="flex flex-col gap-2">
-            <div class="relative bg-[#F4F4F4] flex">
+            <div class="relative bg-[#F4F4F4] flex items-center justify-between">
                 <div class="py-3 ps-4 lg:ps-12">
                     <div class="text-base lg:text-2xl font-medium text-black mb-3 lg:mb-4">
                         Премиальные ящики Avantech от Hettich
