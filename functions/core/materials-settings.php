@@ -86,8 +86,8 @@ function deline_render_materials_page() {
             <?php wp_nonce_field('deline_save_materials', 'deline_materials_nonce'); ?>
 
             <p class="description">
-                Блоки выводятся на главной в порядке добавления.
-                На мобильных чётные блоки (2-й, 4-й…) показываются с изображением сверху и текстом по центру.
+                Блоки выводятся в порядке добавления — на главной и на странице «Поставщики материалов».
+                На мобильных изображение показывается сверху, текст под ним по центру.
             </p>
 
             <div id="materials-repeater" style="margin-top: 16px;">

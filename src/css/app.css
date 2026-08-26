@@ -225,23 +225,23 @@ svg.swiper-navigation-icon {
 }
 
 @media (max-width: 767px) {
-    /* Чётные блоки: изображение сверху, текст под ним по центру */
-    .material-item:nth-child(even) {
+    /* На мобилке у всех блоков изображение сверху, текст под ним по центру */
+    .material-item {
         flex-direction: column-reverse;
         text-align: center;
     }
 
-    .material-item:nth-child(even) .material-text {
+    .material-item .material-text {
         width: 100%;
         padding-inline: 16px;
         padding-bottom: 16px;
     }
 
-    .material-item:nth-child(even) .material-img {
+    .material-item .material-img {
         padding-top: 16px;
     }
 
-    .material-item:nth-child(even) .material-img img {
+    .material-item .material-img img {
         width: auto;
         max-width: 100%;
         height: auto;
@@ -249,7 +249,7 @@ svg.swiper-navigation-icon {
     }
 
     /* Маркер списка уводим внутрь, иначе он ломает центровку */
-    .material-item:nth-child(even) .content ul {
+    .material-item .content ul {
         list-style-position: inside;
         padding-inline-start: 0;
     }
