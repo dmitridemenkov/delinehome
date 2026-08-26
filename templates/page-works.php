@@ -7,9 +7,11 @@ get_header();
 $works = deline_get_works();
 ?>
 
-<section class="mt-[36px] lg:mt-[64px] mb-[36px] lg:mb-[64px]">
+<section>
     <div class="container mx-auto px-3">
-        <h1 class="inline-block relative mb-[24px] lg:mb-[36px] text-xl lg:text-3xl">Наши работы</h1>
+
+        <?php get_template_part('parts/breadcrumbs', null, ['title' => get_the_title()]); ?>
+        <h1 class="inline-block relative mt-8 lg:mt-[42px] mb-5 text-xl lg:text-4xl font-bold text-black">Наши работы</h1>
 
         <?php if (!empty($works)): ?>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
