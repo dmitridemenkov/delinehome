@@ -19,7 +19,6 @@
                             <?php endif; ?>
                         </a>
                     </div>
-                    <div class="text-white text-xs md:text-base hidden lg:inline-block">Кухни & Шкафы</div>
                 </div>
             </div>
             
