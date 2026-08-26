@@ -159,10 +159,14 @@ svg.swiper-navigation-icon {
 
 .about-tab {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 14px 24px;
     font-size: 16px;
     font-weight: 600;
     text-align: center;
+    text-decoration: none;
     border: 2px solid var(--blue);
     background: transparent;
     color: var(--blue);
@@ -309,7 +313,8 @@ div#mobile-menu.is-open {
     border: none;
 }
 
-h2::after {
+h2::after,
+h1.page-title::after {
     content: '';
     height: 4px;
     width: 100px;
@@ -319,11 +324,42 @@ h2::after {
 }
 
 @media screen and (max-width: 768px) {
-    h2::after {
+    h2::after,
+    h1.page-title::after {
         height: 2px;
         width: 46px;
         margin-top: 6px;
     }
+}
+
+/* Пагинация */
+.reviews-pagination-links ul {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.reviews-pagination-links .page-numbers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 12px;
+    border: 2px solid var(--blue);
+    border-radius: 44px;
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.reviews-pagination-links .page-numbers:hover,
+.reviews-pagination-links .page-numbers.current {
+    background: var(--blue);
+    color: white;
 }
 
 @media screen and (max-width: 1024px) {

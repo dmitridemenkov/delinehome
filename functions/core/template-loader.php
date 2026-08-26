@@ -29,8 +29,8 @@ add_filter('template_include', function($template) {
         }
     }
     
-    // Страница
-    if (is_page()) {
+    // Страница — но не трогаем шаблон, выбранный в атрибутах страницы
+    if (is_page() && !get_page_template_slug()) {
         $page = get_template_directory() . '/templates/page.php';
         if (file_exists($page)) {
             return $page;
