@@ -9,8 +9,16 @@ $name   = get_post_meta($review_id, '_review_author_name', true) ?: 'Без им
 $rating = (int)(get_post_meta($review_id, '_review_rating', true) ?: 5);
 $date   = get_post_meta($review_id, '_review_date', true);
 $text   = apply_filters('the_content', get_post_field('post_content', $review_id));
-$photos = deline_get_review_photos($review_id);
+$photos = array_values(array_filter(
+    deline_get_review_photos($review_id),
+    fn($p) => !empty($p['photo_id'])
+));
 $photo_alt = 'Фото к отзыву — ' . $name;
+
+// Одно фото — во всю ширину, два — пополам, больше — сеткой
+$count = count($photos);
+$grid_cols = $count === 1 ? 'grid-cols-1' : 'grid-cols-2';
+$photo_ratio = $count === 1 ? 'aspect-[16/10]' : 'aspect-[4/3]';
 ?>
 
 <article class="bg-[#F9F9F9] p-4 lg:p-8 rounded-lg border border-[#E6E6E6]">
@@ -35,7 +43,7 @@ $photo_alt = 'Фото к отзыву — ' . $name;
             <?php echo wp_kses_post($text); ?>
         </div>
         <?php if (!empty($photos)): ?>
-        <div class="grid grid-cols-2 gap-3 lg:flex-1 self-start">
+        <div class="grid <?php echo $grid_cols; ?> gap-3 lg:flex-1 self-start">
             <?php foreach ($photos as $pi => $photo):
                 $p_url = $photo['photo_id'] ? wp_get_attachment_url($photo['photo_id']) : '';
                 $a_url = ($photo['avif_id'] ?? 0) ? wp_get_attachment_url($photo['avif_id']) : '';
@@ -51,7 +59,7 @@ $photo_alt = 'Фото к отзыву — ' . $name;
                     <source srcset="<?php echo esc_url($a_url); ?>" type="image/avif">
                     <?php endif; ?>
                     <img src="<?php echo esc_url($p_url); ?>"
-                         class="w-full aspect-[4/3] object-cover block"
+                         class="w-full <?php echo $photo_ratio; ?> object-cover block"
                          alt="<?php echo esc_attr($photo_alt . ' ' . ($pi + 1)); ?>"
                          title="<?php echo esc_attr($photo_alt); ?>"
                          loading="lazy">
