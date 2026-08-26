@@ -14,8 +14,8 @@ if (empty($materials)) return;
         $title    = $item['title'];
         $img_alt  = $title ?: 'Фото материала';
     ?>
-    <div class="material-item relative bg-[#F4F4F4] flex items-center justify-between">
-        <div class="material-text py-3 ps-4 lg:ps-12">
+    <div class="material-item relative bg-[#F4F4F4] flex justify-between">
+        <div class="material-text flex flex-col justify-center py-3 ps-4 lg:ps-12">
             <?php if ($title): ?>
             <div class="text-base lg:text-2xl font-medium text-black mb-3 lg:mb-4">
                 <?php echo esc_html($title); ?>
