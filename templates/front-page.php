@@ -64,4 +64,7 @@ get_header();
 <!-- Reviews Section -->
 <?php get_template_part('parts/reviews'); ?>
 
+<!-- Materials Section -->
+<?php get_template_part('parts/materials'); ?>
+
 <?php get_footer(); ?>
