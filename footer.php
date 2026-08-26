@@ -1,3 +1,5 @@
+<?php $site = deline_get_settings(); ?>
+
 <footer class="bg-[#272727] mt-6 lg:mt-12">
     <div class="container mx-auto px-3">
         <div class="flex items-start justify-between">
