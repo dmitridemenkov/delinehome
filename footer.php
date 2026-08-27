@@ -24,10 +24,10 @@
                             </a>
                         </div>
                     </div>
-                    <div class="flex md:hidden gap-4 lg:gap-6 flex-col justify-center">
+                    <div class="flex md:hidden gap-4 lg:gap-6 flex-col justify-center mt-12">
                         <?php if (!empty($site['contacts'])): ?>
                             <!-- Contacts -->
-                            <div class="flex items-center justify-between flex-wrap gap-[12px] xl:gap-[44px] border-right">
+                            <div class="flex items-center justify-start flex-wrap gap-[12px] xl:gap-[44px] border-right">
                                 <?php foreach ($site['contacts'] as $contact):
                                     $icon_url = $contact['icon_id'] ? wp_get_attachment_url($contact['icon_id']) : '';
                                     ?>
@@ -67,7 +67,7 @@
                                             <div class="phone text-white text-xs"><?php echo esc_html($site['phone']); ?></div>
                                         <?php endif; ?>
                                         <?php if ($site['address']): ?>
-                                            <div class="address text-white text-xs"><?php echo esc_html($site['address']); ?>
+                                            <div class="address text-white text-xs w-[180px]"><?php echo esc_html($site['address']); ?>
                                             </div>
                                         <?php endif; ?>
                                     </div>
