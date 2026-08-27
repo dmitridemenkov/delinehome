@@ -480,9 +480,10 @@ h2::after {
 }
 
 .menu-item-has-children a[aria-current="page"] {
-    align-items: center;
     position: relative;
-    display: flex;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
 }
 
 .menu-item-has-children a[aria-current="page"]::after {
@@ -492,4 +493,11 @@ h2::after {
     display: block;
     width: 14px;
     height: 14px;
+}
+
+@media screen and (max-width: 768px) {
+    .menu-item-has-children ul {
+        width: 100%;
+        position: relative;
+    }
 }
