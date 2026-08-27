@@ -442,17 +442,34 @@ h2::after {
 .menu-item-has-children:hover ul {
     visibility: visible;
     opacity: 1;
-    top: 32px;
+    top: auto;
 }
 
 .menu-item-has-children ul {
+    top: -36px;
     visibility: hidden;
     opacity: 0;
-    top: -100px;
-    position: absolute;
     text-align: center;
-    background-color: white;
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
+    background-color: #fff;
+    position: absolute;
+    background-color: #FBFBFB;
+    border: 1px solid #DEDEDE;
+    border-radius: 4px;
+}
+
+.menu-item-has-children ul a {
+    display: block;
+    padding: 8px 20px;
+    border-bottom: 1px solid #DFDFDF;
+    box-shadow: none !important;
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+
+.menu-item-has-children ul li:last-child a {
+    border-bottom: 0;
 }
