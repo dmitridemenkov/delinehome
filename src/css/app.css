@@ -498,6 +498,8 @@ h2::after {
 @media screen and (max-width: 768px) {
     .menu-item-has-children ul {
         width: 100%;
+    }
+    .menu-item-has-children:hover ul {
         position: relative;
     }
 }
