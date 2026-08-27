@@ -37,7 +37,6 @@
                     ?>
                 </nav>
                 <div class="flex gap-4 lg:gap-6 flex-col justify-center">
-
                     <?php if (!empty($site['contacts'])): ?>
                         <!-- Contacts -->
                         <div class="flex items-center justify-between flex-wrap gap-[12px] xl:gap-[44px] border-right">
@@ -87,6 +86,9 @@
                         </div>
                     <?php endif; ?>
                 </div>
+            </div>
+            <div class="text-center text-white text-xs lg:text-regular">
+                Отправляя любую форму на сайте, вы соглашаетесь <a href="/" title="Ознакомиться с Политикой конфиденциальности" class="font-bold">с политикой конфиденциальности</a> данного сайта
             </div>
         </div>
     </div>
