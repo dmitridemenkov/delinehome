@@ -90,14 +90,14 @@
             <div class="text-center text-white text-xs lg:text-base mt-6 lg:mt-10">
                 Отправляя любую форму на сайте, вы соглашаетесь <a href="/" title="Ознакомиться с Политикой конфиденциальности" class="font-bold transition hover:text-[#216CC3]">с политикой конфиденциальности</a> данного сайта
             </div>
-            <div class="flex justify-between gap-4">
-                <div class="text-white text-xs">
+            <div class="flex justify-between gap-4 mt-6 lg:mt-10">
+                <div class="text-white">
                     ООО "ПРОФТАНДЕМ-СЕРВИС"<br />
                     ИНН: 4345237431<br />
                 </div>
                 <div>
                     <a href="http://webmaster-kirov.ru" title="создание сайта Киров, раскрутка сайта Киров" target="_blank">
-                            <img src="/wp-content/uploads/2026/08/webmaster.svg" title="Вебмастер - разработка и продвижение сайтов г. Киров" alt="Вебмастер - разработка и продвижение сайтов г. Киров">
+                            <img src="/wp-content/uploads/2026/08/webmaster.svg" class="w-[126px]" title="Вебмастер - разработка и продвижение сайтов г. Киров" alt="Вебмастер - разработка и продвижение сайтов г. Киров">
                         </a>
                 </div>
             </div>
