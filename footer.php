@@ -6,7 +6,7 @@
             <!-- Logo -->
             <div class="flex-shrink-0">
                 <div class="flex items-center">
-                    <div class="flex items-center lg:border-r border-white lg:pr-4 lg:me-4 w-[90px] sm:w-auto">
+                    <div class="flex items-center">
                         <a href="<?php echo home_url(); ?>"
                             class="inline-block w-[122px] bg-white rounded-[8px] py-[4px] px-[8px] transition hover:-translate-y-[2px]"
                             title="Перейти на Главную">
@@ -34,7 +34,7 @@
                 ]);
                 ?>
             </nav>
-            <div class="">
+            <div class="flex gap-4 lg:gap-8 justify-center">
 
                 <?php if (!empty($site['contacts'])): ?>
                     <!-- Contacts -->
@@ -52,8 +52,6 @@
                                             class="w-[18px] h-[18px] md:w-[28px] md:h-[28px]">
                                     </div>
                                 <?php endif; ?>
-                                <span
-                                    class="text-white text-xs md:text-base hidden lg:inline-block"><?php echo esc_html($contact['label']); ?></span>
                             </a>
                         <?php endforeach; ?>
                     </div>
@@ -62,7 +60,7 @@
                 <?php if ($site['phone'] || $site['address']): ?>
                     <!-- Phone & Address -->
                     <div
-                        class="flex items-center justify-between border-l border-[#ffffff4d] ps-[12px] ms-[12px] md:ps-[28px] md:ms-[28px]">
+                        class="flex items-center justify-between">
                         <a href="tel:<?php echo esc_attr(preg_replace('/[^\d+]/', '', $site['phone'])); ?>"
                             title="Телефон"
                             class="flex gap-[6px] xl:gap-[18px] items-center transition hover:-translate-y-[2px]">
