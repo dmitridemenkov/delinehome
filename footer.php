@@ -87,8 +87,8 @@
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="text-center text-white text-xs lg:text-regular">
-                Отправляя любую форму на сайте, вы соглашаетесь <a href="/" title="Ознакомиться с Политикой конфиденциальности" class="font-bold">с политикой конфиденциальности</a> данного сайта
+            <div class="text-center text-white text-xs lg:text-base mt-6 lg:mt-10">
+                Отправляя любую форму на сайте, вы соглашаетесь <a href="/" title="Ознакомиться с Политикой конфиденциальности" class="font-bold transition hover:color-[#216CC3]">с политикой конфиденциальности</a> данного сайта
             </div>
         </div>
     </div>
