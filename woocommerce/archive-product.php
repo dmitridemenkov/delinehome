@@ -26,10 +26,14 @@ $is_root = is_shop() && !is_search();
 
         <?php if ($is_root):
 
+            // Служебную категорию WooCommerce («Misc») в каталоге не показываем
+            $default_cat = (int) get_option('default_product_cat');
+
             $categories = get_terms([
                 'taxonomy'   => 'product_cat',
                 'parent'     => 0,
                 'hide_empty' => false,
+                'exclude'    => $default_cat ? [$default_cat] : [],
             ]);
 
             if (!is_wp_error($categories) && $categories):
