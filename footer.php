@@ -6,7 +6,7 @@
         <div class="container mx-auto px-3">
             <div class="flex items-start justify-between">
                 <!-- Logo -->
-                <div class="flex-shrink-0">
+                <div class="flex flex-col flex-shrink-0">
                     <div class="flex items-center">
                         <div class="flex items-center">
                             <a href="<?php echo home_url(); ?>"
@@ -24,7 +24,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="flex md:hidden gap-4 lg:gap-6 flex-col justify-center mt-12">
+                    <div class="flex md:hidden gap-4 lg:gap-6 flex-col justify-center mt-auto">
                         <?php if (!empty($site['contacts'])): ?>
                             <!-- Contacts -->
                             <div class="flex items-center justify-start flex-wrap gap-[12px] xl:gap-[44px] border-right">
