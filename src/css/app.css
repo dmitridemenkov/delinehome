@@ -497,9 +497,9 @@ h2::after {
 
 @media screen and (max-width: 768px) {
     .menu-item-has-children ul {
-        width: 100%;
+       display: none !important;
     }
-    .menu-item-has-children:hover ul {
-        position: relative;
+    .menu-item-has-children a[aria-current=page]:after {
+        content: none !important;
     }
 }
