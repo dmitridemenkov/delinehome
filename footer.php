@@ -96,7 +96,7 @@
                     ИНН: 4345237431<br />
                 </div>
                 <div>
-                    <a href="http://webmaster-kirov.ru" title="создание сайта Киров, раскрутка сайта Киров" target="_blank">
+                    <a href="http://webmaster-kirov.ru" class="transition hover:-translate-y-[2px]" title="создание сайта Киров, раскрутка сайта Киров" target="_blank">
                             <img src="/wp-content/uploads/2026/08/webmaster.svg" class="w-[126px]" title="Вебмастер - разработка и продвижение сайтов г. Киров" alt="Вебмастер - разработка и продвижение сайтов г. Киров">
                         </a>
                 </div>
