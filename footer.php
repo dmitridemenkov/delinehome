@@ -4,7 +4,7 @@
     <div class="bg-[#272727] mt-6 lg:mt-12 py-6 lg:py-12">
 
         <div class="container mx-auto px-3">
-            <div class="flex items-start justify-between">
+            <div class="flex md:items-start justify-between">
                 <!-- Logo -->
                 <div class="flex flex-col flex-shrink-0">
                     <div class="flex items-center">
@@ -67,7 +67,7 @@
                                             <div class="phone text-white text-xs"><?php echo esc_html($site['phone']); ?></div>
                                         <?php endif; ?>
                                         <?php if ($site['address']): ?>
-                                            <div class="address text-white text-xs w-[180px]"><?php echo esc_html($site['address']); ?>
+                                            <div class="address text-white text-xs w-[144px]"><?php echo esc_html($site['address']); ?>
                                             </div>
                                         <?php endif; ?>
                                     </div>
