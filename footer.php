@@ -90,7 +90,7 @@
                 <div class="hidden md:flex gap-4 lg:gap-6 flex-col justify-center">
                     <?php if (!empty($site['contacts'])): ?>
                         <!-- Contacts -->
-                        <div class="flex items-center justify-between flex-wrap gap-[12px] xl:gap-[44px] border-right">
+                        <div class="flex items-center justify-start flex-wrap gap-[12px] xl:gap-[44px] border-right">
                             <?php foreach ($site['contacts'] as $contact):
                                 $icon_url = $contact['icon_id'] ? wp_get_attachment_url($contact['icon_id']) : '';
                                 ?>
