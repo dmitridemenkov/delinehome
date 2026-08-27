@@ -1,10 +1,12 @@
 <?php
 /**
  * Поиск по товарам.
+ * На десктопе — поле-пилюля с иконкой внутри.
+ * На мобильных — круглая кнопка, по тапу разворачивается в поле.
  */
 ?>
 
-<form role="search" method="get" class="product-search relative w-full sm:w-[260px]"
+<form role="search" method="get" class="product-search"
       action="<?php echo esc_url(home_url('/')); ?>">
     <label class="sr-only" for="product-search-field">Поиск по каталогу</label>
     <input type="search"
@@ -12,12 +14,11 @@
            name="s"
            value="<?php echo esc_attr(get_search_query()); ?>"
            placeholder="Поиск"
-           class="w-full rounded-full border border-[#E6E6E6] bg-white py-2 ps-4 pe-10 text-sm text-black placeholder:text-[#BFBFBF] focus:outline-none focus:border-[#20436C] transition">
+           class="product-search__input">
     <input type="hidden" name="post_type" value="product">
-    <button type="submit"
-            class="absolute end-3 top-1/2 -translate-y-1/2 text-[#BFBFBF] hover:text-[#20436C] transition"
-            title="Найти" aria-label="Найти">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    <button type="submit" class="product-search__btn"
+            title="Найти" aria-label="Найти" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.3-4.3"></path>

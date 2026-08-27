@@ -19,8 +19,8 @@ $is_root = is_shop() && !is_search();
 
         <?php get_template_part('parts/breadcrumbs', null, ['title' => woocommerce_page_title(false)]); ?>
 
-        <div class="flex flex-wrap items-center justify-between gap-4 mt-8 lg:mt-[42px] mb-8">
-            <h1 class="text-xl lg:text-4xl font-bold text-black"><?php woocommerce_page_title(); ?></h1>
+        <div class="flex flex-nowrap items-center justify-between gap-4 mt-8 lg:mt-[42px] mb-8">
+            <h1 class="min-w-0 text-xl lg:text-4xl font-bold text-black"><?php woocommerce_page_title(); ?></h1>
             <?php get_template_part('parts/product-search'); ?>
         </div>
 

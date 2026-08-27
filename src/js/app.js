@@ -98,6 +98,42 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // Product search: на мобилке первый тап раскрывает поле, второй — отправляет
+    const searchForm = document.querySelector('.product-search');
+    if (searchForm) {
+        const searchBtn = searchForm.querySelector('.product-search__btn');
+        const searchInput = searchForm.querySelector('.product-search__input');
+        const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
+
+        const closeSearch = () => {
+            searchForm.classList.remove('is-open');
+            searchBtn.setAttribute('aria-expanded', 'false');
+        };
+
+        searchBtn.addEventListener('click', e => {
+            if (isMobile() && !searchForm.classList.contains('is-open')) {
+                e.preventDefault();
+                searchForm.classList.add('is-open');
+                searchBtn.setAttribute('aria-expanded', 'true');
+                searchInput.focus();
+            }
+        });
+
+        // Схлопываем обратно, только если ничего не введено
+        document.addEventListener('click', e => {
+            if (!searchForm.contains(e.target) && !searchInput.value.trim()) {
+                closeSearch();
+            }
+        });
+
+        searchInput.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                closeSearch();
+                searchInput.blur();
+            }
+        });
+    }
+
     // Lightbox: swap to avif if supported
     const avif = await supportsAvif();
     if (avif) {

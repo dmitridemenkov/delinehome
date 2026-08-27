@@ -209,6 +209,106 @@ svg.swiper-navigation-icon {
     }
 }
 
+/* Поиск по каталогу */
+.product-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+}
+
+.product-search__input {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--light);
+    border-radius: 999px;
+    background: #fff;
+    padding: 8px 40px 8px 16px;
+    font-size: 14px;
+    color: #000;
+    transition: width .25s ease, opacity .2s ease, padding .25s ease;
+}
+
+.product-search__input::placeholder {
+    color: var(--border);
+}
+
+.product-search__input:focus {
+    outline: none;
+    border-color: var(--blue);
+}
+
+.product-search__btn {
+    position: absolute;
+    inset-inline-end: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--border);
+    cursor: pointer;
+    transition: color .2s ease;
+}
+
+.product-search__btn:hover {
+    color: var(--blue);
+}
+
+@media (min-width: 768px) {
+    .product-search {
+        width: 260px;
+    }
+}
+
+/* Мобилка: свёрнут в круг, по тапу занимает оставшееся место */
+@media (max-width: 767px) {
+    .product-search__input {
+        width: 0;
+        padding: 0;
+        border-width: 0;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .product-search__btn {
+        position: static;
+        transform: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 48px;
+        width: 48px;
+        height: 48px;
+        border: 1px solid var(--light);
+        border-radius: 50%;
+        background: #fff;
+        color: #000;
+    }
+
+    .product-search.is-open {
+        flex: 1 1 auto;
+    }
+
+    .product-search.is-open .product-search__input {
+        width: 100%;
+        padding: 10px 52px 10px 16px;
+        border-width: 1px;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .product-search.is-open .product-search__btn {
+        position: absolute;
+        inset-inline-end: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        flex: 0 0 40px;
+        width: 40px;
+        height: 40px;
+        border-color: transparent;
+        background: transparent;
+    }
+}
+
 /* Материалы */
 .content ul {
     list-style: disc;
