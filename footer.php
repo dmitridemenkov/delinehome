@@ -24,7 +24,7 @@
                 </div>
             </div>
             <!-- Navigation -->
-            <nav class="">
+            <nav class="footer-nav">
                 <?php
                 wp_nav_menu([
                     'theme_location' => 'primary',
