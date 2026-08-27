@@ -24,7 +24,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="flex md:hidden gap-4 lg:gap-6 flex-col justify-center mt-auto">
+                    <div class="flex md:hidden gap-4 lg:gap-6 flex-col justify-center mt-auto mb-4">
                         <?php if (!empty($site['contacts'])): ?>
                             <!-- Contacts -->
                             <div class="flex items-center justify-start flex-wrap gap-[12px] xl:gap-[44px] border-right">
