@@ -5,6 +5,14 @@
  */
 
 add_filter('template_include', function($template) {
+    // Страницы WooCommerce отдаём ему самому: иначе is_single() перехватит
+    // карточку товара, а is_archive() — архив категории
+    if (function_exists('is_woocommerce') && (
+        is_woocommerce() || is_cart() || is_checkout() || is_account_page()
+    )) {
+        return $template;
+    }
+
     // Если это главная страница (независимо от настроек)
     if (is_front_page() || (is_home() && !is_front_page())) {
         $front_page = get_template_directory() . '/templates/front-page.php';

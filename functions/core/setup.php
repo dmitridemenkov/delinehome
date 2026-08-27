@@ -15,6 +15,9 @@ add_action('after_setup_theme', function() {
     
     // Поддержка миниатюр
     add_theme_support('post-thumbnails');
+
+    // Без этого WooCommerce не подменяет шаблоны и /shop/ падает в index.php
+    add_theme_support('woocommerce');
     
     // Размеры изображений
     add_image_size('hero', 1920, 1080, true);
