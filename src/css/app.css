@@ -479,14 +479,14 @@ h2::after {
     color: white !important;
 }
 
-.menu-item-has-children a.catalog {
+.menu-item-has-children a[rel="opener"] {
     position: relative;
     display: flex !important;
     justify-content: center;
     align-items: center;
 }
 
-.menu-item-has-children a.catalog:after {
+.menu-item-has-children a[rel="opener"]:after {
     content: '';
     margin-left: 12px;
     background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAxNCAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik03LjY2NjU2IDEwLjcyMTdMMTMgNS4zNDQxNUwxMS42NjY5IDRMNyA4LjcwNTQ2TDIuMzMzMTIgNEwxIDUuMzQ0MTVMNi4zMzM0NCAxMC43MjE3QzYuNTEwMjQgMTAuODk5OSA2Ljc1IDExIDcgMTFDNy4yNSAxMSA3LjQ4OTc2IDEwLjg5OTkgNy42NjY1NiAxMC43MjE3WiIgZmlsbD0iIzIwNDM2QyIvPgo8L3N2Zz4K);
@@ -499,7 +499,7 @@ h2::after {
     .menu-item-has-children ul {
        display: none !important;
     }
-    .menu-item-has-children a.catalog:after {
+    .menu-item-has-children a[rel="opener"]:after {
         content: none !important;
     }
 }
