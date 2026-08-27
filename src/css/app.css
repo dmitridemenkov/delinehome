@@ -473,3 +473,23 @@ h2::after {
 .menu-item-has-children ul li:last-child a {
     border-bottom: 0;
 }
+
+.menu-item-has-children ul a:hover {
+    background-color: var(--blue);
+    color: white !important;
+}
+
+.menu-item-has-children a[aria-current="page"] {
+    align-items: center;
+    position: relative;
+    display: flex;
+}
+
+.menu-item-has-children a[aria-current="page"]::after {
+    content: '';
+    margin-left: 12px;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCAxNCAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik03LjY2NjU2IDEwLjcyMTdMMTMgNS4zNDQxNUwxMS42NjY5IDRMNyA4LjcwNTQ2TDIuMzMzMTIgNEwxIDUuMzQ0MTVMNi4zMzM0NCAxMC43MjE3QzYuNTEwMjQgMTAuODk5OSA2Ljc1IDExIDcgMTFDNy4yNSAxMSA3LjQ4OTc2IDEwLjg5OTkgNy42NjY1NiAxMC43MjE3WiIgZmlsbD0iIzIwNDM2QyIvPgo8L3N2Zz4K);
+    display: block;
+    width: 14px;
+    height: 14px;
+}
