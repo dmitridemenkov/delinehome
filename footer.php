@@ -36,7 +36,7 @@
                     ]);
                     ?>
                 </nav>
-                <div class="flex gap-4 lg:gap-8 justify-center">
+                <div class="flex gap-4 lg:gap-6 flex-col justify-center">
 
                     <?php if (!empty($site['contacts'])): ?>
                         <!-- Contacts -->
