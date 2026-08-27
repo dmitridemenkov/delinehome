@@ -90,7 +90,7 @@
             <div class="text-center text-white text-xs lg:text-base mt-6 lg:mt-10">
                 Отправляя любую форму на сайте, вы соглашаетесь <a href="/" title="Ознакомиться с Политикой конфиденциальности" class="font-bold transition hover:text-[#216CC3]">с политикой конфиденциальности</a> данного сайта
             </div>
-            <div class="flex justify-between gap-4 mt-6 lg:mt-10">
+            <div class="flex text-center sm:text-start justify-center md:justify-between flex-wrap gap-4 mt-6 lg:mt-10">
                 <div class="text-white">
                     ООО "ПРОФТАНДЕМ-СЕРВИС"<br />
                     ИНН: 4345237431<br />
