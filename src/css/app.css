@@ -253,7 +253,6 @@ svg.swiper-navigation-icon {
     align-items: stretch;
     gap: 32px;
     background: var(--blue);
-    border-radius: 12px;
     overflow: hidden;
 }
 
