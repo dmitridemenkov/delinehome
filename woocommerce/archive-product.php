@@ -17,7 +17,39 @@ $is_root = is_shop() && !is_search();
 <section>
     <div class="container mx-auto px-3">
 
-        <?php get_template_part('parts/breadcrumbs', null, ['title' => woocommerce_page_title(false)]); ?>
+        <?php
+        // На корне магазина «Каталог» — сама текущая страница, звеньев не нужно.
+        // Внутри категории он становится ссылкой, плюс подмешиваем родительские категории.
+        $crumbs = [];
+
+        if (!is_shop()) {
+            $shop_id = wc_get_page_id('shop');
+            if ($shop_id > 0) {
+                $crumbs[] = [
+                    'label' => get_the_title($shop_id),
+                    'url'   => get_permalink($shop_id),
+                ];
+            }
+
+            if (is_product_category()) {
+                $term = get_queried_object();
+                foreach (array_reverse(get_ancestors($term->term_id, 'product_cat')) as $ancestor_id) {
+                    $ancestor = get_term($ancestor_id, 'product_cat');
+                    if ($ancestor && !is_wp_error($ancestor)) {
+                        $crumbs[] = [
+                            'label' => $ancestor->name,
+                            'url'   => get_term_link($ancestor),
+                        ];
+                    }
+                }
+            }
+        }
+
+        get_template_part('parts/breadcrumbs', null, [
+            'title' => woocommerce_page_title(false),
+            'items' => $crumbs,
+        ]);
+        ?>
 
         <div class="flex flex-nowrap items-center justify-between gap-4 mt-8 lg:mt-[42px] mb-8">
             <h1 class="min-w-0 text-xl lg:text-4xl font-bold text-black"><?php woocommerce_page_title(); ?></h1>
