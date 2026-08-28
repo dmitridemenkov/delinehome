@@ -20,10 +20,10 @@ foreach ([1, 2] as $n) {
 }
 ?>
 
-<div class="promo-card">
+<div class="promo-card p-6">
     <div class="promo-card__body">
         <?php if ($promo['title']): ?>
-        <h3 class="promo-card__title"><?php echo esc_html($promo['title']); ?></h3>
+        <h3 class="font-medium font-xl lg:font-4xl text-white mb-4 lg:mb-6"><?php echo esc_html($promo['title']); ?></h3>
         <?php endif; ?>
 
         <?php if ($promo['content']): ?>
@@ -54,6 +54,7 @@ foreach ([1, 2] as $n) {
             <source srcset="<?php echo esc_url($avif_url); ?>" type="image/avif">
             <?php endif; ?>
             <img src="<?php echo esc_url($img_url); ?>"
+                class="rounded-[6px] lg:rounded-[16px]"
                  alt="<?php echo esc_attr($img_alt); ?>"
                  title="<?php echo esc_attr($img_alt); ?>"
                  loading="lazy">
