@@ -210,6 +210,176 @@ svg.swiper-navigation-icon {
     }
 }
 
+/* Типографика контента из редактора.
+   Tailwind preflight сбрасывает заголовки и маркеры, поэтому возвращаем их вручную */
+.page-content {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--dark);
+}
+
+.page-content > *:first-child { margin-top: 0; }
+.page-content > *:last-child  { margin-bottom: 0; }
+
+.page-content p,
+.page-content ul,
+.page-content ol,
+.page-content table,
+.page-content blockquote,
+.page-content figure {
+    margin: 0 0 20px;
+}
+
+.page-content h2,
+.page-content h3,
+.page-content h4 {
+    margin: 36px 0 14px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #000;
+}
+
+.page-content h2 { font-size: 26px; }
+.page-content h3 { font-size: 21px; }
+.page-content h4 { font-size: 18px; }
+
+/* Синяя черта из h2::after тут ни к чему — это заголовки внутри текста */
+.page-content h2::after { content: none; }
+
+.page-content ul,
+.page-content ol {
+    padding-inline-start: 1.4em;
+}
+
+.page-content ul { list-style: disc; }
+.page-content ol { list-style: decimal; }
+
+.page-content li + li { margin-top: 6px; }
+
+.page-content ul ul,
+.page-content ol ol,
+.page-content ul ol,
+.page-content ol ul {
+    margin: 6px 0 0;
+}
+
+.page-content a {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.page-content a:hover { text-decoration: none; }
+
+.page-content strong { font-weight: 700; }
+
+.page-content blockquote {
+    padding: 4px 0 4px 20px;
+    border-inline-start: 3px solid var(--blue);
+    color: var(--dark);
+    font-style: italic;
+}
+
+.page-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.page-content hr {
+    margin: 32px 0;
+    border: 0;
+    border-top: 1px solid var(--light);
+}
+
+/* Широкие таблицы прокручиваем, а не ломаем ими вёрстку */
+.page-content .table-scroll {
+    overflow-x: auto;
+    margin: 0 0 20px;
+}
+
+.page-content table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.page-content th,
+.page-content td {
+    padding: 10px 14px;
+    border: 1px solid var(--light);
+    text-align: start;
+    vertical-align: top;
+}
+
+.page-content th {
+    background: var(--gray);
+    font-weight: 700;
+}
+
+@media (max-width: 767px) {
+    .page-content { font-size: 16px; }
+    .page-content h2 { font-size: 22px; }
+    .page-content h3 { font-size: 19px; }
+}
+
+/* Список записей */
+.post-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.post-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+}
+
+.post-card__media {
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--gray);
+}
+
+.post-card__media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform .25s ease;
+}
+
+.post-card:hover .post-card__media img { transform: scale(1.03); }
+
+.post-card__date {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--border);
+}
+
+.post-card__title {
+    margin-top: 6px;
+    font-size: 19px;
+    font-weight: 500;
+    color: #000;
+}
+
+.post-card__excerpt {
+    margin-top: 8px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--dark);
+}
+
+@media (max-width: 1023px) {
+    .post-list { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+}
+
+@media (max-width: 639px) {
+    .post-list { grid-template-columns: 1fr; }
+}
+
 /* Модальная форма */
 .modal[hidden] {
     display: none;
