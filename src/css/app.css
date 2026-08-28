@@ -1269,7 +1269,7 @@ h2::after {
     position: relative;
 }
 
-.menu-item-has-children:hover ul {
+header .menu-item-has-children:hover ul {
     visibility: visible;
     opacity: 1;
     top: auto;
@@ -1324,6 +1324,10 @@ h2::after {
     display: block;
     width: 14px;
     height: 14px;
+}
+
+footer .menu-item-has-children a[rel="opener"]:after {
+    content: none;
 }
 
 @media screen and (max-width: 768px) {
