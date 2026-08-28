@@ -22,11 +22,27 @@ add_action('admin_enqueue_scripts', function ($hook) {
 });
 
 function deline_get_product_buttons() {
-    return get_option('deline_product_buttons', []);
+    // false отличает «ещё не сохраняли» от «сохранили пустым»,
+    // иначе очищенный список каждый раз возвращал бы значения по умолчанию
+    $saved = get_option('deline_product_buttons', false);
+    if ($saved !== false) return $saved;
+
+    return [
+        ['label' => 'Заказать расчет',   'url' => '', 'icon_id' => 0, 'action' => 'form'],
+        ['label' => 'Заказать проект',   'url' => '', 'icon_id' => 0, 'action' => 'form'],
+        ['label' => 'Вызвать дизайнера', 'url' => '', 'icon_id' => 0, 'action' => 'form'],
+    ];
 }
 
 function deline_get_product_steps() {
-    return get_option('deline_product_steps', []);
+    $saved = get_option('deline_product_steps', false);
+    if ($saved !== false) return $saved;
+
+    return [
+        ['text' => 'обсудим вместе ваше пространство'],
+        ['text' => 'сделаем грамотный проект'],
+        ['text' => 'сделаем варианты расчетов.'],
+    ];
 }
 
 add_action('admin_init', function () {
@@ -42,10 +58,12 @@ add_action('admin_init', function () {
         foreach ($_POST['product_buttons'] as $btn) {
             $label = sanitize_text_field($btn['label'] ?? '');
             if (!$label) continue;
+            $action = ($btn['action'] ?? 'link') === 'form' ? 'form' : 'link';
             $buttons[] = [
                 'label'   => $label,
                 'url'     => esc_url_raw($btn['url'] ?? ''),
                 'icon_id' => absint($btn['icon_id'] ?? 0),
+                'action'  => $action,
             ];
         }
     }
@@ -105,7 +123,14 @@ function deline_render_product_page() {
                         <label style="display: block; margin-bottom: 4px; font-weight: 600;">Подпись</label>
                         <input type="text" name="product_buttons[<?php echo $i; ?>][label]" value="<?php echo esc_attr($btn['label']); ?>" style="width: 100%;" placeholder="Заказать расчёт">
                     </div>
-                    <div style="flex: 1;">
+                    <div style="width: 150px;">
+                        <label style="display: block; margin-bottom: 4px; font-weight: 600;">Действие</label>
+                        <select name="product_buttons[<?php echo $i; ?>][action]" class="pbtn-action" style="width: 100%;">
+                            <option value="form" <?php selected(($btn['action'] ?? 'link'), 'form'); ?>>Открыть форму</option>
+                            <option value="link" <?php selected(($btn['action'] ?? 'link'), 'link'); ?>>Перейти по ссылке</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;" class="pbtn-url-field"<?php echo ($btn['action'] ?? 'link') === 'form' ? ' hidden' : ''; ?>>
                         <label style="display: block; margin-bottom: 4px; font-weight: 600;">Ссылка</label>
                         <input type="url" name="product_buttons[<?php echo $i; ?>][url]" value="<?php echo esc_attr($btn['url'] ?? ''); ?>" style="width: 100%;" placeholder="https://">
                     </div>
@@ -155,11 +180,20 @@ function deline_render_product_page() {
                 + '</div>'
                 + '<div style="flex:1;"><label style="display:block;margin-bottom:4px;font-weight:600;">Подпись</label>'
                 + '<input type="text" name="' + n + '[label]" style="width:100%;" placeholder="Заказать расчёт"></div>'
-                + '<div style="flex:1;"><label style="display:block;margin-bottom:4px;font-weight:600;">Ссылка</label>'
+                + '<div style="width:150px;"><label style="display:block;margin-bottom:4px;font-weight:600;">Действие</label>'
+                + '<select name="' + n + '[action]" class="pbtn-action" style="width:100%;">'
+                + '<option value="form">Открыть форму</option><option value="link">Перейти по ссылке</option>'
+                + '</select></div>'
+                + '<div style="flex:1;" class="pbtn-url-field" hidden><label style="display:block;margin-bottom:4px;font-weight:600;">Ссылка</label>'
                 + '<input type="url" name="' + n + '[url]" style="width:100%;" placeholder="https://"></div>'
                 + '<button type="button" class="button pbtn-remove" style="color:#b32d2e;">&times;</button>'
                 + '</div>'
             );
+        });
+
+        // Поле ссылки нужно только варианту «Перейти по ссылке»
+        $('#pbtn-repeater').on('change', '.pbtn-action', function() {
+            $(this).closest('.pbtn-row').find('.pbtn-url-field').prop('hidden', $(this).val() === 'form');
         });
 
         $('#pbtn-repeater').on('click', '.pbtn-remove', function() {

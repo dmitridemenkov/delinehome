@@ -107,16 +107,27 @@ while (have_posts()):
         <div class="product-actions">
             <?php foreach ($buttons as $btn):
                 $icon_url = ($btn['icon_id'] ?? 0) ? wp_get_attachment_url($btn['icon_id']) : '';
+                $is_form  = ($btn['action'] ?? 'link') === 'form';
+
+                $icon = $icon_url
+                    ? sprintf('<img src="%s" alt="" aria-hidden="true" class="product-actions__icon" loading="lazy">', esc_url($icon_url))
+                    : '';
             ?>
-            <a href="<?php echo esc_url($btn['url'] ?: '#'); ?>"
-               class="product-actions__btn"
-               title="<?php echo esc_attr($btn['label']); ?>">
-                <span><?php echo esc_html($btn['label']); ?></span>
-                <?php if ($icon_url): ?>
-                <img src="<?php echo esc_url($icon_url); ?>" alt="" aria-hidden="true"
-                     class="product-actions__icon" loading="lazy">
+                <?php if ($is_form): ?>
+                <button type="button" class="product-actions__btn"
+                        data-form-open="<?php echo esc_attr($btn['label']); ?>"
+                        title="<?php echo esc_attr($btn['label']); ?>">
+                    <span><?php echo esc_html($btn['label']); ?></span>
+                    <?php echo $icon; ?>
+                </button>
+                <?php else: ?>
+                <a href="<?php echo esc_url($btn['url'] ?: '#'); ?>"
+                   class="product-actions__btn"
+                   title="<?php echo esc_attr($btn['label']); ?>">
+                    <span><?php echo esc_html($btn['label']); ?></span>
+                    <?php echo $icon; ?>
+                </a>
                 <?php endif; ?>
-            </a>
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
@@ -134,6 +145,8 @@ while (have_posts()):
 
     </div>
 </section>
+
+<?php get_template_part('parts/modal-form'); ?>
 
 <?php
 endwhile;

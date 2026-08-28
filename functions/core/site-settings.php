@@ -37,6 +37,7 @@ function deline_get_settings() {
         'logo_alt'   => '',
         'phone'      => '',
         'address'    => '',
+        'form_email' => '',
         'contacts'   => [],
     ]);
 }
@@ -55,6 +56,7 @@ add_action('admin_init', function () {
         'logo_alt'   => sanitize_text_field($_POST['logo_alt'] ?? ''),
         'phone'      => sanitize_text_field($_POST['site_phone'] ?? ''),
         'address'    => sanitize_text_field($_POST['site_address'] ?? ''),
+        'form_email' => sanitize_email($_POST['site_form_email'] ?? ''),
         'contacts'   => [],
     ];
 
@@ -128,6 +130,13 @@ function deline_render_settings_page() {
                 <tr>
                     <th><label for="site-address">Адрес</label></th>
                     <td><input type="text" name="site_address" id="site-address" value="<?php echo esc_attr($settings['address']); ?>" class="regular-text" placeholder="г. Киров, ул. Улица, д. 12"></td>
+                </tr>
+                <tr>
+                    <th><label for="site-form-email">E-mail для заявок</label></th>
+                    <td>
+                        <input type="email" name="site_form_email" id="site-form-email" value="<?php echo esc_attr($settings['form_email'] ?? ''); ?>" class="regular-text" placeholder="<?php echo esc_attr(get_option('admin_email')); ?>">
+                        <p class="description">Куда отправлять заявки с форм. Если пусто — на адрес администратора сайта.</p>
+                    </td>
                 </tr>
             </table>
 

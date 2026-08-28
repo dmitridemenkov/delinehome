@@ -165,6 +165,86 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // Модальная форма заявки
+    const modal = document.getElementById('lead-modal');
+    if (modal) {
+        const form      = modal.querySelector('.lead-form');
+        const titleEl   = modal.querySelector('.modal__title');
+        const resultEl  = modal.querySelector('.lead-form__result');
+        const submitBtn = modal.querySelector('.lead-form__submit');
+        let lastFocused = null;
+
+        const openModal = name => {
+            lastFocused = document.activeElement;
+            titleEl.textContent = name;
+            form.querySelector('[name="form"]').value = name;
+            form.querySelector('[name="page_url"]').value = location.href;
+            form.querySelector('[name="page_title"]').value = document.title;
+            resultEl.textContent = '';
+            resultEl.className = 'lead-form__result';
+            modal.hidden = false;
+            document.body.classList.add('overflow-hidden');
+            form.querySelector('[name="name"]').focus();
+        };
+
+        const closeModal = () => {
+            modal.hidden = true;
+            document.body.classList.remove('overflow-hidden');
+            if (lastFocused) lastFocused.focus();
+        };
+
+        document.querySelectorAll('[data-form-open]').forEach(btn => {
+            btn.addEventListener('click', () => openModal(btn.dataset.formOpen));
+        });
+
+        modal.querySelectorAll('[data-modal-close]').forEach(el => {
+            el.addEventListener('click', closeModal);
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && !modal.hidden) closeModal();
+        });
+
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
+
+            const name  = form.querySelector('[name="name"]').value.trim();
+            const phone = form.querySelector('[name="phone"]').value.trim();
+            if (!name || !phone) {
+                resultEl.textContent = 'Укажите имя и телефон.';
+                resultEl.className = 'lead-form__result is-error';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            resultEl.textContent = 'Отправляем…';
+            resultEl.className = 'lead-form__result';
+
+            const data = new FormData(form);
+            data.append('action', 'deline_form');
+            data.append('nonce', delineForm.nonce);
+
+            try {
+                const res = await fetch(delineForm.ajaxUrl, { method: 'POST', body: data });
+                const json = await res.json();
+
+                if (json.success) {
+                    form.reset();
+                    resultEl.textContent = json.data.message;
+                    resultEl.className = 'lead-form__result is-ok';
+                } else {
+                    resultEl.textContent = (json.data && json.data.message) || 'Не удалось отправить заявку.';
+                    resultEl.className = 'lead-form__result is-error';
+                }
+            } catch (err) {
+                resultEl.textContent = 'Не удалось отправить заявку. Попробуйте позвонить нам.';
+                resultEl.className = 'lead-form__result is-error';
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    }
+
     // Lightbox: swap to avif if supported
     const avif = await supportsAvif();
     if (avif) {
