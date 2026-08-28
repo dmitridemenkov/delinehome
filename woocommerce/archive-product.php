@@ -104,6 +104,8 @@ $is_root = is_shop() && !is_search();
                 $interval = (int) deline_get_promos_options()['interval'];
                 $promo_i  = 0;
                 $shown    = 0;
+                // Берём из глобали явно: в области видимости шаблона $wp_query может не быть
+                $total    = (int) ($GLOBALS['wp_query']->post_count ?? 0);
         ?>
         <div class="catalog-grid">
             <?php while (have_posts()): the_post();
@@ -128,7 +130,7 @@ $is_root = is_shop() && !is_search();
             </a>
             <?php
                 // Акцию не ставим после последнего товара — иначе сетка кончается баннером
-                $is_last = ($wp_query->current_post + 1) >= $wp_query->post_count;
+                $is_last = $total > 0 && $shown >= $total;
 
                 if ($promos && $interval > 0 && !$is_last && $shown % $interval === 0) {
                     get_template_part('parts/promo-card', null, [
