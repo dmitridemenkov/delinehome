@@ -95,26 +95,50 @@ $is_root = is_shop() && !is_search();
             endif;
 
         else:
-            // Категория или результаты поиска — стандартный цикл WooCommerce
-            if (woocommerce_product_loop()):
+            // Категория или результаты поиска — своя сетка с врезкой акций
+            if (have_posts()):
 
                 woocommerce_output_all_notices();
 
-                do_action('woocommerce_before_shop_loop');
+                $promos   = deline_get_promos();
+                $interval = (int) deline_get_promos_options()['interval'];
+                $promo_i  = 0;
+                $shown    = 0;
+        ?>
+        <div class="catalog-grid">
+            <?php while (have_posts()): the_post();
+                $shown++;
+                $thumb_id = get_post_thumbnail_id();
+            ?>
+            <a href="<?php the_permalink(); ?>" class="catalog-card" title="<?php the_title_attribute(); ?>">
+                <div class="catalog-card__media">
+                    <?php if ($thumb_id): ?>
+                        <?php the_post_thumbnail('medium_large', [
+                            'loading' => 'lazy',
+                            'alt'     => the_title_attribute(['echo' => false]),
+                            'title'   => the_title_attribute(['echo' => false]),
+                        ]); ?>
+                    <?php else: ?>
+                        <img src="<?php echo esc_url(wc_placeholder_img_src('medium_large')); ?>"
+                             alt="<?php the_title_attribute(); ?>"
+                             title="<?php the_title_attribute(); ?>" loading="lazy">
+                    <?php endif; ?>
+                </div>
+                <span class="catalog-card__title"><?php the_title(); ?></span>
+            </a>
+            <?php
+                // Акцию не ставим после последнего товара — иначе сетка кончается баннером
+                $is_last = ($wp_query->current_post + 1) >= $wp_query->post_count;
 
-                woocommerce_product_loop_start();
-
-                if (wc_get_loop_prop('total')) {
-                    while (have_posts()) {
-                        the_post();
-                        do_action('woocommerce_shop_loop');
-                        wc_get_template_part('content', 'product');
-                    }
+                if ($promos && $interval > 0 && !$is_last && $shown % $interval === 0) {
+                    get_template_part('parts/promo-card', null, [
+                        'promo' => $promos[$promo_i % count($promos)],
+                    ]);
+                    $promo_i++;
                 }
-
-                woocommerce_product_loop_end();
-
-                do_action('woocommerce_after_shop_loop');
+            endwhile; ?>
+        </div>
+        <?php
             else:
                 do_action('woocommerce_no_products_found');
             endif;
