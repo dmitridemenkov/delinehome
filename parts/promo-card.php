@@ -10,14 +10,7 @@ $img_url  = $promo['image_id'] ? wp_get_attachment_url($promo['image_id']) : '';
 $avif_url = ($promo['avif_id'] ?? 0) ? wp_get_attachment_url($promo['avif_id']) : '';
 $img_alt  = $promo['title'] ?: 'Акция';
 
-$buttons = [];
-foreach ([1, 2] as $n) {
-    $label = $promo["btn{$n}_label"] ?? '';
-    $url   = $promo["btn{$n}_url"] ?? '';
-    if ($label) {
-        $buttons[] = ['label' => $label, 'url' => $url ?: '#'];
-    }
-}
+$buttons = $promo['buttons'] ?? [];
 ?>
 
 <div class="promo-card p-6 rounded-[6px] lg:rounded-[16px]">
@@ -32,15 +25,18 @@ foreach ([1, 2] as $n) {
 
         <?php if ($buttons): ?>
         <div class="promo-card__actions">
-            <?php foreach ($buttons as $btn): ?>
-            <a href="<?php echo esc_url($btn['url']); ?>"
+            <?php foreach ($buttons as $btn):
+                if (empty($btn['label'])) continue;
+                $icon_url = ($btn['icon_id'] ?? 0) ? wp_get_attachment_url($btn['icon_id']) : '';
+            ?>
+            <a href="<?php echo esc_url($btn['url'] ?: '#'); ?>"
                class="promo-card__btn"
                title="<?php echo esc_attr($btn['label']); ?>">
                 <span><?php echo esc_html($btn['label']); ?></span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M5 12h14M13 6l6 6-6 6"></path>
-                </svg>
+                <?php if ($icon_url): ?>
+                <img src="<?php echo esc_url($icon_url); ?>" alt="" aria-hidden="true"
+                     class="promo-card__btn-icon" loading="lazy">
+                <?php endif; ?>
             </a>
             <?php endforeach; ?>
         </div>

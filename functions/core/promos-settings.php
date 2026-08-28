@@ -23,7 +23,27 @@ function deline_get_promos_options() {
 }
 
 function deline_get_promos() {
-    return get_option('deline_promos', []);
+    $promos = get_option('deline_promos', []);
+
+    // Совместимость: раньше кнопки хранились как две фиксированные пары btn1_/btn2_.
+    // Разворачиваем их в массив, чтобы уже сохранённые акции не потерялись.
+    foreach ($promos as &$promo) {
+        if (isset($promo['buttons']) && is_array($promo['buttons'])) continue;
+
+        $promo['buttons'] = [];
+        foreach ([1, 2] as $n) {
+            $label = $promo["btn{$n}_label"] ?? '';
+            if (!$label) continue;
+            $promo['buttons'][] = [
+                'label'   => $label,
+                'url'     => $promo["btn{$n}_url"] ?? '',
+                'icon_id' => 0,
+            ];
+        }
+    }
+    unset($promo);
+
+    return $promos;
 }
 
 add_action('admin_init', function () {
@@ -47,15 +67,25 @@ add_action('admin_init', function () {
 
             if (!$title && !$image_id) continue;
 
+            $buttons = [];
+            if (!empty($item['buttons']) && is_array($item['buttons'])) {
+                foreach ($item['buttons'] as $btn) {
+                    $label = sanitize_text_field($btn['label'] ?? '');
+                    if (!$label) continue;
+                    $buttons[] = [
+                        'label'   => $label,
+                        'url'     => esc_url_raw($btn['url'] ?? ''),
+                        'icon_id' => absint($btn['icon_id'] ?? 0),
+                    ];
+                }
+            }
+
             $promos[] = [
-                'title'      => $title,
-                'content'    => wp_kses_post($item['content'] ?? ''),
-                'image_id'   => $image_id,
-                'avif_id'    => absint($item['avif_id'] ?? 0),
-                'btn1_label' => sanitize_text_field($item['btn1_label'] ?? ''),
-                'btn1_url'   => esc_url_raw($item['btn1_url'] ?? ''),
-                'btn2_label' => sanitize_text_field($item['btn2_label'] ?? ''),
-                'btn2_url'   => esc_url_raw($item['btn2_url'] ?? ''),
+                'title'    => $title,
+                'content'  => wp_kses_post($item['content'] ?? ''),
+                'image_id' => $image_id,
+                'avif_id'  => absint($item['avif_id'] ?? 0),
+                'buttons'  => $buttons,
             ];
         }
     }
@@ -135,20 +165,41 @@ function deline_render_promos_page() {
                     );
                     ?>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
-                        <div>
-                            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Кнопка 1 — подпись</label>
-                            <input type="text" name="promos[<?php echo $i; ?>][btn1_label]" value="<?php echo esc_attr($item['btn1_label'] ?? ''); ?>" style="width: 100%;" placeholder="Добавить акцию">
-                            <label style="display: block; margin: 8px 0 4px; font-weight: 600;">Кнопка 1 — ссылка</label>
-                            <input type="url" name="promos[<?php echo $i; ?>][btn1_url]" value="<?php echo esc_attr($item['btn1_url'] ?? ''); ?>" style="width: 100%;" placeholder="https://">
+                    <p style="margin: 16px 0 4px; font-weight: 600;">Кнопки</p>
+                    <p class="description" style="margin-bottom: 8px;">
+                        Можно не добавлять ни одной или добавить сколько нужно. Иконка необязательна, поддерживается SVG.
+                    </p>
+
+                    <?php $buttons = $item['buttons'] ?? []; ?>
+                    <div class="promo-buttons" data-promo="<?php echo $i; ?>" data-next="<?php echo count($buttons); ?>">
+                        <?php foreach ($buttons as $j => $btn):
+                            $icon_id  = $btn['icon_id'] ?? 0;
+                            $icon_url = $icon_id ? wp_get_attachment_url($icon_id) : '';
+                        ?>
+                        <div class="promo-btn-row" style="display: flex; align-items: flex-end; gap: 12px; padding: 12px; background: #f6f7f7; border: 1px solid #dcdcde; border-radius: 4px; margin-bottom: 8px;">
+                            <div style="text-align: center;">
+                                <div class="promo-btn-icon-preview" style="width: 56px; height: 56px; border: 1px dashed #c3c4c7; border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #fff;">
+                                    <?php if ($icon_url): ?>
+                                        <img src="<?php echo esc_url($icon_url); ?>" style="max-width: 80%; max-height: 80%; object-fit: contain;">
+                                    <?php endif; ?>
+                                </div>
+                                <input type="hidden" name="promos[<?php echo $i; ?>][buttons][<?php echo $j; ?>][icon_id]" class="promo-btn-icon-id" value="<?php echo esc_attr($icon_id); ?>">
+                                <button type="button" class="button button-small upload-btn-icon" style="margin-top: 4px;">Иконка</button>
+                            </div>
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 4px; font-weight: 600;">Подпись</label>
+                                <input type="text" name="promos[<?php echo $i; ?>][buttons][<?php echo $j; ?>][label]" value="<?php echo esc_attr($btn['label'] ?? ''); ?>" style="width: 100%;" placeholder="Добавить акцию">
+                            </div>
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 4px; font-weight: 600;">Ссылка</label>
+                                <input type="url" name="promos[<?php echo $i; ?>][buttons][<?php echo $j; ?>][url]" value="<?php echo esc_attr($btn['url'] ?? ''); ?>" style="width: 100%;" placeholder="https://">
+                            </div>
+                            <button type="button" class="button remove-promo-btn" style="color: #b32d2e;">&times;</button>
                         </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Кнопка 2 — подпись</label>
-                            <input type="text" name="promos[<?php echo $i; ?>][btn2_label]" value="<?php echo esc_attr($item['btn2_label'] ?? ''); ?>" style="width: 100%;" placeholder="Заказать расчёт">
-                            <label style="display: block; margin: 8px 0 4px; font-weight: 600;">Кнопка 2 — ссылка</label>
-                            <input type="url" name="promos[<?php echo $i; ?>][btn2_url]" value="<?php echo esc_attr($item['btn2_url'] ?? ''); ?>" style="width: 100%;" placeholder="https://">
-                        </div>
+                        <?php endforeach; ?>
                     </div>
+
+                    <button type="button" class="button button-small add-promo-btn">+ Добавить кнопку</button>
 
                     <div style="display: grid; grid-template-columns: repeat(2, 200px); gap: 12px; margin-top: 12px;">
                         <?php foreach ($img_fields as $field):
@@ -181,6 +232,48 @@ function deline_render_promos_page() {
         var promoIndex = <?php echo count($promos); ?>;
         var imgFields = <?php echo wp_json_encode($img_fields); ?>;
 
+        // Строка кнопки во вложенном репитере
+        function btnRowHtml(promoIdx, btnIdx) {
+            var n = 'promos[' + promoIdx + '][buttons][' + btnIdx + ']';
+            return '<div class="promo-btn-row" style="display:flex;align-items:flex-end;gap:12px;padding:12px;background:#f6f7f7;border:1px solid #dcdcde;border-radius:4px;margin-bottom:8px;">'
+                + '<div style="text-align:center;">'
+                + '<div class="promo-btn-icon-preview" style="width:56px;height:56px;border:1px dashed #c3c4c7;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff;"></div>'
+                + '<input type="hidden" name="' + n + '[icon_id]" class="promo-btn-icon-id" value="0">'
+                + '<button type="button" class="button button-small upload-btn-icon" style="margin-top:4px;">Иконка</button>'
+                + '</div>'
+                + '<div style="flex:1;"><label style="display:block;margin-bottom:4px;font-weight:600;">Подпись</label>'
+                + '<input type="text" name="' + n + '[label]" style="width:100%;" placeholder="Добавить акцию"></div>'
+                + '<div style="flex:1;"><label style="display:block;margin-bottom:4px;font-weight:600;">Ссылка</label>'
+                + '<input type="url" name="' + n + '[url]" style="width:100%;" placeholder="https://"></div>'
+                + '<button type="button" class="button remove-promo-btn" style="color:#b32d2e;">&times;</button>'
+                + '</div>';
+        }
+
+        $('#promos-repeater').on('click', '.add-promo-btn', function() {
+            var $wrap = $(this).closest('.promo-row').find('.promo-buttons');
+            var promoIdx = $wrap.attr('data-promo');
+            // Счётчик монотонный: после удаления строк индексы не переиспользуются
+            var btnIdx = parseInt($wrap.attr('data-next'), 10) || 0;
+            $wrap.append(btnRowHtml(promoIdx, btnIdx));
+            $wrap.attr('data-next', btnIdx + 1);
+        });
+
+        $('#promos-repeater').on('click', '.remove-promo-btn', function() {
+            $(this).closest('.promo-btn-row').remove();
+        });
+
+        $('#promos-repeater').on('click', '.upload-btn-icon', function() {
+            var $wrap = $(this).parent();
+            var frame = wp.media({ multiple: false });
+            frame.on('select', function() {
+                var att = frame.state().get('selection').first().toJSON();
+                $wrap.find('.promo-btn-icon-id').val(att.id);
+                $wrap.find('.promo-btn-icon-preview')
+                     .html('<img src="' + att.url + '" style="max-width:80%;max-height:80%;object-fit:contain;">');
+            });
+            frame.open();
+        });
+
         function imgFieldHtml(idx, key, label) {
             return '<div style="text-align:center;">'
                 + '<div class="promo-img-preview" style="width:100%;height:90px;border:1px dashed #c3c4c7;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:6px;background:#f9f9f9;"></div>'
@@ -205,16 +298,10 @@ function deline_render_promos_page() {
                 + '<input type="text" name="promos[' + idx + '][title]" class="regular-text" style="width:100%;" placeholder="Верхние шкафы в подарок!"></p>'
                 + '<p style="margin-bottom:4px;font-weight:600;">Текст</p>'
                 + '<textarea id="' + editorId + '" name="promos[' + idx + '][content]" rows="6" style="width:100%;"></textarea>'
-                + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">'
-                + '<div><label style="display:block;margin-bottom:4px;font-weight:600;">Кнопка 1 — подпись</label>'
-                + '<input type="text" name="promos[' + idx + '][btn1_label]" style="width:100%;" placeholder="Добавить акцию">'
-                + '<label style="display:block;margin:8px 0 4px;font-weight:600;">Кнопка 1 — ссылка</label>'
-                + '<input type="url" name="promos[' + idx + '][btn1_url]" style="width:100%;" placeholder="https://"></div>'
-                + '<div><label style="display:block;margin-bottom:4px;font-weight:600;">Кнопка 2 — подпись</label>'
-                + '<input type="text" name="promos[' + idx + '][btn2_label]" style="width:100%;" placeholder="Заказать расчёт">'
-                + '<label style="display:block;margin:8px 0 4px;font-weight:600;">Кнопка 2 — ссылка</label>'
-                + '<input type="url" name="promos[' + idx + '][btn2_url]" style="width:100%;" placeholder="https://"></div>'
-                + '</div>'
+                + '<p style="margin:16px 0 4px;font-weight:600;">Кнопки</p>'
+                + '<p class="description" style="margin-bottom:8px;">Можно не добавлять ни одной или добавить сколько нужно. Иконка необязательна, поддерживается SVG.</p>'
+                + '<div class="promo-buttons" data-promo="' + idx + '" data-next="0"></div>'
+                + '<button type="button" class="button button-small add-promo-btn">+ Добавить кнопку</button>'
                 + '<div style="display:grid;grid-template-columns:repeat(2,200px);gap:12px;margin-top:12px;">' + imgs + '</div>'
                 + '</div>';
 
