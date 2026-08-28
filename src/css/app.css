@@ -1310,7 +1310,7 @@ header .menu-item-has-children:hover ul {
     color: white !important;
 }
 
-.menu-item-has-children a[rel="opener"] {
+header .menu-item-has-children a[rel="opener"] {
     position: relative;
     display: flex !important;
     justify-content: center;
