@@ -126,7 +126,7 @@ $is_root = is_shop() && !is_search();
                              title="<?php the_title_attribute(); ?>" loading="lazy">
                     <?php endif; ?>
                 </div>
-                <span class="catalog-card__title"><?php the_title(); ?></span>
+                <span class="catalog-card__title mt-4 lg:mt-6"><?php the_title(); ?></span>
             </a>
             <?php
                 // Акцию не ставим после последнего товара — иначе сетка кончается баннером

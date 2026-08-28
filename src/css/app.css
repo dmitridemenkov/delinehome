@@ -240,10 +240,11 @@ svg.swiper-navigation-icon {
 }
 
 .catalog-card__title {
-    display: block;
-    margin-top: 10px;
-    font-size: 15px;
     color: #000;
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: clamp(16px, 3vw, 20px);
+    display: block;
 }
 
 /* Промо-блок: занимает всю ширину строки сетки */
