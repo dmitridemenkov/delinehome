@@ -278,23 +278,23 @@ svg.swiper-navigation-icon {
 .promo-card__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 24px;
 }
 
 .promo-card__btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 12px 18px;
+    color: var(--blue);
     background: #fff;
     border-radius: 8px;
-    color: var(--blue);
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 18px;
     font-size: 16px;
     font-weight: 500;
     text-decoration: none;
-    transition: transform .2s ease, box-shadow .2s ease;
+    transition: transform .2s, box-shadow .2s;
+    display: inline-flex;
 }
 
 .promo-card__btn:hover {
@@ -304,8 +304,8 @@ svg.swiper-navigation-icon {
 
 .promo-card__btn-icon {
     flex: 0 0 auto;
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px !important;
     object-fit: contain;
 }
 
@@ -344,6 +344,10 @@ svg.swiper-navigation-icon {
         order: 2;
         padding-top: 24px;
         text-align: center;
+    }
+
+    .promo-card__btn {
+        width: 100%;
     }
 
     .promo-card__title {

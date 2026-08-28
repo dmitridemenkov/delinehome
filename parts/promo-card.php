@@ -24,7 +24,7 @@ $buttons = $promo['buttons'] ?? [];
         <?php endif; ?>
 
         <?php if ($buttons): ?>
-        <div class="promo-card__actions">
+        <div class="promo-card__actions mt-5 md:mt-10 gap-3 md:gap-6">
             <?php foreach ($buttons as $btn):
                 if (empty($btn['label'])) continue;
                 $icon_url = ($btn['icon_id'] ?? 0) ? wp_get_attachment_url($btn['icon_id']) : '';
