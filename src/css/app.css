@@ -313,6 +313,13 @@ svg.swiper-navigation-icon {
     object-fit: cover;
 }
 
+.promo-paragraph {
+    font-size: clamp(16px, 3vw, 26px);
+    margin-bottom: 26px;
+    padding-left: 20px;
+    border-left: 2px solid white;
+}
+
 @media (max-width: 1023px) {
     .catalog-grid {
         grid-template-columns: repeat(2, 1fr);
