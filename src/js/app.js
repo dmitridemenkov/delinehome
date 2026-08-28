@@ -2,6 +2,60 @@ import Swiper from 'swiper';
 import { Navigation, Pagination, Autoplay, Thumbs } from 'swiper/modules';
 import GLightbox from 'glightbox';
 
+// Маска телефона: +7 (999) 123-45-67
+function formatPhone(value) {
+    let d = value.replace(/\D/g, '');
+    if (!d) return '';
+    // 8 в начале — привычный способ набора, приводим к 7
+    if (d[0] === '8') d = '7' + d.slice(1);
+    if (d[0] !== '7') d = '7' + d;
+
+    const n = d.slice(1, 11);
+    let out = '+7';
+    if (n.length) out += ' (' + n.slice(0, 3);
+    if (n.length > 3) out += ') ' + n.slice(3, 6);
+    if (n.length > 6) out += '-' + n.slice(6, 8);
+    if (n.length > 8) out += '-' + n.slice(8, 10);
+    return out;
+}
+
+function initPhoneMask(input) {
+    let prevDigits = '';
+
+    input.addEventListener('input', e => {
+        let digits = input.value.replace(/\D/g, '');
+
+        // Стёрли символ форматирования — цифры не изменились, снимаем ещё одну,
+        // иначе маска тут же вернёт скобку и удалить ничего не получится
+        if (e.inputType === 'deleteContentBackward' && digits === prevDigits) {
+            digits = digits.slice(0, -1);
+        }
+
+        const caretDigits = input.value.slice(0, input.selectionStart).replace(/\D/g, '').length;
+        const formatted = formatPhone(digits);
+        input.value = formatted;
+
+        // Возвращаем каретку после того же по счёту разряда
+        let seen = 0, caret = formatted.length;
+        for (let i = 0; i < formatted.length; i++) {
+            if (/\d/.test(formatted[i])) seen++;
+            if (seen === caretDigits) { caret = i + 1; break; }
+        }
+        input.setSelectionRange(caret, caret);
+
+        prevDigits = input.value.replace(/\D/g, '');
+    });
+
+    input.addEventListener('focus', () => {
+        if (!input.value) input.value = '+7 (';
+    });
+
+    input.addEventListener('blur', () => {
+        // Ушли, ничего не набрав — не оставляем болтаться заготовку
+        if (input.value.replace(/\D/g, '').length <= 1) input.value = '';
+    });
+}
+
 function supportsAvif() {
     return new Promise(resolve => {
         const img = new Image();
@@ -172,7 +226,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const titleEl   = modal.querySelector('.modal__title');
         const resultEl  = modal.querySelector('.lead-form__result');
         const submitBtn = modal.querySelector('.lead-form__submit');
+        const phoneEl   = form.querySelector('[name="phone"]');
+        const consentEl = form.querySelector('[name="consent"]');
         let lastFocused = null;
+
+        initPhoneMask(phoneEl);
+
+        // Кнопка неактивна, пока не отмечено согласие
+        const syncConsent = () => { submitBtn.disabled = !consentEl.checked; };
+        consentEl.addEventListener('change', syncConsent);
+        syncConsent();
 
         const openModal = name => {
             lastFocused = document.activeElement;
@@ -182,6 +245,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             form.querySelector('[name="page_title"]').value = document.title;
             resultEl.textContent = '';
             resultEl.className = 'lead-form__result';
+            syncConsent();
             modal.hidden = false;
             document.body.classList.add('overflow-hidden');
             form.querySelector('[name="name"]').focus();
@@ -208,11 +272,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         form.addEventListener('submit', async e => {
             e.preventDefault();
 
-            const name  = form.querySelector('[name="name"]').value.trim();
-            const phone = form.querySelector('[name="phone"]').value.trim();
-            if (!name || !phone) {
-                resultEl.textContent = 'Укажите имя и телефон.';
+            const name = form.querySelector('[name="name"]').value.trim();
+            if (!name) {
+                resultEl.textContent = 'Укажите имя.';
                 resultEl.className = 'lead-form__result is-error';
+                return;
+            }
+            if (phoneEl.value.replace(/\D/g, '').length !== 11) {
+                resultEl.textContent = 'Введите телефон полностью.';
+                resultEl.className = 'lead-form__result is-error';
+                phoneEl.focus();
                 return;
             }
 
@@ -240,7 +309,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 resultEl.textContent = 'Не удалось отправить заявку. Попробуйте позвонить нам.';
                 resultEl.className = 'lead-form__result is-error';
             } finally {
-                submitBtn.disabled = false;
+                // reset() снимает галочку согласия — кнопка должна снова стать неактивной
+                syncConsent();
             }
         });
     }

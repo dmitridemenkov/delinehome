@@ -44,17 +44,20 @@ $privacy_url = get_privacy_policy_url();
                 <label>Сайт<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
             </div>
 
-            <button type="submit" class="lead-form__submit">Отправить</button>
+            <label class="lead-form__consent">
+                <input type="checkbox" name="consent" value="1" required>
+                <span>
+                    Даю согласие на обработку моих персональных данных на условиях и в целях,
+                    определённых в настоящей форме согласия, а также подтверждаю ознакомление с
+                    <?php if ($privacy_url): ?>
+                        <a href="<?php echo esc_url($privacy_url); ?>" target="_blank" rel="noopener">Политикой конфиденциальности</a>.
+                    <?php else: ?>
+                        Политикой конфиденциальности.
+                    <?php endif; ?>
+                </span>
+            </label>
 
-            <p class="lead-form__note">
-                Отправляя форму, вы соглашаетесь с
-                <?php if ($privacy_url): ?>
-                    <a href="<?php echo esc_url($privacy_url); ?>" target="_blank" rel="noopener">политикой конфиденциальности</a>
-                <?php else: ?>
-                    политикой конфиденциальности
-                <?php endif; ?>
-                данного сайта.
-            </p>
+            <button type="submit" class="lead-form__submit" disabled>Отправить</button>
 
             <p class="lead-form__result" role="status" aria-live="polite"></p>
         </form>

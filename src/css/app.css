@@ -335,14 +335,27 @@ svg.swiper-navigation-icon {
     cursor: default;
 }
 
-.lead-form__note {
-    margin: 12px 0 0;
+.lead-form__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 16px 0 18px;
     font-size: 12px;
-    line-height: 1.4;
-    color: var(--border);
+    line-height: 1.45;
+    color: var(--dark);
+    cursor: pointer;
 }
 
-.lead-form__note a {
+.lead-form__consent input {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    accent-color: var(--blue);
+    cursor: pointer;
+}
+
+.lead-form__consent a {
     color: var(--blue);
     text-decoration: underline;
 }

@@ -105,6 +105,15 @@ function deline_handle_form_submit() {
         wp_send_json_error(['message' => 'Укажите имя и телефон.'], 400);
     }
 
+    // Согласие проверяем и на сервере: галочка на фронте лишь блокирует кнопку
+    if (empty($_POST['consent'])) {
+        wp_send_json_error(['message' => 'Нужно согласие на обработку персональных данных.'], 400);
+    }
+
+    if (strlen(preg_replace('/\D/', '', $phone)) < 11) {
+        wp_send_json_error(['message' => 'Введите телефон полностью.'], 400);
+    }
+
     $lead_id = wp_insert_post([
         'post_type'   => 'lead',
         'post_status' => 'publish',
