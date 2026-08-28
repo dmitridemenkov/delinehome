@@ -380,6 +380,83 @@ svg.swiper-navigation-icon {
     .post-list { grid-template-columns: 1fr; }
 }
 
+/* Сетка «Наше производство» */
+.production-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.production-item {
+    position: relative;
+    display: block;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* Панорамный кадр занимает строку целиком */
+.production-item--full {
+    grid-column: 1 / -1;
+}
+
+.production-item img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 598 / 449;
+    object-fit: cover;
+    transition: transform .3s ease;
+}
+
+.production-item--full img {
+    aspect-ratio: 1207 / 495;
+}
+
+.production-item:hover img {
+    transform: scale(1.03);
+}
+
+.production-item__caption {
+    position: absolute;
+    inset-inline-start: 19px;
+    bottom: 17px;
+    padding: 8px 19px;
+    background: var(--blue);
+    border-radius: 16px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.production-item--full .production-item__caption {
+    bottom: 24px;
+    inset-inline-start: 29px;
+    font-size: 24px;
+    padding: 10px 21px;
+}
+
+@media (max-width: 767px) {
+    .production-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    /* В одну колонку панорама теряет смысл — выравниваем пропорции */
+    .production-item img,
+    .production-item--full img {
+        aspect-ratio: 4 / 3;
+    }
+
+    .production-item__caption,
+    .production-item--full .production-item__caption {
+        inset-inline-start: 12px;
+        bottom: 12px;
+        padding: 6px 14px;
+        font-size: 14px;
+        border-radius: 12px;
+    }
+}
+
 /* Модальная форма */
 .modal[hidden] {
     display: none;

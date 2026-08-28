@@ -14,7 +14,7 @@ get_header();
 
         <h1 class="inline-block relative mt-8 lg:mt-[42px] mb-5 text-xl lg:text-4xl font-bold text-black"><?php the_title(); ?></h1>
 
-        <div class="page-content">
+        <div class="page-content mb-8">
             <?php
             while (have_posts()) {
                 the_post();
@@ -22,6 +22,8 @@ get_header();
             }
             ?>
         </div>
+
+        <?php get_template_part('parts/production-grid'); ?>
 
     </div>
 </section>
