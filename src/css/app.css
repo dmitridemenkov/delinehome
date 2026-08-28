@@ -457,6 +457,76 @@ svg.swiper-navigation-icon {
     }
 }
 
+/* Уведомление о cookie */
+.cookie-notice[hidden] {
+    display: none;
+}
+
+.cookie-notice {
+    position: fixed;
+    inset-inline: 16px;
+    bottom: 16px;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 18px 24px;
+    background: #fff;
+    border: 1px solid var(--light);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgb(0 0 0 / .16);
+}
+
+.cookie-notice__text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--dark);
+}
+
+.cookie-notice__text a {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.cookie-notice__text a:hover {
+    text-decoration: none;
+}
+
+.cookie-notice__btn {
+    flex: 0 0 auto;
+    padding: 12px 32px;
+    background: var(--blue);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.cookie-notice__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgb(32 67 108 / .3);
+}
+
+@media (max-width: 767px) {
+    .cookie-notice {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        inset-inline: 10px;
+        bottom: 10px;
+        padding: 16px;
+    }
+
+    .cookie-notice__text { font-size: 13px; }
+    .cookie-notice__btn { width: 100%; }
+}
+
 /* Модальная форма */
 .modal[hidden] {
     display: none;

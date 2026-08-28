@@ -315,6 +315,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // Уведомление о cookie
+    const cookieNotice = document.getElementById('cookie-notice');
+    if (cookieNotice) {
+        // Версия в ключе: если поменяется политика, баннер покажется заново
+        const KEY = 'deline_cookie_consent_v1';
+        let accepted = false;
+
+        // В приватном режиме обращение к localStorage может бросить исключение
+        try { accepted = localStorage.getItem(KEY) === '1'; } catch (e) { accepted = false; }
+
+        if (!accepted) {
+            cookieNotice.hidden = false;
+            document.getElementById('cookie-accept')?.addEventListener('click', () => {
+                try { localStorage.setItem(KEY, '1'); } catch (e) { /* не критично */ }
+                cookieNotice.hidden = true;
+            });
+        }
+    }
+
     // Lightbox: swap to avif if supported
     const avif = await supportsAvif();
     if (avif) {

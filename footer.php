@@ -162,6 +162,8 @@
     </div>
 </footer>
 
+<?php get_template_part('parts/cookie-notice'); ?>
+
 <?php wp_footer(); ?>
 
 <script>
