@@ -751,6 +751,7 @@ svg.swiper-navigation-icon {
     color: #fff;
     font-size: 28px;
     font-weight: 700;
+    cursor: pointer;
     text-decoration: none;
     transition: transform .2s ease, box-shadow .2s ease;
 }
@@ -881,6 +882,17 @@ svg.swiper-navigation-icon {
     font-weight: 500;
     font-size: clamp(16px, 3vw, 20px);
     display: block;
+}
+
+/* Список акций на отдельной странице */
+.promo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+@media (max-width: 767px) {
+    .promo-list { gap: 14px; }
 }
 
 /* Промо-блок: занимает всю ширину строки сетки */
