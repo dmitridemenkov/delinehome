@@ -1,5 +1,5 @@
 import Swiper from 'swiper';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay, Thumbs } from 'swiper/modules';
 import GLightbox from 'glightbox';
 
 function supportsAvif() {
@@ -95,6 +95,37 @@ document.addEventListener('DOMContentLoaded', async () => {
             breakpoints: {
                 1024: { slidesPerView: 2, spaceBetween: 24 },
             },
+        });
+    }
+
+    // Галерея товара: главное фото + лента миниатюр
+    const galleryMain = document.querySelector('.product-gallery__main');
+    if (galleryMain) {
+        const thumbsEl = document.querySelector('.product-gallery__thumbs');
+        let thumbsSwiper = null;
+
+        if (thumbsEl) {
+            thumbsSwiper = new Swiper(thumbsEl, {
+                modules: [Navigation],
+                slidesPerView: 3,
+                spaceBetween: 12,
+                watchSlidesProgress: true,
+                navigation: {
+                    prevEl: '.product-gallery__nav--prev',
+                    nextEl: '.product-gallery__nav--next',
+                },
+                breakpoints: {
+                    768: { slidesPerView: 5, spaceBetween: 12 },
+                },
+            });
+        }
+
+        new Swiper(galleryMain, {
+            modules: [Navigation, Thumbs],
+            slidesPerView: 1,
+            spaceBetween: 0,
+            // Swiper падает, если передать уничтоженный инстанс — отдаём только живой
+            thumbs: thumbsSwiper ? { swiper: thumbsSwiper } : undefined,
         });
     }
 
