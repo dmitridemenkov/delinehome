@@ -139,9 +139,10 @@
                 </div>
             </div>
             <div class="text-center text-white text-xs lg:text-base mt-6 lg:mt-10">
-                Отправляя любую форму на сайте, вы соглашаетесь с <a href="/"
+                <?php $privacy_url = get_privacy_policy_url(); ?>
+                Отправляя любую форму на сайте, вы соглашаетесь с <?php if ($privacy_url): ?><a href="<?php echo esc_url($privacy_url); ?>"
                     title="Ознакомиться с Политикой конфиденциальности"
-                    class="font-bold transition hover:text-[#216CC3]">политикой конфиденциальности</a> данного сайта
+                    class="font-bold transition hover:text-[#216CC3]">политикой конфиденциальности</a><?php else: ?><span class="font-bold">политикой конфиденциальности</span><?php endif; ?> данного сайта
             </div>
             <div class="flex text-center sm:text-start justify-center md:justify-between flex-wrap gap-4 mt-6 lg:mt-10">
                 <div class="text-white">
