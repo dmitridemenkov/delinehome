@@ -23,6 +23,8 @@ add_action('admin_menu', function () {
 add_action('admin_enqueue_scripts', function ($hook) {
     if ($hook !== 'toplevel_page_production-settings') return;
     wp_enqueue_media();
+    // Перетаскивание строк — jQuery UI входит в состав WordPress
+    wp_enqueue_script('jquery-ui-sortable');
 });
 
 function deline_get_production() {
@@ -109,7 +111,7 @@ function deline_render_production_page() {
         <form method="post">
             <?php wp_nonce_field('deline_save_production', 'deline_production_nonce'); ?>
 
-            <div id="prod-repeater" data-next="<?php echo count($items); ?>" style="margin-top: 16px;">
+            <div id="prod-repeater" style="margin-top: 16px;">
                 <?php foreach ($items as $i => $item):
                     $meta  = wp_get_attachment_metadata($item['image_id']);
                     $ratio = (!empty($meta['width']) && !empty($meta['height']))
@@ -117,7 +119,15 @@ function deline_render_production_page() {
                     $auto  = $ratio >= DELINE_WIDE_RATIO ? 'во всю ширину' : 'в половину';
                 ?>
                 <div class="prod-row" style="display: flex; align-items: flex-end; gap: 12px; padding: 12px; background: #fff; border: 1px solid #c3c4c7; border-radius: 4px; margin-bottom: 8px;">
-                    <span style="min-width: 22px; color: #999; font-weight: 600;"><?php echo $i + 1; ?></span>
+                    <span class="prod-handle" title="Перетащите, чтобы изменить порядок"
+                          style="display: flex; align-items: center; gap: 8px; align-self: stretch; padding-inline-end: 4px; cursor: grab; color: #8c8f94; user-select: none;">
+                        <svg width="12" height="18" viewBox="0 0 12 18" fill="currentColor" aria-hidden="true">
+                            <circle cx="3" cy="3" r="1.5"/><circle cx="9" cy="3" r="1.5"/>
+                            <circle cx="3" cy="9" r="1.5"/><circle cx="9" cy="9" r="1.5"/>
+                            <circle cx="3" cy="15" r="1.5"/><circle cx="9" cy="15" r="1.5"/>
+                        </svg>
+                        <b class="prod-num" style="color: #999;"><?php echo $i + 1; ?></b>
+                    </span>
 
                     <?php foreach ($img_fields as $field):
                         $val = $item[$field['key']] ?? 0;
@@ -163,14 +173,52 @@ function deline_render_production_page() {
         </form>
     </div>
 
+    <style>
+        .prod-placeholder {
+            border: 2px dashed #c3c4c7;
+            border-radius: 4px;
+            background: #f6f7f7;
+            margin-bottom: 8px;
+        }
+        .prod-row.ui-sortable-helper {
+            box-shadow: 0 6px 18px rgb(0 0 0 / .15);
+        }
+    </style>
+
     <script>
     jQuery(function($) {
         var imgFields = <?php echo wp_json_encode($img_fields); ?>;
 
+        // PHP собирает массив по индексу в name, а не по порядку в DOM.
+        // Поэтому после любой перестановки индексы переписываем заново.
+        function renumber() {
+            $('#prod-repeater .prod-row').each(function(i) {
+                $(this).find('[name]').each(function() {
+                    this.name = this.name.replace(/^production\[\d+\]/, 'production[' + i + ']');
+                });
+                $(this).find('.prod-num').text(i + 1);
+            });
+        }
+
+        $('#prod-repeater').sortable({
+            handle: '.prod-handle',
+            axis: 'y',
+            opacity: .75,
+            tolerance: 'pointer',
+            forcePlaceholderSize: true,
+            placeholder: 'prod-placeholder',
+            start: function(e, ui) {
+                ui.item.find('.prod-handle').css('cursor', 'grabbing');
+            },
+            update: renumber,
+            stop: function(e, ui) {
+                ui.item.find('.prod-handle').css('cursor', 'grab');
+            }
+        });
+
         $('#prod-add').on('click', function() {
             var $wrap = $('#prod-repeater');
-            var i = parseInt($wrap.attr('data-next'), 10) || 0;
-            $wrap.attr('data-next', i + 1);
+            var i = $wrap.find('.prod-row').length;
 
             var imgs = '';
             imgFields.forEach(function(f) {
@@ -183,7 +231,12 @@ function deline_render_production_page() {
 
             $wrap.append(
                 '<div class="prod-row" style="display:flex;align-items:flex-end;gap:12px;padding:12px;background:#fff;border:1px solid #c3c4c7;border-radius:4px;margin-bottom:8px;">'
-                + '<span style="min-width:22px;color:#999;font-weight:600;">' + (i + 1) + '</span>'
+                + '<span class="prod-handle" title="Перетащите, чтобы изменить порядок" style="display:flex;align-items:center;gap:8px;align-self:stretch;padding-inline-end:4px;cursor:grab;color:#8c8f94;user-select:none;">'
+                + '<svg width="12" height="18" viewBox="0 0 12 18" fill="currentColor" aria-hidden="true">'
+                + '<circle cx="3" cy="3" r="1.5"/><circle cx="9" cy="3" r="1.5"/>'
+                + '<circle cx="3" cy="9" r="1.5"/><circle cx="9" cy="9" r="1.5"/>'
+                + '<circle cx="3" cy="15" r="1.5"/><circle cx="9" cy="15" r="1.5"/></svg>'
+                + '<b class="prod-num" style="color:#999;"></b></span>'
                 + imgs
                 + '<div style="flex:1;"><label style="display:block;margin-bottom:4px;font-weight:600;">Подпись</label>'
                 + '<input type="text" name="production[' + i + '][caption]" style="width:100%;" placeholder="Участок кромления"></div>'
@@ -197,10 +250,13 @@ function deline_render_production_page() {
                 + '<button type="button" class="button prod-remove" style="color:#b32d2e;">&times;</button>'
                 + '</div>'
             );
+
+            renumber();
         });
 
         $('#prod-repeater').on('click', '.prod-remove', function() {
             $(this).closest('.prod-row').remove();
+            renumber();
         });
 
         $('#prod-repeater').on('click', '.prod-upload', function() {
