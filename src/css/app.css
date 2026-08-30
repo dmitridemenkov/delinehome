@@ -1485,6 +1485,12 @@ header .menu-item-has-children a[rel="opener"] {
     height: 14px;
 }
 
+a.wp-block-file__button.wp-element-button {
+    background-color: var(--blue);
+    color: white;
+    text-decoration: none;
+}
+
 footer .menu-item-has-children a[rel="opener"]:after {
     content: none;
 }
