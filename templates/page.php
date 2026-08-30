@@ -16,7 +16,7 @@ get_header();
 
         <?php while (have_posts()): the_post(); ?>
             <?php if (has_post_thumbnail()): ?>
-            <div class="mb-8 max-w-[860px]">
+            <div class="mb-8">
                 <?php the_post_thumbnail('large', [
                     'class'   => 'w-full rounded-lg',
                     'alt'     => the_title_attribute(['echo' => false]),
@@ -25,7 +25,7 @@ get_header();
             </div>
             <?php endif; ?>
 
-            <div class="page-content max-w-[860px]">
+            <div class="page-content">
                 <?php the_content(); ?>
 
                 <?php
