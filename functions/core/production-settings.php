@@ -273,6 +273,32 @@ function deline_render_production_page() {
         .prod-row.ui-sortable-helper {
             box-shadow: 0 6px 18px rgb(0 0 0 / .15);
         }
+        .prod-photos {
+            border: 1px dashed transparent;
+            border-radius: 4px;
+            transition: background-color .15s, border-color .15s;
+        }
+        .prod-photos.is-empty {
+            min-height: 68px;
+            border-color: #c3c4c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+        .prod-photos.is-empty::before {
+            content: 'Перетащите сюда фото из другого раздела или добавьте кнопкой ниже';
+            color: #8c8f94;
+            font-size: 13px;
+        }
+        .prod-photos.is-drop-target {
+            border-color: #2271b1;
+            background: #f0f6fc;
+        }
+        /* Подсказка не должна мешать, когда в контейнер уже что-то тащат */
+        .prod-photos.is-empty.is-drop-target::before {
+            content: none;
+        }
     </style>
 
     <script>
@@ -296,17 +322,35 @@ function deline_render_production_page() {
                     $(this).find('.prod-photo-num').text(pi + 1);
                 });
             });
+
+            // У пустого раздела контейнер нулевой высоты — в него нечем попасть
+            $('.prod-photos').each(function() {
+                $(this).toggleClass('is-empty', $(this).children('.prod-row').length === 0);
+            });
         }
 
         function initPhotoSortable($container) {
             $container.sortable({
                 handle: '.prod-photo-handle',
-                axis: 'y',
+                // Фото можно перетаскивать между разделами
+                connectWith: '.prod-photos',
                 opacity: .75,
                 tolerance: 'pointer',
                 forcePlaceholderSize: true,
                 placeholder: 'prod-photo-placeholder',
-                update: renumber
+                over: function(e, ui) {
+                    $(this).addClass('is-drop-target');
+                },
+                out: function(e, ui) {
+                    $(this).removeClass('is-drop-target');
+                },
+                // При переносе между списками update приходит и от источника,
+                // и от приёмника — renumber идемпотентен, лишний вызов безвреден
+                update: renumber,
+                stop: function() {
+                    $('.prod-photos').removeClass('is-drop-target');
+                    renumber();
+                }
             });
         }
 
@@ -337,6 +381,9 @@ function deline_render_production_page() {
         });
 
         $('#prod-repeater .prod-photos').each(function() { initPhotoSortable($(this)); });
+
+        // Разметить пустые разделы сразу, не дожидаясь первой правки
+        renumber();
 
         $('#prod-section-add').on('click', function() {
             var i = sectionSeq++;
