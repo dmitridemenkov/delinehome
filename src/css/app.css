@@ -115,6 +115,12 @@ body {
     }
 }
 
+/* Общий предохранитель: слайды внутри .swiper-wrapper — флекс-элементы,
+   и до инициализации их суммарная ширина распирает грид- или флекс-родителя */
+.swiper {
+    min-width: 0;
+}
+
 .swiper-button-prev,
 .swiper-button-next {
     display: flex;
@@ -708,6 +714,12 @@ svg.swiper-navigation-icon {
     align-items: start;
 }
 
+/* Без min-width:0 грид-элемент раздувается под содержимое флекс-ленты Swiper */
+.product-gallery,
+.product-summary {
+    min-width: 0;
+}
+
 .product-gallery__main {
     border-radius: 4px;
     overflow: hidden;
@@ -876,7 +888,9 @@ svg.swiper-navigation-icon {
 
 @media (max-width: 1023px) {
     .product-layout {
-        grid-template-columns: 1fr;
+        /* Именно minmax(0, …), а не 1fr: у 1fr неявный min-width:auto,
+           и колонка растягивается под неразложенные слайды галереи */
+        grid-template-columns: minmax(0, 1fr);
         gap: 28px;
     }
 
