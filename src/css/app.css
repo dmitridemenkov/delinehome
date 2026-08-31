@@ -386,7 +386,39 @@ svg.swiper-navigation-icon {
     .post-list { grid-template-columns: 1fr; }
 }
 
-/* Сетка «Наше производство» */
+/* «Наше производство»: разделы текст + группа фото */
+.production {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+}
+
+.production-section__title {
+    margin: 0 0 14px;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #000;
+}
+
+/* Общая синяя черта из h2::after внутри разделов лишняя */
+.production-section__title::after {
+    content: none;
+}
+
+.production-section__text {
+    max-width: 860px;
+    margin-bottom: 22px;
+}
+
+@media (max-width: 767px) {
+    .production { gap: 34px; }
+
+    .production-section__title { font-size: 21px; }
+
+    .production-section__text { margin-bottom: 16px; }
+}
+
 .production-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
