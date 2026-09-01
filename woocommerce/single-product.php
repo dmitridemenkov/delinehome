@@ -100,17 +100,25 @@ while (have_posts()):
             <div class="product-summary">
                 <h1 class="product-summary__title"><?php the_title(); ?></h1>
 
-                <?php $is_variable = $product && $product->is_type('variable'); ?>
+                <?php
+                $is_variable = $product && $product->is_type('variable');
+                // У вариативного товара без вариаций цена пустая — тогда блок не выводим,
+                // иначе на странице висит подпись «Цена» без значения
+                $price_html = $product ? $product->get_price_html() : '';
+                ?>
 
-                <?php if ($is_variable): ?>
+                <?php if (trim(wp_strip_all_tags($price_html))): ?>
                 <div class="product-price">
                     <span class="product-price__label">Цена</span>
-                    <span class="product-price__value"><?php echo wp_kses_post($product->get_price_html()); ?></span>
+                    <span class="product-price__value"><?php echo wp_kses_post($price_html); ?></span>
                 </div>
+                <?php endif; ?>
 
+                <?php if ($is_variable): ?>
                 <?php get_template_part('parts/product-variations', null, ['product' => $product]); ?>
+                <?php endif; ?>
 
-                <?php $short = $product->get_short_description(); ?>
+                <?php if ($product && ($short = $product->get_short_description())): ?>
                 <div class="product-summary__features content"><?php echo wp_kses_post(wpautop($short)); ?></div>
                 <?php endif; ?>
 
