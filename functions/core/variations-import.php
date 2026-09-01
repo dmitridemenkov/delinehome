@@ -39,9 +39,35 @@ function deline_import_variations(array $spec) {
             continue;
         }
 
-        $product_id = wc_get_product_id_by_sku($sku);
+        $product_id = $sku ? wc_get_product_id_by_sku($sku) : 0;
+
+        // Запасной путь: если артикул не импортировался, ищем по точному названию
+        $name = sanitize_text_field($entry['name'] ?? '');
+        if (!$product_id && $name) {
+            $found = get_posts([
+                'post_type'      => 'product',
+                'title'          => $name,
+                'post_status'    => ['publish', 'draft', 'private'],
+                'posts_per_page' => 2,
+                'fields'         => 'ids',
+            ]);
+            if (count($found) === 1) {
+                $product_id = $found[0];
+                // Заодно проставим артикул, чтобы дальше искать по нему
+                if ($sku && !wc_get_product_id_by_sku($sku)) {
+                    $p = wc_get_product($product_id);
+                    if ($p) { $p->set_sku($sku); $p->save(); }
+                }
+            } elseif (count($found) > 1) {
+                $report[] = ['sku' => $sku, 'status' => 'error',
+                             'message' => 'Несколько товаров с таким названием — уточните артикул'];
+                continue;
+            }
+        }
+
         if (!$product_id) {
-            $report[] = ['sku' => $sku, 'status' => 'error', 'message' => 'Товар с таким артикулом не найден'];
+            $report[] = ['sku' => $sku, 'status' => 'error',
+                         'message' => 'Товар не найден ни по артикулу, ни по названию'];
             continue;
         }
 
