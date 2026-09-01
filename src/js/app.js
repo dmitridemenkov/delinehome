@@ -183,6 +183,107 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // Вариативный товар: свои выпадашки с образцами + пересчёт цены и фото
+    const variationsRoot = document.querySelector('.variations');
+    if (variationsRoot) {
+        let variations = [];
+        try { variations = JSON.parse(variationsRoot.dataset.variations || '[]'); } catch (e) { variations = []; }
+
+        const selects = [...variationsRoot.querySelectorAll('.vselect')];
+        const priceEl = document.querySelector('.product-price__value');
+        const featuresEl = document.querySelector('.product-summary__features');
+        const mainImg = document.querySelector('.product-gallery__main .swiper-slide img');
+        const baseFeatures = featuresEl ? featuresEl.innerHTML : '';
+
+        const closeAll = except => {
+            selects.forEach(sel => {
+                if (sel === except) return;
+                sel.querySelector('.vselect__list').hidden = true;
+                sel.querySelector('.vselect__toggle').setAttribute('aria-expanded', 'false');
+                sel.classList.remove('is-open');
+            });
+        };
+
+        const currentChoice = () => {
+            const chosen = {};
+            selects.forEach(sel => {
+                chosen[sel.dataset.attribute] = sel.querySelector('input[type="hidden"]').value;
+            });
+            return chosen;
+        };
+
+        const findVariation = chosen => variations.find(v =>
+            Object.entries(chosen).every(([name, value]) => {
+                const has = v.attributes[name];
+                // Пустое значение у вариации означает «любой вариант»
+                return !has || has === value;
+            })
+        );
+
+        const apply = () => {
+            const match = findVariation(currentChoice());
+            if (!match) return;
+
+            if (priceEl && match.price) priceEl.innerHTML = match.price;
+
+            if (mainImg && match.image.src) {
+                mainImg.src = match.image.src;
+                if (match.image.srcset) mainImg.srcset = match.image.srcset;
+                if (match.image.sizes) mainImg.sizes = match.image.sizes;
+                if (match.image.alt) mainImg.alt = match.image.alt;
+            }
+
+            if (featuresEl) {
+                featuresEl.innerHTML = match.description ? match.description : baseFeatures;
+            }
+        };
+
+        selects.forEach(sel => {
+            const toggle = sel.querySelector('.vselect__toggle');
+            const list   = sel.querySelector('.vselect__list');
+            const input  = sel.querySelector('input[type="hidden"]');
+
+            toggle.addEventListener('click', () => {
+                const willOpen = list.hidden;
+                closeAll(sel);
+                list.hidden = !willOpen;
+                sel.classList.toggle('is-open', willOpen);
+                toggle.setAttribute('aria-expanded', String(willOpen));
+            });
+
+            list.addEventListener('click', e => {
+                const option = e.target.closest('.vselect__option');
+                if (!option) return;
+
+                input.value = option.dataset.value;
+
+                list.querySelectorAll('.vselect__option').forEach(o => {
+                    const active = o === option;
+                    o.classList.toggle('is-selected', active);
+                    o.setAttribute('aria-selected', String(active));
+                });
+
+                // Переносим содержимое пункта в кнопку вместе с образцом
+                toggle.innerHTML = option.innerHTML + toggle.querySelector('.vselect__chevron').outerHTML;
+
+                list.hidden = true;
+                sel.classList.remove('is-open');
+                toggle.setAttribute('aria-expanded', 'false');
+                apply();
+            });
+        });
+
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.vselect')) closeAll(null);
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeAll(null);
+        });
+
+        apply();
+    }
+
     // Product search: на мобилке первый тап раскрывает поле, второй — отправляет
     const searchForm = document.querySelector('.product-search');
     if (searchForm) {

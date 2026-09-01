@@ -99,6 +99,21 @@ while (have_posts()):
 
             <div class="product-summary">
                 <h1 class="product-summary__title"><?php the_title(); ?></h1>
+
+                <?php $is_variable = $product && $product->is_type('variable'); ?>
+
+                <?php if ($is_variable): ?>
+                <div class="product-price">
+                    <span class="product-price__label">Цена</span>
+                    <span class="product-price__value"><?php echo wp_kses_post($product->get_price_html()); ?></span>
+                </div>
+
+                <?php get_template_part('parts/product-variations', null, ['product' => $product]); ?>
+
+                <?php $short = $product->get_short_description(); ?>
+                <div class="product-summary__features content"><?php echo wp_kses_post(wpautop($short)); ?></div>
+                <?php endif; ?>
+
                 <div class="product-summary__text content"><?php the_content(); ?></div>
             </div>
         </div>

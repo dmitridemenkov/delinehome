@@ -844,6 +844,167 @@ svg.swiper-navigation-icon {
     padding-inline-start: 30px;
 }
 
+/* Вариативный товар: цена и выбор параметров */
+.product-price {
+    margin: 18px 0 26px;
+}
+
+.product-price__label {
+    display: block;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #000;
+}
+
+.product-price__value {
+    display: block;
+    margin-top: 6px;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--blue);
+}
+
+/* WooCommerce оборачивает цену в свою разметку — снимаем её оформление */
+.product-price__value .woocommerce-Price-amount,
+.product-price__value bdi {
+    font: inherit;
+    color: inherit;
+}
+
+.product-price__value del { display: none; }
+.product-price__value ins { text-decoration: none; }
+
+.variation + .variation {
+    margin-top: 20px;
+}
+
+.variation__label {
+    display: block;
+    margin-bottom: 11px;
+    font-size: 24px;
+    font-weight: 500;
+    color: #000;
+}
+
+.vselect {
+    position: relative;
+    width: 268px;
+    max-width: 100%;
+}
+
+.vselect__toggle,
+.vselect__option {
+    display: flex;
+    align-items: center;
+    gap: 21px;
+    width: 100%;
+    padding: 10px 22px;
+    background: #D4E8FF;
+    border: 1px solid #8DB9EB;
+    border-radius: 12px;
+    color: var(--blue);
+    font-size: 24px;
+    font-weight: 500;
+    text-align: start;
+    cursor: pointer;
+}
+
+.vselect__toggle { min-height: 48px; }
+
+/* С образцом поле выше: 52px картинка плюс отступы */
+.vselect--swatch .vselect__toggle,
+.vselect--swatch .vselect__option {
+    min-height: 72px;
+    padding-block: 10px;
+}
+
+.vselect__swatch {
+    flex: 0 0 auto;
+    display: block;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--gray);
+}
+
+.vselect__swatch img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.vselect__value {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.vselect__chevron {
+    flex: 0 0 auto;
+    transition: transform .2s ease;
+}
+
+.vselect.is-open .vselect__chevron {
+    transform: rotate(180deg);
+}
+
+.vselect__list {
+    position: absolute;
+    z-index: 20;
+    inset-inline-start: 0;
+    top: calc(100% + 6px);
+    width: 100%;
+    max-height: 340px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: #D4E8FF;
+    border: 1px solid #8DB9EB;
+    border-radius: 12px;
+}
+
+.vselect__list[hidden] { display: none; }
+
+.vselect__option {
+    border: 0;
+    border-radius: 0;
+}
+
+.vselect__option:hover,
+.vselect__option.is-selected {
+    background: #C2DDFA;
+}
+
+@media (max-width: 1023px) {
+    .product-price__label { font-size: 18px; }
+    .product-price__value { font-size: 28px; }
+
+    .variation__label { font-size: 16px; }
+
+    .vselect__toggle,
+    .vselect__option {
+        gap: 14px;
+        padding: 8px 14px;
+        font-size: 16px;
+    }
+
+    .vselect__toggle { min-height: 40px; }
+
+    .vselect--swatch .vselect__toggle,
+    .vselect--swatch .vselect__option {
+        min-height: 54px;
+    }
+
+    .vselect__swatch {
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+    }
+}
+
 /* Кнопки под галереей */
 .product-actions {
     display: grid;
