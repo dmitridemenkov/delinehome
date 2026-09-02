@@ -20,19 +20,6 @@ add_action('admin_enqueue_scripts', function ($hook) {
     wp_enqueue_script('jquery-ui-sortable');
 });
 
-/**
- * Вкладки раздела «Материалы». Каждая — отдельная страница со своим URL,
- * как у раздела «О компании».
- */
-function deline_materials_tabs() {
-    return [
-        ['slug' => 'korpusa',       'label' => 'Корпуса'],
-        ['slug' => 'fasady',        'label' => 'Фасады'],
-        ['slug' => 'stoleshnitsy',  'label' => 'Столешницы'],
-        ['slug' => 'furnitura',     'label' => 'Фурнитура'],
-    ];
-}
-
 function deline_get_materials() {
     return get_option('deline_materials', []);
 }
@@ -55,18 +42,11 @@ add_action('admin_init', function () {
             // Пропускаем полностью пустые строки
             if (!$title && !$image_id) continue;
 
-            $group = sanitize_key($item['group'] ?? '');
-            $slugs = array_column(deline_materials_tabs(), 'slug');
-            if (!in_array($group, $slugs, true)) {
-                $group = '';
-            }
-
             $materials[] = [
                 'title'    => $title,
                 'content'  => wp_kses_post($item['content'] ?? ''),
                 'image_id' => $image_id,
                 'avif_id'  => absint($item['avif_id'] ?? 0),
-                'group'    => $group,
             ];
         }
     }
@@ -108,9 +88,9 @@ function deline_render_materials_page() {
             <?php wp_nonce_field('deline_save_materials', 'deline_materials_nonce'); ?>
 
             <p class="description">
-                Вкладка определяет, на какой странице раздела «Материалы» появится блок.
-                Пока вкладка не выбрана, блок виден только на главной. Порядок задаётся перетаскиванием.
-                На мобильных изображение показывается сверху, текст под ним по центру.
+                Блоки выводятся на главной (первые три) и на странице «Поставщики материалов».
+                Порядок задаётся перетаскиванием. На мобильных изображение показывается сверху,
+                текст под ним по центру.
             </p>
 
             <div id="materials-repeater" style="margin-top: 16px;">
@@ -129,23 +109,10 @@ function deline_render_materials_page() {
                         <button type="button" class="button remove-material" style="margin-inline-start: auto; color: #b32d2e;">&times; Удалить</button>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 260px; gap: 12px;">
-                        <div>
-                            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Заголовок</label>
-                            <input type="text" name="materials[<?php echo $i; ?>][title]" value="<?php echo esc_attr($item['title']); ?>" class="regular-text" style="width: 100%;" placeholder="Премиальные ящики Avantech от Hettich">
-                        </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 4px; font-weight: 600;">Вкладка</label>
-                            <select name="materials[<?php echo $i; ?>][group]" style="width: 100%;">
-                                <option value="">— не выбрана —</option>
-                                <?php foreach (deline_materials_tabs() as $tab): ?>
-                                <option value="<?php echo esc_attr($tab['slug']); ?>" <?php selected($item['group'] ?? '', $tab['slug']); ?>>
-                                    <?php echo esc_html($tab['label']); ?>
-                                </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
+                    <p>
+                        <label style="display: block; margin-bottom: 4px; font-weight: 600;">Заголовок</label>
+                        <input type="text" name="materials[<?php echo $i; ?>][title]" value="<?php echo esc_attr($item['title']); ?>" class="regular-text" style="width: 100%;" placeholder="Премиальные ящики Avantech от Hettich">
+                    </p>
 
                     <p style="margin-bottom: 4px; font-weight: 600;">Текст</p>
                     <?php
@@ -200,10 +167,6 @@ function deline_render_materials_page() {
     jQuery(function($) {
         var materialIndex = <?php echo count($materials); ?>;
         var imgFields = <?php echo wp_json_encode($img_fields); ?>;
-        var tabOptions = '<option value="">— не выбрана —</option>'
-            <?php foreach (deline_materials_tabs() as $tab): ?>
-            + '<option value="<?php echo esc_js($tab['slug']); ?>"><?php echo esc_js($tab['label']); ?></option>'
-            <?php endforeach; ?>;
 
         // PHP собирает массив по индексу в name, а не по порядку в DOM,
         // поэтому после перестановки индексы переписываем заново
@@ -267,12 +230,8 @@ function deline_render_materials_page() {
                 + '<strong>Блок <span class="material-num"></span></strong>'
                 + '<button type="button" class="button remove-material" style="margin-inline-start:auto;color:#b32d2e;">&times; Удалить</button>'
                 + '</div>'
-                + '<div style="display:grid;grid-template-columns:1fr 260px;gap:12px;">'
-                + '<div><label style="display:block;margin-bottom:4px;font-weight:600;">Заголовок</label>'
-                + '<input type="text" name="materials[' + idx + '][title]" class="regular-text" style="width:100%;" placeholder="Премиальные ящики Avantech от Hettich"></div>'
-                + '<div><label style="display:block;margin-bottom:4px;font-weight:600;">Вкладка</label>'
-                + '<select name="materials[' + idx + '][group]" style="width:100%;">' + tabOptions + '</select></div>'
-                + '</div>'
+                + '<p><label style="display:block;margin-bottom:4px;font-weight:600;">Заголовок</label>'
+                + '<input type="text" name="materials[' + idx + '][title]" class="regular-text" style="width:100%;" placeholder="Премиальные ящики Avantech от Hettich"></p>'
                 + '<p style="margin-bottom:4px;font-weight:600;">Текст</p>'
                 + '<textarea id="' + editorId + '" name="materials[' + idx + '][content]" rows="8" style="width:100%;"></textarea>'
                 + '<div style="display:grid;grid-template-columns:repeat(2,200px);gap:12px;margin-top:12px;">' + imgs + '</div>'
