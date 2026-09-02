@@ -2,9 +2,16 @@
 /**
  * Список блоков «Материалы».
  * Используется и на главной, и на странице «Поставщики материалов».
+ *
+ * @param int $args['limit'] — сколько блоков показать, 0 или отсутствует — все
  */
 $materials = deline_get_materials();
 if (empty($materials)) return;
+
+$limit = (int) ($args['limit'] ?? 0);
+if ($limit > 0) {
+    $materials = array_slice($materials, 0, $limit);
+}
 ?>
 
 <div class="flex flex-col gap-2">

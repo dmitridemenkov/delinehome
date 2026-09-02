@@ -16,6 +16,8 @@ add_action('admin_enqueue_scripts', function ($hook) {
     if ($hook !== 'toplevel_page_materials-settings') return;
     wp_enqueue_media();
     wp_enqueue_editor();
+    // Перетаскивание строк — jQuery UI входит в состав WordPress
+    wp_enqueue_script('jquery-ui-sortable');
 });
 
 function deline_get_materials() {
@@ -93,9 +95,17 @@ function deline_render_materials_page() {
             <div id="materials-repeater" style="margin-top: 16px;">
                 <?php foreach ($materials as $i => $item): ?>
                 <div class="material-row" style="padding: 16px; background: #fff; border: 1px solid #c3c4c7; border-radius: 4px; margin-bottom: 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <strong>Блок <?php echo $i + 1; ?></strong>
-                        <button type="button" class="button remove-material" style="color: #b32d2e;">&times; Удалить</button>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                        <span class="material-handle" title="Перетащите, чтобы изменить порядок"
+                              style="display: flex; align-items: center; cursor: grab; color: #8c8f94; user-select: none;">
+                            <svg width="12" height="18" viewBox="0 0 12 18" fill="currentColor" aria-hidden="true">
+                                <circle cx="3" cy="3" r="1.5"/><circle cx="9" cy="3" r="1.5"/>
+                                <circle cx="3" cy="9" r="1.5"/><circle cx="9" cy="9" r="1.5"/>
+                                <circle cx="3" cy="15" r="1.5"/><circle cx="9" cy="15" r="1.5"/>
+                            </svg>
+                        </span>
+                        <strong>Блок <span class="material-num"><?php echo $i + 1; ?></span></strong>
+                        <button type="button" class="button remove-material" style="margin-inline-start: auto; color: #b32d2e;">&times; Удалить</button>
                     </div>
 
                     <p>
@@ -140,10 +150,59 @@ function deline_render_materials_page() {
         </form>
     </div>
 
+    <style>
+        .material-placeholder {
+            border: 2px dashed #c3c4c7;
+            border-radius: 4px;
+            background: #f6f7f7;
+            margin-bottom: 12px;
+        }
+        .material-row.ui-sortable-helper {
+            box-shadow: 0 6px 18px rgb(0 0 0 / .15);
+        }
+    </style>
+
     <script>
     jQuery(function($) {
         var materialIndex = <?php echo count($materials); ?>;
         var imgFields = <?php echo wp_json_encode($img_fields); ?>;
+
+        // PHP собирает массив по индексу в name, а не по порядку в DOM,
+        // поэтому после перестановки индексы переписываем заново
+        function renumber() {
+            $('#materials-repeater .material-row').each(function(i) {
+                $(this).find('[name]').each(function() {
+                    this.name = this.name.replace(/^materials\[\d+\]/, 'materials[' + i + ']');
+                });
+                $(this).find('.material-num').text(i + 1);
+            });
+        }
+
+        $('#materials-repeater').sortable({
+            handle: '.material-handle',
+            axis: 'y',
+            opacity: .75,
+            tolerance: 'pointer',
+            forcePlaceholderSize: true,
+            placeholder: 'material-placeholder',
+            // Внутри строк живут редакторы TinyMCE: при переносе узла в DOM
+            // iframe перезагружается и теряет содержимое
+            start: function(e, ui) {
+                ui.item.find('textarea[id^="material_content_"]').each(function() {
+                    var ed = tinymce.get(this.id);
+                    if (ed) { ed.save(); wp.editor.remove(this.id); }
+                });
+            },
+            stop: function(e, ui) {
+                ui.item.find('textarea[id^="material_content_"]').each(function() {
+                    wp.editor.initialize(this.id, {
+                        tinymce: { wpautop: true, toolbar1: 'bold,italic,bullist,numlist,link,unlink,undo,redo' },
+                        quicktags: true
+                    });
+                });
+            },
+            update: renumber
+        });
 
         function imgFieldHtml(idx, key, label) {
             return '<div style="text-align:center;">'
@@ -161,9 +220,14 @@ function deline_render_materials_page() {
             imgFields.forEach(function(f) { imgs += imgFieldHtml(idx, f.key, f.label); });
 
             var html = '<div class="material-row" style="padding:16px;background:#fff;border:1px solid #c3c4c7;border-radius:4px;margin-bottom:12px;">'
-                + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">'
-                + '<strong>Блок ' + (idx + 1) + '</strong>'
-                + '<button type="button" class="button remove-material" style="color:#b32d2e;">&times; Удалить</button>'
+                + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">'
+                + '<span class="material-handle" title="Перетащите, чтобы изменить порядок" style="display:flex;align-items:center;cursor:grab;color:#8c8f94;user-select:none;">'
+                + '<svg width="12" height="18" viewBox="0 0 12 18" fill="currentColor" aria-hidden="true">'
+                + '<circle cx="3" cy="3" r="1.5"/><circle cx="9" cy="3" r="1.5"/>'
+                + '<circle cx="3" cy="9" r="1.5"/><circle cx="9" cy="9" r="1.5"/>'
+                + '<circle cx="3" cy="15" r="1.5"/><circle cx="9" cy="15" r="1.5"/></svg></span>'
+                + '<strong>Блок <span class="material-num"></span></strong>'
+                + '<button type="button" class="button remove-material" style="margin-inline-start:auto;color:#b32d2e;">&times; Удалить</button>'
                 + '</div>'
                 + '<p><label style="display:block;margin-bottom:4px;font-weight:600;">Заголовок</label>'
                 + '<input type="text" name="materials[' + idx + '][title]" class="regular-text" style="width:100%;" placeholder="Премиальные ящики Avantech от Hettich"></p>'
@@ -173,6 +237,7 @@ function deline_render_materials_page() {
                 + '</div>';
 
             $('#materials-repeater').append(html);
+            renumber();
 
             // Поднимаем визуальный редактор на только что добавленном поле
             wp.editor.initialize(editorId, {
@@ -190,6 +255,7 @@ function deline_render_materials_page() {
                 wp.editor.remove($textarea.attr('id'));
             }
             $row.remove();
+            renumber();
         });
 
         $('#materials-repeater').on('click', '.upload-material-img', function() {

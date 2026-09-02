@@ -13,6 +13,7 @@ $materials_url = deline_page_url('suppliers') ?: '#';
                 class="text-xs lg:text-xl font-medium text-black border-2 border-[#20436C] rounded-[24px] lg:rounded-[44px] px-[16px] py-[6px] lg:px-[32px] lg:py-[12px] transition hover:text-white hover:bg-[#20436C]"
                 title="Смотреть все материалы">Подробнее</a>
         </div>
-        <?php get_template_part('parts/materials-list'); ?>
+        <?php // На главной показываем только первые три, остальное — на странице «Поставщики» ?>
+        <?php get_template_part('parts/materials-list', null, ['limit' => 3]); ?>
     </div>
 </section>
