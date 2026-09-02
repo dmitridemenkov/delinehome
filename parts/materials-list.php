@@ -3,15 +3,26 @@
  * Список блоков «Материалы».
  * Используется и на главной, и на странице «Поставщики материалов».
  *
- * @param int $args['limit'] — сколько блоков показать, 0 или отсутствует — все
+ * @param int    $args['limit'] — сколько блоков показать, 0 или отсутствует — все
+ * @param string $args['group'] — слаг вкладки; без него берутся все блоки
  */
 $materials = deline_get_materials();
 if (empty($materials)) return;
+
+$group = (string) ($args['group'] ?? '');
+if ($group !== '') {
+    $materials = array_values(array_filter(
+        $materials,
+        fn($item) => ($item['group'] ?? '') === $group
+    ));
+}
 
 $limit = (int) ($args['limit'] ?? 0);
 if ($limit > 0) {
     $materials = array_slice($materials, 0, $limit);
 }
+
+if (empty($materials)) return;
 ?>
 
 <div class="flex flex-col gap-2">
