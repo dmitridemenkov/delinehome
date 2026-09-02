@@ -32,7 +32,7 @@ if (empty($materials)) return;
                 <source srcset="<?php echo esc_url($avif_url); ?>" type="image/avif">
                 <?php endif; ?>
                 <img src="<?php echo esc_url($img_url); ?>"
-                    class="h-[100%] w-[140px] lg:w-[360px] inline-block object-cover"
+                    class="h-[100%] w-[140px] lg:w-[360px] inline-block object-contain"
                     alt="<?php echo esc_attr($img_alt); ?>"
                     title="<?php echo esc_attr($img_alt); ?>"
                     loading="lazy">
