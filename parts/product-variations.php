@@ -27,6 +27,8 @@ foreach ($product->get_available_variations() as $variation) {
             'srcset' => $variation['image']['srcset'] ?? '',
             'sizes'  => $variation['image']['sizes'] ?? '',
             'alt'    => $variation['image']['alt'] ?? '',
+            // Полный размер нужен ссылке лайтбокса
+            'full'   => $variation['image']['full_src'] ?? '',
         ],
         'description' => $variation['variation_description'] ?? '',
     ];

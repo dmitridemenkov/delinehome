@@ -227,10 +227,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (priceEl && match.price) priceEl.innerHTML = match.price;
 
             if (mainImg && match.image.src) {
+                // srcset и sizes выставляем всегда, даже пустыми: при наличии srcset
+                // браузер выбирает картинку из него и подменённый src игнорирует
+                mainImg.srcset = match.image.srcset || '';
+                mainImg.sizes = match.image.sizes || '';
                 mainImg.src = match.image.src;
-                if (match.image.srcset) mainImg.srcset = match.image.srcset;
-                if (match.image.sizes) mainImg.sizes = match.image.sizes;
                 if (match.image.alt) mainImg.alt = match.image.alt;
+
+                // Ссылка лайтбокса должна вести на фото выбранного варианта
+                const lightbox = mainImg.closest('a.glightbox');
+                if (lightbox && (match.image.full || match.image.src)) {
+                    lightbox.href = match.image.full || match.image.src;
+                }
             }
 
             if (featuresEl) {
