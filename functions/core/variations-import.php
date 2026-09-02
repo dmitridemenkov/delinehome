@@ -154,6 +154,7 @@ function deline_import_variations(array $spec) {
         }
 
         $created = $updated = $skipped = $images = 0;
+        $no_url = $img_failed = $img_exists = 0;
 
         foreach ($rows as $row) {
             $value = sanitize_text_field($row['value'] ?? '');
@@ -176,12 +177,23 @@ function deline_import_variations(array $spec) {
             if (isset($existing[$value])) {
                 $variation = wc_get_product($existing[$value]);
                 $variation->set_regular_price($price);
-                if ($image_url && !$variation->get_image_id()) {
-                    if ($att = deline_sideload_once($image_url, $product_id)) {
+
+                if (!$image_url) {
+                    $no_url++;
+                } else {
+                    // get_image_id() у вариации подставляет картинку родителя,
+                    // поэтому «своё ли это фото» проверяем через мету напрямую
+                    $own = (int) get_post_meta($variation->get_id(), '_thumbnail_id', true);
+                    if ($own) {
+                        $img_exists++;
+                    } elseif ($att = deline_sideload_once($image_url, $product_id)) {
                         $variation->set_image_id($att);
                         $images++;
+                    } else {
+                        $img_failed++;
                     }
                 }
+
                 $variation->save();
                 $updated++;
                 continue;
@@ -192,9 +204,13 @@ function deline_import_variations(array $spec) {
             $variation->set_attributes([$taxonomy => $slug]);
             $variation->set_regular_price($price);
             $variation->set_stock_status('instock');
-            if ($image_url && ($att = deline_sideload_once($image_url, $product_id))) {
+            if (!$image_url) {
+                $no_url++;
+            } elseif ($att = deline_sideload_once($image_url, $product_id)) {
                 $variation->set_image_id($att);
                 $images++;
+            } else {
+                $img_failed++;
             }
             $variation->save();
             $created++;
@@ -205,9 +221,13 @@ function deline_import_variations(array $spec) {
         $report[] = [
             'sku'     => $sku,
             'status'  => 'ok',
-            'message' => sprintf('создано %d, обновлено %d%s%s', $created, $updated,
-                                 $images ? sprintf(', фото загружено %d', $images) : '',
-                                 $skipped ? sprintf(', пропущено %d', $skipped) : ''),
+            'message' => sprintf('создано %d, обновлено %d%s%s%s%s%s',
+                $created, $updated,
+                $images      ? sprintf(', фото загружено %d', $images) : '',
+                $img_exists  ? sprintf(', фото уже было у %d', $img_exists) : '',
+                $no_url      ? sprintf(', адрес фото не указан у %d', $no_url) : '',
+                $img_failed  ? sprintf(', НЕ УДАЛОСЬ скачать %d', $img_failed) : '',
+                $skipped     ? sprintf(', пропущено %d', $skipped) : ''),
         ];
     }
 
