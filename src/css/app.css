@@ -1131,7 +1131,9 @@ svg.swiper-navigation-icon {
 }
 
 .catalog-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     text-decoration: none;
 }
 
@@ -1158,10 +1160,15 @@ svg.swiper-navigation-icon {
     font-weight: 500;
     font-size: clamp(16px, 3vw, 20px);
     display: block;
+    /* Гарантированный зазор до кнопки, которую прижимает margin-top: auto */
+    margin-bottom: 14px;
 }
 
-/* Кнопка выбора размера у товаров с вариациями */
+/* Кнопка выбора размера у товаров с вариациями.
+   margin-top: auto прижимает её к низу, чтобы кнопки в ряду
+   стояли на одной линии при названиях разной длины */
 .catalog-card__action {
+    margin-top: auto;
     display: flex;
     align-items: center;
     justify-content: center;

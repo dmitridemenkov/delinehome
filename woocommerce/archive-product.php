@@ -133,10 +133,9 @@ $is_root = is_shop() && !is_search();
                 $card_product = wc_get_product(get_the_ID());
                 $has_options  = $card_product && $card_product->is_type('variable');
                 ?>
+                <span class="catalog-card__title mt-4 lg:mt-6"><?php the_title(); ?></span>
                 <?php if ($has_options): ?>
-                    <span class="catalog-card__action mt-4 lg:mt-6">Выбрать размер</span>
-                <?php else: ?>
-                    <span class="catalog-card__title mt-4 lg:mt-6"><?php the_title(); ?></span>
+                    <span class="catalog-card__action">Выбрать размер</span>
                 <?php endif; ?>
             </a>
             <?php
