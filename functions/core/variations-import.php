@@ -301,6 +301,69 @@ function deline_fix_variation_flags() {
     return $report;
 }
 
+/**
+ * Удаляет дублирующиеся вариации: те, у которых полностью совпадает набор
+ * значений атрибутов. Из каждой группы остаётся одна — предпочтительно
+ * та, у которой есть собственное фото.
+ */
+function deline_dedupe_variations() {
+    $ids = wc_get_products([
+        'type'   => 'variable',
+        'limit'  => -1,
+        'status' => ['publish', 'draft', 'private'],
+        'return' => 'ids',
+    ]);
+
+    $report = [];
+
+    foreach ($ids as $product_id) {
+        $product = wc_get_product($product_id);
+        if (!$product) continue;
+
+        // Группируем по «подписи» — набору значений атрибутов
+        $groups = [];
+        foreach ($product->get_children() as $child_id) {
+            $child = wc_get_product($child_id);
+            if (!$child) continue;
+
+            $attrs = $child->get_attributes();
+            ksort($attrs);
+            $signature = wp_json_encode($attrs);
+
+            $groups[$signature][] = [
+                'id'       => $child_id,
+                'own_image' => (int) get_post_meta($child_id, '_thumbnail_id', true),
+            ];
+        }
+
+        $removed = 0;
+        foreach ($groups as $items) {
+            if (count($items) < 2) continue;
+
+            // Оставляем ту, у которой есть своё фото
+            usort($items, fn($a, $b) => ($b['own_image'] <=> $a['own_image']));
+            array_shift($items);
+
+            foreach ($items as $item) {
+                wp_delete_post($item['id'], true);
+                $removed++;
+            }
+        }
+
+        if ($removed) {
+            WC_Product_Variable::sync($product_id);
+        }
+
+        $report[] = [
+            'name'    => $product->get_name(),
+            'status'  => 'ok',
+            'message' => $removed ? sprintf('удалено дублей: %d', $removed) : 'дублей нет',
+        ];
+    }
+
+    return $report;
+}
+
 function deline_render_variations_import() {
     $report = [];
     $report_title = 'Отчёт';
@@ -315,6 +378,14 @@ function deline_render_variations_import() {
         $ok = count(array_filter($report, fn($r) => $r['status'] === 'ok'));
         add_settings_error('deline_variations', 'flags',
             sprintf('Проверено вариативных товаров: %d, обработано: %d.', count($report), $ok), 'updated');
+
+    } elseif ($valid && isset($_POST['dedupe'])) {
+        $report = deline_dedupe_variations();
+        $report_title = 'Отчёт: удаление дублей';
+        $total = array_sum(array_map(
+            fn($r) => (int) preg_replace('/\D/', '', $r['message']), $report));
+        add_settings_error('deline_variations', 'dedupe',
+            sprintf('Проверено товаров: %d, удалено дублей: %d.', count($report), $total), 'updated');
 
     } elseif ($valid && isset($_POST['import_spec'])) {
         $raw = wp_unslash($_POST['spec'] ?? '');
@@ -350,6 +421,20 @@ function deline_render_variations_import() {
             <form method="post">
                 <?php wp_nonce_field('deline_import_variations', 'deline_variations_nonce'); ?>
                 <?php submit_button('Включить у всех товаров', 'primary', 'fix_flags', false); ?>
+            </form>
+        </div>
+
+        <div style="padding:16px;background:#fff;border:1px solid #c3c4c7;border-radius:4px;max-width:900px;margin-top:20px;">
+            <h2 style="margin-top:0;">Удалить дублирующиеся вариации</h2>
+            <p class="description">
+                Повторный импорт CSV мог создать по две вариации на один и тот же размер.
+                Лишние мешают: на странице товара срабатывает первая совпавшая, и если это дубль
+                без своего фото, картинка при выборе размера не меняется.
+                Из каждой пары остаётся вариация с фото. <strong>Удаление необратимо.</strong>
+            </p>
+            <form method="post">
+                <?php wp_nonce_field('deline_import_variations', 'deline_variations_nonce'); ?>
+                <?php submit_button('Удалить дубли', 'delete', 'dedupe', false); ?>
             </form>
         </div>
 
