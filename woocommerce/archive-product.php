@@ -126,7 +126,18 @@ $is_root = is_shop() && !is_search();
                              title="<?php the_title_attribute(); ?>" loading="lazy">
                     <?php endif; ?>
                 </div>
-                <span class="catalog-card__title mt-4 lg:mt-6"><?php the_title(); ?></span>
+                <?php
+                // У товаров с вариациями вместо подписи — кнопка выбора размера.
+                // Это <span>, а не <button>: карточка целиком уже ссылка,
+                // а кнопку внутрь ссылки класть нельзя
+                $card_product = wc_get_product(get_the_ID());
+                $has_options  = $card_product && $card_product->is_type('variable');
+                ?>
+                <?php if ($has_options): ?>
+                    <span class="catalog-card__action mt-4 lg:mt-6">Выбрать размер</span>
+                <?php else: ?>
+                    <span class="catalog-card__title mt-4 lg:mt-6"><?php the_title(); ?></span>
+                <?php endif; ?>
             </a>
             <?php
                 // Акцию не ставим после последнего товара — иначе сетка кончается баннером

@@ -21,6 +21,36 @@ add_action('admin_menu', function () {
 });
 
 /**
+ * Загружает картинку в медиатеку и возвращает её ID.
+ * Повторные вызовы с тем же адресом переиспользуют уже загруженный файл,
+ * иначе при каждом запуске медиатека пухла бы копиями.
+ */
+function deline_sideload_once($url, $parent_id = 0) {
+    $existing = get_posts([
+        'post_type'      => 'attachment',
+        'posts_per_page' => 1,
+        'fields'         => 'ids',
+        'meta_key'       => '_deline_source_url',
+        'meta_value'     => $url,
+    ]);
+    if ($existing) {
+        return $existing[0];
+    }
+
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+    require_once ABSPATH . 'wp-admin/includes/media.php';
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+
+    $id = media_sideload_image($url, $parent_id, null, 'id');
+    if (is_wp_error($id)) {
+        return 0;
+    }
+
+    update_post_meta($id, '_deline_source_url', $url);
+    return $id;
+}
+
+/**
  * Находит товар по артикулу и создаёт у него вариации.
  *
  * @param array $spec [['sku' => …, 'attribute' => 'Размер', 'variations' => [['value' => …, 'price' => …]]]]
@@ -123,7 +153,7 @@ function deline_import_variations(array $spec) {
             }
         }
 
-        $created = $updated = $skipped = 0;
+        $created = $updated = $skipped = $images = 0;
 
         foreach ($rows as $row) {
             $value = sanitize_text_field($row['value'] ?? '');
@@ -141,9 +171,17 @@ function deline_import_variations(array $spec) {
                 $slug = $term->slug;
             }
 
+            $image_url = esc_url_raw($row['image'] ?? '');
+
             if (isset($existing[$value])) {
                 $variation = wc_get_product($existing[$value]);
                 $variation->set_regular_price($price);
+                if ($image_url && !$variation->get_image_id()) {
+                    if ($att = deline_sideload_once($image_url, $product_id)) {
+                        $variation->set_image_id($att);
+                        $images++;
+                    }
+                }
                 $variation->save();
                 $updated++;
                 continue;
@@ -154,6 +192,10 @@ function deline_import_variations(array $spec) {
             $variation->set_attributes([$taxonomy => $slug]);
             $variation->set_regular_price($price);
             $variation->set_stock_status('instock');
+            if ($image_url && ($att = deline_sideload_once($image_url, $product_id))) {
+                $variation->set_image_id($att);
+                $images++;
+            }
             $variation->save();
             $created++;
         }
@@ -163,7 +205,8 @@ function deline_import_variations(array $spec) {
         $report[] = [
             'sku'     => $sku,
             'status'  => 'ok',
-            'message' => sprintf('создано %d, обновлено %d%s', $created, $updated,
+            'message' => sprintf('создано %d, обновлено %d%s%s', $created, $updated,
+                                 $images ? sprintf(', фото загружено %d', $images) : '',
                                  $skipped ? sprintf(', пропущено %d', $skipped) : ''),
         ];
     }
