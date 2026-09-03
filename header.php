@@ -18,7 +18,7 @@
                     <div class="flex items-center">
                         <div class="flex items-center lg:border-r border-white lg:pr-4 lg:me-4 w-[90px] sm:w-auto">
                             <a href="<?php echo home_url(); ?>"
-                                class="inline-block w-[122px] bg-white rounded-[8px] py-[4px] px-[8px] transition hover:-translate-y-[2px]"
+                                class="inline-block w-[148px] bg-white rounded-[8px] py-[4px] px-[8px] transition hover:-translate-y-[2px]"
                                 title="Перейти на Главную">
                                 <?php if ($site['logo_id'] && $logo_url = wp_get_attachment_url($site['logo_id'])): ?>
                                     <img src="<?php echo esc_url($logo_url); ?>"
