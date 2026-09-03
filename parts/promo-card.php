@@ -15,6 +15,11 @@ $buttons = $promo['buttons'] ?? [];
 
 <div class="promo-card p-6 rounded-[6px] lg:rounded-[16px]">
     <div class="promo-card__body">
+        <?php if (!$buttons): ?>
+        <?php // Кнопок нет — вместо них некликабельный шильдик ?>
+        <span class="promo-card__badge">Акция</span>
+        <?php endif; ?>
+
         <?php if ($promo['title']): ?>
         <h3 class="font-medium text-xl lg:text-4xl text-white mb-4 lg:mb-6"><?php echo esc_html($promo['title']); ?></h3>
         <?php endif; ?>
